@@ -1,0 +1,78 @@
+body {
+	max-width: 90%;
+	margin: 1rem auto;
+	font: normal 14px/18px sans-serif, serif, monospace;
+}
+
+/* application specifics */
+.finances-grid {
+	display: grid;
+	grid-template: 3.50rem 1fr / repeat(3, 1fr);
+	grid-gap: 1rem;
+	grid-template-areas:
+		'summary summary summary'
+		'accounts expenses expenses';
+}
+.balance-summary { grid-area: summary; }
+.accounts { grid-area: accounts; }
+.expenses { grid-area: expenses; }
+
+/* helpers */
+
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.left { float: left; }
+.right { float: right; }
+.large { font-size: large; }
+.small { font-size: 0.80rem; }
+.smaller { font-size: 0.70rem; }
+
+/* positioning */
+.flex { display: flex; }
+
+/* colors */
+.gray { color: #666; }
+.orange { color: #f58c4b; }
+.red, .danger { color: #df640c; }
+.white { color: #eee; }
+
+.bg-red, .bg-danger { background-color: #df640c; }
+
+/* forms */
+input:not([type=submit]), input:not([type=reset]) {
+	border: 1px solid #ddd;
+	border-bottom: 1px solid #888;
+	border-radius: 2px 2px 1px 1px;
+	padding: 0.2rem;
+}
+
+button, input[type=submit], input[type=reset] {
+	padding: 0.2rem 0.5rem;
+	border-width: 1px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+form fieldset {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+	align-items: center;
+	align-content: space-around;
+}
+
+fieldset legend { padding: 0 0.25rem; font-weight: 600; }
+
+form .form-field {
+	min-width: 150px;
+	margin: 0.2rem;
+	flex-grow: 1;
+}
+
+form .form-submit, form .form-reset {
+	align-self: flex-end;
+	flex-grow: 2;
+}
+
+/* components */
+.balance-summary { text-align: right; }
