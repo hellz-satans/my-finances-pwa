@@ -30,8 +30,8 @@ try {
 			accounts: [],
 			expenses: [],
 			categories: [
-				'comida', 'cena', 'transporte',
-				'cita', 'amigos', 'otros'
+				'food', 'dinner', 'transport',
+				'date', 'friends', 'others'
 			]
 		},
 		mutations: {

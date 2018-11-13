@@ -51,6 +51,7 @@ button, input[type=submit], input[type=reset] {
 	border-width: 1px;
 	border-radius: 4px;
 	cursor: pointer;
+	font-weight: 600;
 }
 
 form fieldset {
@@ -72,7 +73,22 @@ form .form-field {
 form .form-submit, form .form-reset {
 	align-self: flex-end;
 	flex-grow: 2;
+	padding: 0.5rem;
 }
+form .form-submit {
+	color: #e6ffff;
+	background: #6f15cb;
+	background: linear-gradient(135deg,
+		#fff 0%,
+		#6fc3df 10%,
+		#5da2bd 90%,
+		#6fc3df 100%);
+}
+
+/* tables */
+table { width: 100%; }
+table thead th { padding: 0.2rem 0 0.5rem; }
+table td { text-align: center; padding: 0.2rem 0.5rem; }
 
 /* components */
 .balance-summary { text-align: right; }

@@ -159,24 +159,39 @@ Vue.component('expense-list', {
 	template: `
 	<article class="expense-list">
 		<h3>Total \${{ totalExpenses }}</h3>
-		<ul>
-			<li v-for="e in expenses">
-				<b>\${{ e.qty * e.price }}</b>:
-				{{ e.description }} (\${{ e.price }}) x {{ e.qty }}
-
-				<span v-if="e.tags && e.tags.length > 0" class="smaller">
-					Tags: {{ e.tags.join(", ") }}
-				</span>
-				<span class="smaller gray">{{ e.date }}</span>
-
-				<button @click="editExpense(e.id)">
-					Edit &#9998;
-				</button>
-				<button class="white bg-red" @click="deleteExpense(e.id)">
-					Delete &#128465;
-				</button>
-			</li>
-		</ul>
+		<table>
+			<thead>
+				<tr>
+					<th>Grand total</th>
+					<th>Price</th>
+					<th>Qty</th>
+					<th>Description</th>
+					<th>Tags</th>
+					<th>Date</th>
+					<th colspan="2">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="e in expenses">
+					<td><b>\${{ e.qty * e.price }}</b></td>
+					<td>\${{ e.price }}</td>
+					<td>{{ e.qty }}</td>
+					<td>{{ e.description }}</td>
+					<td class="smaller">{{ e.tags.join(', ') }}</td>
+					<td class="smaller">{{ e.date }}</td>
+					<td>
+						<button @click="editExpense(e.id)">
+							Edit &#9998;
+						</button>
+					</td>
+					<td>
+						<button class="white bg-red" @click="deleteExpense(e.id)">
+							Delete &#128465;
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</article>
 	`,
 
