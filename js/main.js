@@ -2,10 +2,22 @@
 
 try {
 	// setup db
+	// TODO: extract db definition to its own file/module
 	const db = new Dexie('Finances');
 	db.version(1).stores({
 		accounts: '++id,name,balance',
 		expenses: '++id,description,price,qty,date'
+	});
+	db.version(2).stores({
+		accounts: '++id,name,balance',
+		expenses: '++id,description,price,qty,tags,date'
+	}).upgrade((trans) => {
+		return trans.expenses
+			.toCollection()
+			.modify((exp) => {
+				if (!exp.tags)
+					exp.tags = [];
+			});
 	});
 
 	// setup Vuex store
@@ -16,7 +28,11 @@ try {
 			currentAccount: {},
 			currentExpense: {},
 			accounts: [],
-			expenses: []
+			expenses: [],
+			categories: [
+				'comida', 'cena', 'transporte',
+				'cita', 'amigos', 'otros'
+			]
 		},
 		mutations: {
 			// accounts
@@ -77,6 +93,9 @@ try {
 			updateCurrentExpenseQty(state, qty) {
 				state.currentExpense.qty = Number(qty);
 			},
+			updateCurrentExpenseTags(state, tags) {
+				state.currentExpense.tags = tags;
+			},
 			updateCurrentExpenseDate(state, date) {
 				state.currentExpense.date = date;
 			},
@@ -116,7 +135,7 @@ try {
 			/**
 			 * Create expense record.
 			 *
-			 * Dexis takes a reactive Vue object and, if the transaction
+			 * Dexies takes a reactive Vue object and, if the transaction
 			 * is successful, adds the property `id` to the object.
 			 * That's why `unsetCurrentExpense` works, 'cuz the object is
 			 * being passed around by reference.

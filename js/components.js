@@ -1,9 +1,9 @@
 Vue.component('balance-summary', {
 	template: `
-	<div class="balance-summary">
+	<section class="balance-summary">
 		<h2 :class="cssClasses">Summary: \${{ balanceSummary }}</h2>
 		<h3>Goal: \${{ goal }}</h3>
-	</div>
+	</section>
 	`,
 	computed: {
 		cssClasses() {
@@ -18,17 +18,17 @@ Vue.component('balance-summary', {
 
 Vue.component('user-accounts', {
 	template: `
-	<article class="accounts">
+	<section class="accounts">
 		<h2>Accounts</h2>
 		<account-list></account-list>
 		<account-form></account-form>
-	</article>
+	</section>
 	`
 });
 
 Vue.component('account-list', {
 	template: `
-	<div class="account-list">
+	<article class="account-list">
 		<h3>Total balance: \${{ totalBalance }}</h3>
 		<ul>
 			<li v-for="acc in accounts">
@@ -41,7 +41,7 @@ Vue.component('account-list', {
 				</button>
 			</li>
 		</ul>
-	</div>
+	</article>
 	`,
 	methods: {
 		... Vuex.mapActions([ 'editAccount', 'deleteAccount' ])
@@ -81,6 +81,7 @@ Vue.component('account-form', {
 					type="number"
 					name="account_balance"
 					id="account_balance"
+					step="any"
 					required
 					v-model="balance"
 				>
@@ -156,13 +157,18 @@ Vue.component('expenses', {
 
 Vue.component('expense-list', {
 	template: `
-	<div class="expense-list">
+	<article class="expense-list">
 		<h3>Total \${{ totalExpenses }}</h3>
 		<ul>
 			<li v-for="e in expenses">
 				<b>\${{ e.qty * e.price }}</b>:
 				{{ e.description }} (\${{ e.price }}) x {{ e.qty }}
+
+				<span v-if="e.tags && e.tags.length > 0" class="smaller">
+					Tags: {{ e.tags.join(", ") }}
+				</span>
 				<span class="smaller gray">{{ e.date }}</span>
+
 				<button @click="editExpense(e.id)">
 					Edit &#9998;
 				</button>
@@ -171,7 +177,7 @@ Vue.component('expense-list', {
 				</button>
 			</li>
 		</ul>
-	</div>
+	</article>
 	`,
 
 	methods: {
@@ -197,8 +203,7 @@ Vue.component('expense-form', {
 			<label class="form-field">
 				Description:
 				<input
-					name="expense_description"
-					id="expense_description"
+					name="description"
 					minlength="1"
 					pattern="[\\w\\+\\-=]+(\\s+[\\w\\+\\-=]+)*"
 					required
@@ -210,9 +215,9 @@ Vue.component('expense-form', {
 				Price:
 				<input
 					type="number"
-					name="expense_price"
-					id="expense_price"
+					name="price"
 					min="0"
+					step="any"
 					required
 					v-model="price"
 				>
@@ -222,18 +227,32 @@ Vue.component('expense-form', {
 				Quantity:
 				<input
 					type="number"
-					name="expense_qty"
-					min="1"
+					name="qty"
+					min="0.01"
+					step="any"
 					required
 					v-model="qty"
 				>
 			</label>
 
 			<label class="form-field">
+				Tags:
+				<select
+					multiple
+					name="tags"
+					required
+					size="3"
+					v-model="tags"
+				>
+					<option v-for="c in categories">{{ c }}</option>
+				</select>
+			</label>
+
+			<label class="form-field">
 				Date:
 				<input
 					type="date"
-					name="expense_date"
+					name="date"
 					required
 					v-model="date"
 				>
@@ -273,7 +292,7 @@ Vue.component('expense-form', {
 		}
 	},
 	computed: {
-		... Vuex.mapState([ 'currentExpense' ]),
+		... Vuex.mapState([ 'currentExpense', 'categories' ]),
 		action() {
 			return this.currentExpense.id ? 'Update' : 'Add';
 		},
@@ -293,6 +312,12 @@ Vue.component('expense-form', {
 			get() { return this.$store.state.currentExpense.qty; },
 			set(value) {
 				return this.$store.commit('updateCurrentExpenseQty', value);
+			},
+		},
+		tags: {
+			get() { return this.$store.state.currentExpense.tags; },
+			set(value) {
+				return this.$store.commit('updateCurrentExpenseTags', value);
 			},
 		},
 		date: {
