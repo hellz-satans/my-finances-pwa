@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-with,initial-scale=1">
+    <title>MyFin: Finances</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+	<header>
+		<h1>My Finances</h1>
+	</header>
+
+
+    <section id="app" class="finances-grid">
+		<balance-summary></balance-summary>
+		<expenses></expenses>
+		<user-accounts></user-accounts>
+    </section>
+
+    <footer>
+        <p class="text-right">
+            Created by <a href="https://gitlab.com/JuanKman94">JuanKman94</a>
+        </p>
+    </footer>
+
+	<script src="https://unpkg.com/dexie@2.0.4/dist/dexie.js"></script>
+	<script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
