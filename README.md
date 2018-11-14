@@ -14,4 +14,7 @@ management.
 
 - [ ] Add webpack configuration and stop using CDNs
 - [ ] Use [vue-components](https://vuejs.org/v2/guide/single-file-components.html)
-- [ ] Secure IndexedDB with password (is it even possible?)
+- [ ] Secure IndexedDB with password, in case data export functionality
+is added. ([crypto-js](https://github.com/brix/crypto-js))
+- [ ] [A2HS](https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive/Add_to_home_screen#How_do_you_make_an_app_A2HS-ready),
+[using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
