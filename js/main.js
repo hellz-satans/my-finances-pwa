@@ -36,6 +36,7 @@ try {
 			currentExpense: {},
 			accounts: [],
 			expenses: [],
+			expensesFilters: [],
 			categories: [
 				'food', 'dinner', 'transport',
 				'date', 'friends', 'others'
@@ -43,10 +44,14 @@ try {
 		},
 		mutations: {
 			// accounts
-			async updateAccounts(state) {
-				state.accounts = await db.accounts.toArray();
+			getAccounts(state) {
+				db.accounts.toArray()
+					.then(arr => state.accounts = arr)
+					.catch((err) => {
+						console.error('getAccounts:', err);
+						throw err;
+					});
 			},
-			// TODO: make this method synchronous
 			setCurrentAccount(state, id) {
 				db.accounts.get(id)
 					.then((account) => {
@@ -61,7 +66,7 @@ try {
 			unsetCurrentAccount(state) {
 				if (state.currentAccount.id) {
 					state.currentAccount = {};
-					document.forms.account.reset();
+					window.setTimeout(ev => document.forms.account.reset(), 100);
 				}
 			},
 			updateCurrentAccountName(state, name) {
@@ -71,8 +76,58 @@ try {
 				state.currentAccount.balance = Number(balance);
 			},
 			// expenses
-			async updateExpenses(state) {
-				state.expenses = await db.expenses.toArray();
+			getExpenses(state) {
+				db.expenses.toArray()
+					.then((arr) => {
+						// sort by date in decreasing order
+						arr.sort((a, b) => b.date - a.date);
+						return arr;
+					}).then((arr) => {
+						// filter results -- TODO: extract this function
+						return arr.filter((exp) => {
+							let f = null, // current filter
+								allow = true;
+
+							for (const i in state.expensesFilters) {
+								f = state.expensesFilters[i];
+
+								switch (f.op) {
+									case '<':
+										allow = exp[f.field] < f.value;
+										break;
+									case '<=':
+										allow = exp[f.field] <= f.value;
+										break;
+									case '>':
+										allow = exp[f.field] > f.value;
+										break;
+									case '>=':
+										allow = exp[f.field] >= f.value;
+										break;
+									case '==':
+										allow = exp[f.field] == f.value;
+										break;
+									case '===':
+										allow = exp[f.field] === f.value;
+										break;
+									default:
+										console.debug('filter: entered default case');
+										allow = true;
+								}
+
+								// if a single restriction fails, abort
+								if (!allow)
+									return false;
+							}
+
+							return allow;
+						});
+					}).then((arr) => {
+						state.expenses = arr;
+					}).catch((err) => {
+						console.error('getExpenses:', err);
+						throw err;
+					});
 			},
 			setCurrentExpense(state, id) {
 				return db.expenses.get(id)
@@ -88,7 +143,7 @@ try {
 			unsetCurrentExpense(state) {
 				if (state.currentExpense.id) {
 					state.currentExpense = {};
-					document.forms.expense.reset();
+					window.setTimeout(ev => document.forms.expense.reset(), 100);
 				}
 			},
 			updateCurrentExpenseDescription(state, description) {
@@ -104,9 +159,7 @@ try {
 				state.currentExpense.tags = tags;
 			},
 			updateCurrentExpenseDate(state, date) {
-				state.currentExpense.date = (date instanceof Date)
-					? date
-					: new Date(date);
+				state.currentExpense.date = date;
 			},
 		},
 		actions: {
@@ -124,7 +177,7 @@ try {
 
 				return dispatch(actionName, data)
 					.then((id) => {
-						commit('updateAccounts');
+						commit('getAccounts');
 						commit('unsetCurrentAccount');
 						return id;
 					});
@@ -136,7 +189,7 @@ try {
 				// on success, resolves with an undefined result
 				return db.accounts.delete(id)
 					.then((whatever) => {
-						commit('updateAccounts');
+						commit('getAccounts');
 						return whatever;
 					});
 			},
@@ -152,6 +205,7 @@ try {
 			 * @return Promise
 			 */
 			createExpense({ commit }, expense) {
+				expense.date = new Date(expense.date);
 				return db.expenses.add(expense);
 			},
 			editExpense({ commit }, id) {
@@ -164,19 +218,22 @@ try {
 
 				return dispatch(actionName, data)
 					.then((id) => {
-						commit('updateExpenses');
+						commit('getExpenses');
 						commit('unsetCurrentExpense');
 						return id;
 					});
 			},
 			updateExpense({ commit, state }, data) {
+				// convert date input to Date type
+				if (data.date)
+					data.date = new Date(data.date);
 				return db.expenses.update(state.currentExpense.id, data);
 			},
 			deleteExpense({ commit }, id) {
 				// on success, resolves with an undefined result
 				return db.expenses.delete(id)
 					.then((whatever) => {
-						commit('updateExpenses');
+						commit('getExpenses');
 						return whatever;
 					});
 			},
@@ -209,8 +266,8 @@ try {
 			return {};
 		},
 		created() {
-			this.$store.commit('updateAccounts');
-			this.$store.commit('updateExpenses');
+			this.$store.commit('getAccounts');
+			this.$store.commit('getExpenses');
 		}
 	});
 } catch(err) {
