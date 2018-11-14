@@ -159,26 +159,31 @@ Vue.component('expense-list', {
 	template: `
 	<article class="expense-list">
 		<h3>Total \${{ totalExpenses }}</h3>
+		<b>//TODO</b>: add filters component
 		<table>
 			<thead>
 				<tr>
+					<th></th>
 					<th>Grand total</th>
 					<th>Price</th>
 					<th>Qty</th>
 					<th>Description</th>
 					<th>Tags</th>
-					<th>Date</th>
+					<th>Date &darr;</th>
 					<th colspan="2">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="e in expenses">
+				<tr v-for="(e, i) in expenses">
+					<td>{{ i+1 }}</td>
 					<td><b>\${{ e.qty * e.price }}</b></td>
 					<td>\${{ e.price }}</td>
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
 					<td class="smaller">{{ e.tags.join(', ') }}</td>
-					<td class="smaller">{{ e.date.toLocaleDateString() }}</td>
+					<td class="smaller">
+						{{ e.date.getUTCMonth() + 1 }}/{{ e.date.getUTCDate() }}/{{ e.date.getUTCFullYear() }}
+					</td>
 					<td>
 						<button @click="editExpense(e.id)">
 							Edit &#9998;
