@@ -19,6 +19,13 @@ try {
 					exp.tags = [];
 			});
 	});
+	db.version(3).upgrade((trans) => {
+		return trans.expenses
+			.toCollection()
+			.modify((exp) => {
+				exp.date = new Date(exp.date);
+			});
+	});
 
 	// setup Vuex store
 	// TODO: use store modules
@@ -97,7 +104,9 @@ try {
 				state.currentExpense.tags = tags;
 			},
 			updateCurrentExpenseDate(state, date) {
-				state.currentExpense.date = date;
+				state.currentExpense.date = (date instanceof Date)
+					? date
+					: new Date(date);
 			},
 		},
 		actions: {

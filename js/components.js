@@ -178,7 +178,7 @@ Vue.component('expense-list', {
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
 					<td class="smaller">{{ e.tags.join(', ') }}</td>
-					<td class="smaller">{{ e.date }}</td>
+					<td class="smaller">{{ e.date.toLocaleDateString() }}</td>
 					<td>
 						<button @click="editExpense(e.id)">
 							Edit &#9998;
