@@ -86,9 +86,10 @@ form .form-submit {
 }
 
 /* tables */
-table { width: 100%; }
+table { width: 100%; border-collapse: collapse; }
 table thead th { padding: 0.2rem 0 0.5rem; }
 table td { text-align: center; padding: 0.2rem 0.5rem; }
 
 /* components */
 .balance-summary { text-align: right; }
+.expense-list { width: 100%; overflow-x: auto; }

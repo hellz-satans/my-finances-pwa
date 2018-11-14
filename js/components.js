@@ -163,19 +163,19 @@ Vue.component('expense-list', {
 		<table>
 			<thead>
 				<tr>
-					<th></th>
-					<th>Grand total</th>
-					<th>Price</th>
-					<th>Qty</th>
-					<th>Description</th>
-					<th>Tags</th>
-					<th>Date &darr;</th>
-					<th colspan="2">Actions</th>
+					<th scope="col"></th>
+					<th scope="col">Grand total</th>
+					<th scope="col">Price</th>
+					<th scope="col">Qty</th>
+					<th scope="col">Description</th>
+					<th scope="col">Tags</th>
+					<th scope="col">Date &darr;</th>
+					<th scope="col" colspan="2">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="(e, i) in expenses">
-					<td>{{ i+1 }}</td>
+					<th scope="row">{{ i+1 }}</th>
 					<td><b>\${{ e.qty * e.price }}</b></td>
 					<td>\${{ e.price }}</td>
 					<td>{{ e.qty }}</td>

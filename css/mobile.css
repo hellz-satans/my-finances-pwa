@@ -8,7 +8,7 @@
 @media (max-width: 575.98px) {
 	.finances-grid {
 		display: grid;
-		grid-template: 4.50rem 1fr minmax(150px, 0.65fr) / 1fr;
+		grid-template: 4.50rem 1fr minmax(150px, 0.65fr) / 100%;
 		grid-gap: 1rem;
 		grid-template-areas:
 			'summary'
