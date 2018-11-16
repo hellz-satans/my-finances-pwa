@@ -33,7 +33,7 @@ try {
 		state: {
 			goal: 200000,
 			currentAccount: {},
-			currentExpense: {},
+			currentExpense: { tags: [] },
 			accounts: [],
 			expenses: [],
 			expensesFilters: [],
@@ -66,7 +66,7 @@ try {
 			unsetCurrentAccount(state) {
 				if (state.currentAccount.id) {
 					state.currentAccount = {};
-					window.setTimeout(ev => document.forms.account.reset(), 100);
+					window.setTimeout(ev => document.forms.account.reset(), 1);
 				}
 			},
 			updateCurrentAccountName(state, name) {
@@ -142,8 +142,8 @@ try {
 			},
 			unsetCurrentExpense(state) {
 				if (state.currentExpense.id) {
-					state.currentExpense = {};
-					window.setTimeout(ev => document.forms.expense.reset(), 100);
+					state.currentExpense = { tags: [] };
+					window.setTimeout(ev => document.forms.expense.reset(), 1);
 				}
 			},
 			updateCurrentExpenseDescription(state, description) {
@@ -236,6 +236,32 @@ try {
 						commit('getExpenses');
 						return whatever;
 					});
+			},
+			filterExpenses({ commit, state }, data) {
+				const filters = [];
+				if (data.startDate) {
+					filters.push({
+						field: 'date',
+						op: '>=',
+						value: new Date(data.startDate)
+					});
+				}
+				if (data.endDate) {
+					filters.push({
+						field: 'date',
+						op: '<=',
+						value: new Date(data.endDate)
+					});
+				}
+				if (data.price) {
+					filters.push({
+						field: 'price',
+						op: (data.comparator === '<=') ? '<=' : '>=',
+						value: data.price
+					});
+				}
+				state.expensesFilters = filters;
+				commit('getExpenses');
 			},
 		},
 		getters: {

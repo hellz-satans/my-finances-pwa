@@ -60,7 +60,7 @@ Vue.component('account-form', {
 		@submit.prevent="submitAccount"
 		class="account-form"
 	>
-		<fieldset>
+		<fieldset class="flex">
 			<legend>{{ action }} account</legend>
 
 			<label class="form-field">
@@ -155,11 +155,111 @@ Vue.component('expenses', {
 	`
 });
 
+Vue.component('expense-filters', {
+	template: `
+	<nav class="expense-filter">
+		<h3 class="expense-filter-title">Filters</h3>
+		<form
+			name="filters"
+			method="GET"
+			@submit.prevent="filter"
+			class="expense-filter-form"
+		>
+			<label class="form-field">
+				From
+				<input
+					type="date"
+					name="start_date"
+					v-model="startDate"
+				>
+			</label>
+			<label class="form-field">
+				Until
+				<input
+					type="date"
+					name="end_date"
+					v-model="endDate"
+				>
+			</label>
+
+			<fieldset>
+				<legend>Price</legend>
+				<label class="form-field">
+					<span hidden>Comparator</span>
+					<select name="price_comparator" v-model="comparator">
+						<option value="<=">Up to</option>
+						<option value=">=">At least</option>
+					</select>
+				</label>
+				<label class="form-field">
+					<span hidden>Unit price</span>
+					<input
+						type="number"
+						name="grand_total"
+						step="any"
+						v-model="price"
+					>
+				</label>
+			</fieldset>
+
+			<button
+				type="reset"
+				class="form-reset"
+				@click="resetFilters"
+			>
+				Reset
+			</button>
+			<button
+				type="submit"
+				class="form-submit"
+			>
+				Apply
+			</button>
+		</form>
+	</nav>
+	`,
+
+	data() {
+		return {
+			startDate: null,
+			endDate: null,
+			comparator: '>=',
+			price: 0
+		};
+	},
+
+	methods: {
+		filter() {
+			console.info('filtering: from',
+				this.startDate,
+				'until',
+				this.endDate,
+				'. Price',
+				this.comparator,
+				this.price
+			);
+
+			this.$store.dispatch('filterExpenses', {
+				startDate: this.startDate,
+				endDate: this.endDate,
+				comparator: this.comparator,
+				price: this.price,
+			});
+		},
+		resetFilters() {
+			this.startDate = this.endDate = null;
+			this.comparator = '>=';
+			this.price = 0;
+			this.$store.dispatch('filterExpenses', {});
+		}
+	}
+});
+
 Vue.component('expense-list', {
 	template: `
 	<article class="expense-list">
 		<h3>Total \${{ totalExpenses }}</h3>
-		<b>//TODO</b>: add filters component
+		<expense-filters></expense-filters>
 		<table>
 			<thead>
 				<tr>
@@ -217,7 +317,7 @@ Vue.component('expense-form', {
 		@submit.prevent="submitExpense"
 		class="expense-form"
 	>
-		<fieldset>
+		<fieldset class="flex">
 			<legend>{{ action }} expense</legend>
 
 			<label class="form-field">

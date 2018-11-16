@@ -54,7 +54,7 @@ button, input[type=submit], input[type=reset] {
 	font-weight: 600;
 }
 
-form fieldset {
+form fieldset.flex {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-evenly;
@@ -93,3 +93,16 @@ table td { text-align: center; padding: 0.2rem 0.5rem; }
 /* components */
 .balance-summary { text-align: right; }
 .expense-list { width: 100%; overflow-x: auto; }
+
+/* .expense-filter {} */
+.expense-filter-title { display: none; }
+.expense-filter input[type=number] {
+	width: 5rem;
+}
+.expense-filter-form {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+	align-items: center;
+	align-content: space-around;
+}
