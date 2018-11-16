@@ -113,7 +113,6 @@ Vue.component('account-form', {
 					name: this.name,
 					balance: this.balance
 				};
-				console.debug('submitAccount:', data);
 				this.$store.dispatch('submitAccount', this.currentAccount)
 				.catch((err) => {
 					console.error('submitAccount:', err, err.stack);
@@ -446,5 +445,13 @@ Vue.component('expense-form', {
 				return this.$store.commit('updateCurrentExpenseDate', value);
 			},
 		},
+	}
+});
+
+Vue.component('expenses-chart', {
+	extends: VueChartJs.Line,
+	mixins: [ VueChartJs.mixins.reactiveProp ],
+	mounted() {
+		this.renderChart(this.chartData, this.options);
 	}
 });

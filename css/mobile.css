@@ -8,15 +8,14 @@
 @media (max-width: 575.98px) {
 	.finances-grid {
 		display: grid;
-		grid-template: 4.50rem 1fr minmax(150px, 0.65fr) / 100%;
+		grid-template: 4.50rem 300px 350px 1fr / 100%;
 		grid-gap: 1rem;
 		grid-template-areas:
 			'summary'
-			'expenses'
-			'accounts';
+			'accounts'
+			'chart'
+			'expenses';
 	}
-
-	.accounts { overflow-y: scroll; }
 }
 
 /* small devices */

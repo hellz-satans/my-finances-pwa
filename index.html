@@ -18,6 +18,9 @@
 		<balance-summary></balance-summary>
 		<expenses></expenses>
 		<user-accounts></user-accounts>
+		<aside class="expenses-chart">
+			<expenses-chart :chart-data="chartData"></expenses-chart>
+		</aside>
     </section>
 
     <footer>
@@ -26,8 +29,10 @@
         </p>
     </footer>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	<script src="https://unpkg.com/dexie@2.0.4/dist/dexie.js"></script>
 	<script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+	<script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/components.js"></script>
     <script src="js/main.js"></script>
