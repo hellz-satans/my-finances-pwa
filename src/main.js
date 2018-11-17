@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
+import { mapState } from 'vuex'
 
 Vue.config.productionTip = false
 
@@ -17,7 +18,7 @@ new Vue({
 
   // TODO: extract all of this to a chart component
   computed: {
-    ... Vuex.mapState('expenses', [ 'expenses' ]),
+    ... mapState('expenses', [ 'expenses' ]),
     chartData() {
       return {
         labels: this.expenses

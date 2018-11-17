@@ -6,8 +6,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    accounts: Accounts,
-    expenses: Expenses,
+    accounts: {
+      namespaced: true,
+      ... Accounts,
+    },
+    expenses: {
+      namespaced: true,
+      ... Expenses,
+    },
   },
 
   state: {

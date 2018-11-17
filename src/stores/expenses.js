@@ -1,8 +1,7 @@
-import Vuex from 'vuex';
 import db from '../db';
 import { filterExpenses } from './filters';
 
-export default new Vuex.Store({
+const ExpensesStore = {
   namespaced: true,
 
   state: {
@@ -19,7 +18,7 @@ export default new Vuex.Store({
           arr.sort((a, b) => b.date - a.date);
           return arr;
         }).then((arr) => {
-          return arr.filter((exp) => filterExpenses(exp, state.expensesFilters));
+          return arr.filter((exp) => filters.filterExpenses(exp, state.expensesFilters));
         }).then((arr) => {
           state.expenses = arr;
         }).catch((err) => {
@@ -130,7 +129,7 @@ export default new Vuex.Store({
   },
 
   getters: {
-    totalExpenses: state => {
+    totalExpenses: (state) => {
       if (state.expenses.length === 0)
         return 0;
 
@@ -139,4 +138,6 @@ export default new Vuex.Store({
         .reduce((total, curr) => total + curr);
     },
   }
-});
+};
+
+export { ExpensesStore };

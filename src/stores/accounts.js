@@ -1,9 +1,6 @@
-import Vuex from 'vuex';
 import db from '../db';
 
-export default new Vuex.Store({
-  namespaced: true,
-
+const AccountsStore = {
   state: {
     currentAccount: {},
     accounts: [],
@@ -75,7 +72,7 @@ export default new Vuex.Store({
   },
 
   getters: {
-    totalBalance: state => {
+    totalBalance: (state) => {
       if (state.accounts.length === 0)
         return 0;
 
@@ -84,4 +81,6 @@ export default new Vuex.Store({
         .reduce((total, curr) => total + curr);
     },
   },
-});
+};
+
+export { AccountsStore };

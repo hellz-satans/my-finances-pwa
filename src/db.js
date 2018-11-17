@@ -16,3 +16,5 @@ db.version(1).stores({
   expenses: '++id,description,price,qty,tags,date',
   tags: '++id,name'
 });
+
+export default db;
