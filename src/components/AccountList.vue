@@ -16,13 +16,15 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-		    ... Vuex.mapActions([ 'editAccount', 'deleteAccount' ])
-        },
-        computed: {
-            ... Vuex.mapState([ 'accounts' ]),
-            ... Vuex.mapGetters([ 'totalBalance' ])
-        }
-    }
+	import { mapActions, mapGetters, mapState } from 'vuex';
+
+	export default {
+		methods: {
+			... mapActions('accounts', [ 'editAccount', 'deleteAccount' ])
+		},
+		computed: {
+			... mapState('accounts', [ 'accounts' ]),
+			... mapGetters('accounts', [ 'totalBalance' ])
+		}
+	}
 </script>

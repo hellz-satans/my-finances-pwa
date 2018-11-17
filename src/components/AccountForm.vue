@@ -51,43 +51,41 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-            ... Vuex.mapMutations([ 'unsetCurrentAccount' ]),
-            submitAccount() {
-                if (document.forms.account.checkValidity()) {
-                    const data = {
-                        name: this.name,
-                        balance: this.balance
-                    };
-                    this.$store.dispatch('submitAccount', this.currentAccount)
-                    .catch((err) => {
-                        console.error('submitAccount:', err, err.stack);
-                    });
-                } else {
-                    document.forms.account.reportValidity();
-                    console.error('submitAccount: invalid data');
-                }
-            }
-        },
+	import { mapMutations, mapState } from 'vuex';
 
-        computed: {
-            ... Vuex.mapState([ 'currentAccount' ]),
-            action() {
-                return this.currentAccount.id ? 'Update' : 'Add';
-            },
-            name: {
-                get() { return this.$store.state.currentAccount.name; },
-                set(value) {
-                    return this.$store.commit('updateCurrentAccountName', value);
-                },
-            },
-            balance: {
-                get() { return this.$store.state.currentAccount.balance; },
-                set(value) {
-                    return this.$store.commit('updateCurrentAccountBalance', value);
-                },
-            }
-        }
-    }
+	export default {
+		methods: {
+			... mapMutations('accounts', [ 'unsetCurrentAccount' ]),
+			submitAccount() {
+				if (document.forms.account.checkValidity()) {
+					this.$store.dispatch('submitAccount', this.currentAccount)
+						.catch((err) => {
+							console.error('submitAccount:', err, err.stack);
+						});
+				} else {
+					document.forms.account.reportValidity();
+					console.error('submitAccount: invalid data');
+				}
+			}
+		},
+
+		computed: {
+			... mapState('accounts', [ 'currentAccount' ]),
+			action() {
+				return this.currentAccount.id ? 'Update' : 'Add';
+			},
+			name: {
+				get() { return this.$store.state.currentAccount.name; },
+				set(value) {
+					return this.$store.commit('updateCurrentAccountName', value);
+				},
+			},
+			balance: {
+				get() { return this.$store.state.currentAccount.balance; },
+				set(value) {
+					return this.$store.commit('updateCurrentAccountBalance', value);
+				},
+			}
+		}
+	}
 </script>

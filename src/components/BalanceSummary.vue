@@ -6,16 +6,18 @@
 </template>
 
 <script>
-    export default {
-        name: 'BalanceSummary',
-        computed: {
-            cssClasses() {
-                return {
-                    orange: this.balanceSummary < 0
-                };
-            },
-            ... Vuex.mapState([ 'goal' ]),
-            ... Vuex.mapGetters([ 'balanceSummary' ])
-        }
-    }
+	import { mapGetters, mapState } from 'vuex';
+
+	export default {
+		name: 'BalanceSummary',
+		computed: {
+			... mapState([ 'goal' ]),
+			... mapGetters('accounts', [ 'balanceSummary' ]),
+			cssClasses() {
+				return {
+					orange: this.balanceSummary < 0
+				};
+			},
+		}
+	}
 </script>

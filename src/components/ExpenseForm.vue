@@ -85,57 +85,61 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-            ... Vuex.mapMutations([ 'unsetCurrentExpense' ]),
+	import { mapMutations, mapState } from 'vuex';
 
-            submitExpense() {
-                if (document.forms.expense.checkValidity()) {
-                    this.$store.dispatch('submitExpense', this.currentExpense)
-                    .catch((err) => {
-                        console.error('submitExpense:', err, err.stack);
-                    });
-                } else {
-                    document.forms.expense.reportValidity();
-                    console.error('submitExpense: invalid data');
-                }
-            }
-        },
-        computed: {
-            ... Vuex.mapState([ 'currentExpense', 'categories' ]),
-            action() {
-                return this.currentExpense.id ? 'Update' : 'Add';
-            },
-            description: {
-                get() { return this.$store.state.currentExpense.description; },
-                set(value) {
-                    return this.$store.commit('updateCurrentExpenseDescription', value);
-                },
-            },
-            price: {
-                get() { return this.$store.state.currentExpense.price; },
-                set(value) {
-                    return this.$store.commit('updateCurrentExpensePrice', value);
-                },
-            },
-            qty: {
-                get() { return this.$store.state.currentExpense.qty; },
-                set(value) {
-                    return this.$store.commit('updateCurrentExpenseQty', value);
-                },
-            },
-            tags: {
-                get() { return this.$store.state.currentExpense.tags; },
-                set(value) {
-                    return this.$store.commit('updateCurrentExpenseTags', value);
-                },
-            },
-            date: {
-                get() { return this.$store.state.currentExpense.date; },
-                set(value) {
-                    return this.$store.commit('updateCurrentExpenseDate', value);
-                },
-            },
-        }
-    }
+	export default {
+		methods: {
+			... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
+
+			submitExpense() {
+				if (document.forms.expense.checkValidity()) {
+					this.$store.dispatch('submitExpense', this.currentExpense)
+						.catch((err) => {
+							console.error('submitExpense:', err, err.stack);
+						});
+				} else {
+					document.forms.expense.reportValidity();
+					console.error('submitExpense: invalid data');
+				}
+			}
+		},
+		computed: {
+			... mapState([ 'categories' ]),
+			... mapState('expenses', [ 'currentExpense' ]),
+
+			action() {
+				return this.currentExpense.id ? 'Update' : 'Add';
+			},
+			description: {
+				get() { return this.$store.state.currentExpense.description; },
+				set(value) {
+					return this.$store.commit('updateCurrentExpenseDescription', value);
+				},
+			},
+			price: {
+				get() { return this.$store.state.currentExpense.price; },
+				set(value) {
+					return this.$store.commit('updateCurrentExpensePrice', value);
+				},
+			},
+			qty: {
+				get() { return this.$store.state.currentExpense.qty; },
+				set(value) {
+					return this.$store.commit('updateCurrentExpenseQty', value);
+				},
+			},
+			tags: {
+				get() { return this.$store.state.currentExpense.tags; },
+				set(value) {
+					return this.$store.commit('updateCurrentExpenseTags', value);
+				},
+			},
+			date: {
+				get() { return this.$store.state.currentExpense.date; },
+				set(value) {
+					return this.$store.commit('updateCurrentExpenseDate', value);
+				},
+			},
+		}
+	}
 </script>

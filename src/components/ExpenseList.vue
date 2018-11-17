@@ -43,13 +43,15 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-            ... Vuex.mapActions([ 'editExpense', 'deleteExpense' ])
-        },
-        computed: {
-            ... Vuex.mapState([ 'expenses' ]),
-            ... Vuex.mapGetters([ 'totalExpenses' ])
-        }
-    }
+	import { mapActions, mapState, mapGetters } from 'vuex';
+
+	export default {
+		methods: {
+			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ])
+		},
+		computed: {
+			... mapState('expenses', [ 'expenses' ]),
+			... mapGetters('expenses', [ 'totalExpenses' ])
+		}
+	}
 </script>

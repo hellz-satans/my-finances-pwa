@@ -1,9 +1,11 @@
 <script>
-    export default {
-        extends: VueChartJs.Line,
-        mixins: [ VueChartJs.mixins.reactiveProp ],
-        mounted() {
-            this.renderChart(this.chartData, this.options);
-        }
-    }
+	import { Line, mixins } from 'vue-chartjs';
+
+	export default {
+		extends: Line,
+		mixins: [ mixins.reactiveProp ],
+		mounted() {
+			this.renderChart(this.chartData, this.options);
+		}
+	}
 </script>

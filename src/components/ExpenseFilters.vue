@@ -62,40 +62,40 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                startDate: null,
-                endDate: null,
-                comparator: '>=',
-                price: 0
-            };
-        },
+	export default {
+		data() {
+			return {
+				startDate: null,
+				endDate: null,
+				comparator: '>=',
+				price: 0
+			};
+		},
 
-        methods: {
-            filter() {
-                console.info('filtering: from',
-                    this.startDate,
-                    'until',
-                    this.endDate,
-                    '. Price',
-                    this.comparator,
-                    this.price
-                );
+		methods: {
+			filter() {
+				console.info('filtering: from',
+					this.startDate,
+					'until',
+					this.endDate,
+					'. Price',
+					this.comparator,
+					this.price
+				);
 
-                this.$store.dispatch('filterExpenses', {
-                    startDate: this.startDate,
-                    endDate: this.endDate,
-                    comparator: this.comparator,
-                    price: this.price,
-                });
-            },
-            resetFilters() {
-                this.startDate = this.endDate = null;
-                this.comparator = '>=';
-                this.price = 0;
-                this.$store.dispatch('filterExpenses', {});
-            }
-        }
-    }
+				this.$store.dispatch('filterExpenses', {
+					startDate: this.startDate,
+					endDate: this.endDate,
+					comparator: this.comparator,
+					price: this.price,
+				});
+			},
+			resetFilters() {
+				this.startDate = this.endDate = null;
+				this.comparator = '>=';
+				this.price = 0;
+				this.$store.dispatch('filterExpenses', {});
+			}
+		}
+	}
 </script>
