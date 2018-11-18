@@ -1,0 +1,54 @@
+form {
+	.form-field {
+		min-width: 150px;
+		margin: 0.2rem;
+		flex-grow: 1;
+	}
+
+	fieldset {
+		legend {
+			padding: 0 0.25rem;
+			font-weight: 600;
+		}
+
+		&.flex {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-evenly;
+			align-items: center;
+			align-content: space-around;
+		}
+	}
+
+	.form-submit, .form-reset {
+		align-self: flex-end;
+		flex-grow: 2;
+		padding: 0.5rem;
+	}
+	.form-submit {
+		color: #e6ffff;
+		background: #6f15cb;
+		background: linear-gradient(135deg,
+			#fff 0%,
+			#6fc3df 10%,
+			#5da2bd 90%,
+			#6fc3df 100%);
+	}
+}
+
+input {
+	&:not([type=submit]), &:not([type=reset]) {
+		border: 1px solid #ddd;
+		border-bottom: 1px solid #888;
+		border-radius: 2px 2px 1px 1px;
+		padding: 0.2rem;
+	}
+}
+
+button, input[type=submit], input[type=reset] {
+	padding: 0.2rem 0.5rem;
+	border-width: 1px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-weight: 600;
+}

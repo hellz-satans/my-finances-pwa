@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import { mapState } from 'vuex'
+import './styles/styles.scss'
 
 Vue.config.productionTip = false
 

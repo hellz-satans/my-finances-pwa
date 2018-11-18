@@ -1,3 +1,9 @@
+<style lang="scss">
+	.balance-summary {
+		text-align: right;
+	}
+</style>
+
 <template>
     <section class="balance-summary">
 		<h2 :class="cssClasses">Summary: \${{ balanceSummary }}</h2>

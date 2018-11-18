@@ -1,5 +1,11 @@
+<style lang="scss">
+	.expense-list {
+		width: 100%;
+		overflow-x: auto;
+	}
+</style>
 <template>
-    <article class="expense-list">
+	<article class="expense-list">
 		<h3>Total ${{ totalExpenses }}</h3>
 		<expense-filters></expense-filters>
 		<table>

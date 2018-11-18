@@ -1,0 +1,13 @@
+.finances-grid {
+	display: grid;
+	grid-template: 3.50rem 300px 1fr / repeat(3, 1fr);
+	grid-gap: 1rem;
+	grid-template-areas:
+		'summary summary summary'
+		'accounts expenses expenses'
+		'chart expenses expenses';
+}
+.balance-summary { grid-area: summary; }
+.accounts { grid-area: accounts; }
+.expenses-chart { grid-area: chart; }
+.expenses { grid-area: expenses; }

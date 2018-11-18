@@ -1,5 +1,25 @@
+<style lang="scss">
+	.expense-filter {
+		.expense-filter-title {
+			display: none;
+		}
+
+		.expense-filter input[type=number] {
+			width: 5rem;
+		}
+
+		.expense-filter-form {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-evenly;
+			align-items: center;
+			align-content: space-around;
+		}
+	}
+</style>
+
 <template>
-    <nav class="expense-filter">
+	<nav class="expense-filter">
 		<h3 class="expense-filter-title">Filters</h3>
 		<form
 			name="filters"
@@ -9,19 +29,11 @@
 		>
 			<label class="form-field">
 				From
-				<input
-					type="date"
-					name="start_date"
-					v-model="startDate"
-				>
+				<input type="date" name="start_date" v-model="startDate">
 			</label>
 			<label class="form-field">
 				Until
-				<input
-					type="date"
-					name="end_date"
-					v-model="endDate"
-				>
+				<input type="date" name="end_date" v-model="endDate">
 			</label>
 
 			<fieldset>
@@ -35,26 +47,14 @@
 				</label>
 				<label class="form-field">
 					<span hidden>Unit price</span>
-					<input
-						type="number"
-						name="grand_total"
-						step="any"
-						v-model="price"
-					>
+					<input type="number" name="grand_total" step="any" v-model="price">
 				</label>
 			</fieldset>
 
-			<button
-				type="reset"
-				class="form-reset"
-				@click="resetFilters"
-			>
+			<button type="reset" class="form-reset" @click="resetFilters">
 				Reset
 			</button>
-			<button
-				type="submit"
-				class="form-submit"
-			>
+			<button type="submit" class="form-submit">
 				Apply
 			</button>
 		</form>
