@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Expenses from './views/Expenses.vue'
+import UserAccounts from './views/UserAccounts.vue'
 
 Vue.use(Router)
 
@@ -19,6 +20,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/accounts',
+      name: 'accounts',
+      component: UserAccounts
     },
     {
       path: '/expenses',

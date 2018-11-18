@@ -1,6 +1,6 @@
 <template>
     <article class="account-list">
-		<h3>Total balance: \${{ totalBalance }}</h3>
+		<h3>Total balance: ${{ totalBalance }}</h3>
 		<ul>
 			<li v-for="acc in accounts">
 				<b>{{ acc.name }}</b>: {{ acc.balance }}

@@ -1,5 +1,5 @@
 <template>
-    <form
+	<form
 		name="account"
 		method="POST"
 		@submit.prevent="submitAccount"
@@ -14,7 +14,7 @@
 					name="account_name"
 					id="account_name"
 					minlength="1"
-					pattern="[\\w\\+\\-=]+(\\s+[\\w\\+\\-=]+)*"
+					pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
 					required
 					v-model="name"
 				>
@@ -58,7 +58,7 @@
 			... mapMutations('accounts', [ 'unsetCurrentAccount' ]),
 			submitAccount() {
 				if (document.forms.account.checkValidity()) {
-					this.$store.dispatch('submitAccount', this.currentAccount)
+					this.$store.dispatch('accounts/submitAccount', this.currentAccount)
 						.catch((err) => {
 							console.error('submitAccount:', err, err.stack);
 						});
@@ -75,15 +75,15 @@
 				return this.currentAccount.id ? 'Update' : 'Add';
 			},
 			name: {
-				get() { return this.$store.state.currentAccount.name; },
+				get() { return this.$store.state.accounts.currentAccount.name; },
 				set(value) {
-					return this.$store.commit('updateCurrentAccountName', value);
+					return this.$store.commit('accounts/updateCurrentAccountName', value);
 				},
 			},
 			balance: {
-				get() { return this.$store.state.currentAccount.balance; },
+				get() { return this.$store.state.accounts.currentAccount.balance; },
 				set(value) {
-					return this.$store.commit('updateCurrentAccountBalance', value);
+					return this.$store.commit('accounts/updateCurrentAccountBalance', value);
 				},
 			}
 		}
