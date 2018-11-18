@@ -18,7 +18,7 @@ const ExpensesStore = {
           arr.sort((a, b) => b.date - a.date);
           return arr;
         }).then((arr) => {
-          return arr.filter((exp) => filters.filterExpenses(exp, state.expensesFilters));
+          return arr.filter((exp) => filterExpenses(exp, state.expensesFilters));
         }).then((arr) => {
           state.expenses = arr;
         }).catch((err) => {

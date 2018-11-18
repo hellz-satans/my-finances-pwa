@@ -13,22 +13,22 @@ const filterExpenses = (expense, filters) => {
 
     switch (f.op) {
       case '<':
-        allow = exp[f.field] < f.value;
+        allow = expense[f.field] < f.value;
         break;
       case '<=':
-        allow = exp[f.field] <= f.value;
+        allow = expense[f.field] <= f.value;
         break;
       case '>':
-        allow = exp[f.field] > f.value;
+        allow = expense[f.field] > f.value;
         break;
       case '>=':
-        allow = exp[f.field] >= f.value;
+        allow = expense[f.field] >= f.value;
         break;
       case '==':
-        allow = exp[f.field] == f.value;
+        allow = expense[f.field] == f.value;
         break;
       case '===':
-        allow = exp[f.field] === f.value;
+        allow = expense[f.field] === f.value;
         break;
       default:
         allow = true;

@@ -63,6 +63,7 @@
 
 <script>
 	export default {
+		name: 'ExpenseFilters',
 		data() {
 			return {
 				startDate: null,
@@ -83,7 +84,7 @@
 					this.price
 				);
 
-				this.$store.dispatch('filterExpenses', {
+				this.$store.dispatch('expenses/filterExpenses', {
 					startDate: this.startDate,
 					endDate: this.endDate,
 					comparator: this.comparator,
@@ -94,7 +95,7 @@
 				this.startDate = this.endDate = null;
 				this.comparator = '>=';
 				this.price = 0;
-				this.$store.dispatch('filterExpenses', {});
+				this.$store.dispatch('expenses/filterExpenses', {});
 			}
 		}
 	}
