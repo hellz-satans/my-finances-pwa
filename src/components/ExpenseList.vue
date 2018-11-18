@@ -1,6 +1,6 @@
 <template>
     <article class="expense-list">
-		<h3>Total \${{ totalExpenses }}</h3>
+		<h3>Total ${{ totalExpenses }}</h3>
 		<expense-filters></expense-filters>
 		<table>
 			<thead>
@@ -18,8 +18,8 @@
 			<tbody>
 				<tr v-for="(e, i) in expenses">
 					<th scope="row">{{ i+1 }}</th>
-					<td><b>\${{ e.qty * e.price }}</b></td>
-					<td>\${{ e.price }}</td>
+					<td><b>${{ e.qty * e.price }}</b></td>
+					<td>${{ e.price }}</td>
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
 					<td class="smaller">{{ e.tags.join(', ') }}</td>
@@ -44,8 +44,13 @@
 
 <script>
 	import { mapActions, mapState, mapGetters } from 'vuex';
+	import ExpenseFilters from './ExpenseFilters.vue';
 
 	export default {
+		name: 'ExpenseList',
+		components: {
+			ExpenseFilters,
+		},
 		methods: {
 			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ])
 		},

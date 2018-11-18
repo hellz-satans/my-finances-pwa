@@ -1,5 +1,5 @@
 <template>
-    <form
+	<form
 		name="expense"
 		method="POST"
 		@submit.prevent="submitExpense"
@@ -13,7 +13,7 @@
 				<input
 					name="description"
 					minlength="1"
-					pattern="[\\w\\+\\-=]+(\\s+[\\w\\+\\-=]+)*"
+					pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
 					required
 					v-model="description"
 				>
@@ -88,12 +88,13 @@
 	import { mapMutations, mapState } from 'vuex';
 
 	export default {
+		name: 'ExpenseForm',
 		methods: {
 			... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
 
 			submitExpense() {
 				if (document.forms.expense.checkValidity()) {
-					this.$store.dispatch('submitExpense', this.currentExpense)
+					this.$store.dispatch('expenses/submitExpense', this.currentExpense)
 						.catch((err) => {
 							console.error('submitExpense:', err, err.stack);
 						});
@@ -111,33 +112,33 @@
 				return this.currentExpense.id ? 'Update' : 'Add';
 			},
 			description: {
-				get() { return this.$store.state.currentExpense.description; },
+				get() { return this.$store.state.expenses.currentExpense.description; },
 				set(value) {
-					return this.$store.commit('updateCurrentExpenseDescription', value);
+					return this.$store.commit('expenses/updateCurrentExpenseDescription', value);
 				},
 			},
 			price: {
-				get() { return this.$store.state.currentExpense.price; },
+				get() { return this.$store.state.expenses.currentExpense.price; },
 				set(value) {
-					return this.$store.commit('updateCurrentExpensePrice', value);
+					return this.$store.commit('expenses/updateCurrentExpensePrice', value);
 				},
 			},
 			qty: {
-				get() { return this.$store.state.currentExpense.qty; },
+				get() { return this.$store.state.expenses.currentExpense.qty; },
 				set(value) {
-					return this.$store.commit('updateCurrentExpenseQty', value);
+					return this.$store.commit('expenses/updateCurrentExpenseQty', value);
 				},
 			},
 			tags: {
-				get() { return this.$store.state.currentExpense.tags; },
+				get() { return this.$store.state.expenses.currentExpense.tags; },
 				set(value) {
-					return this.$store.commit('updateCurrentExpenseTags', value);
+					return this.$store.commit('expenses/updateCurrentExpenseTags', value);
 				},
 			},
 			date: {
-				get() { return this.$store.state.currentExpense.date; },
+				get() { return this.$store.state.expenses.currentExpense.date; },
 				set(value) {
-					return this.$store.commit('updateCurrentExpenseDate', value);
+					return this.$store.commit('expenses/updateCurrentExpenseDate', value);
 				},
 			},
 		}
