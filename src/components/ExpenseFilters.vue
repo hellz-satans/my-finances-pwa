@@ -14,6 +14,7 @@
 			justify-content: space-evenly;
 			align-items: center;
 			align-content: space-around;
+			margin-bottom: 1rem;
 		}
 	}
 </style>
@@ -54,6 +55,7 @@
 			<button type="reset" class="form-reset" @click="resetFilters">
 				Reset
 			</button>
+
 			<button type="submit" class="form-submit">
 				Apply
 			</button>
