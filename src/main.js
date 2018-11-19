@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import filters from './filters'
 import './registerServiceWorker'
 import { mapState } from 'vuex'
 import './styles/styles.scss'
@@ -17,6 +18,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  filters,
   render: h => h(App),
   mounted() {
     this.$store.commit('accounts/getAccounts');
