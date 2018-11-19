@@ -16,3 +16,9 @@ Vue.filter('local_to_utc', function (date, format = 'YYYY-MM-DD HH:mm:ss') {
 Vue.filter('format', function (date, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(date).format(format)
 })
+
+// NUMBER FILTERS
+Vue.filter('currency', function (value) {
+    let val = (value/1).toFixed(2).replace(',', '.')
+    return '$' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+})
