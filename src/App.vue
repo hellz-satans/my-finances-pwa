@@ -1,13 +1,14 @@
 <template>
-  <section id="app">
-    <nav id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/accounts">Accounts</router-link> |
-      <router-link to="/expenses">Expenses</router-link>
-    </nav>
+  <sui-container>
+    <sui-menu pointing secondary>
+      <router-link to="/" is="sui-menu-item" exact>Home</router-link>
+      <router-link to="/about" is="sui-menu-item">About</router-link>
+      <router-link to="/accounts" is="sui-menu-item">Accounts</router-link>
+      <router-link to="/expenses" is="sui-menu-item">Expenses</router-link>
+    </sui-menu>
+
     <router-view/>
-  </section>
+  </sui-container>
 </template>
 
 <style lang="scss">
