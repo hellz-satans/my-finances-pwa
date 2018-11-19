@@ -1,9 +1,9 @@
 <template>
-	<section class="accounts">
-		<h2>Accounts</h2>
+	<sui-container>
+      	<h2>Accounts</h2>
 		<account-form></account-form>
 		<account-list></account-list>
-	</section>
+    </sui-container>
 </template>
 
 <script>

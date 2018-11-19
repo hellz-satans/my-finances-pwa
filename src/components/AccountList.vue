@@ -1,17 +1,26 @@
 <template>
     <article class="account-list">
 		<h3>Total balance: ${{ totalBalance }}</h3>
-		<ul>
-			<li v-for="acc in accounts">
-				<b>{{ acc.name }}</b>: {{ acc.balance }}
-				<button @click="editAccount(acc.id)">
-					Edit &#9998;
-				</button>
-				<button class="white bg-red" @click="deleteAccount(acc.id)">
-					Delete &#128465;
-				</button>
-			</li>
-		</ul>
+
+		<sui-grid stackable>
+			<sui-grid-row>
+				<sui-grid-column v-for="acc in accounts" :key="acc.id" :mobile="5" :tablet="4" :computer="3" stretched>
+					<sui-card>
+						<sui-card-content>
+							<sui-card-header>
+								{{ acc.name }}
+								<sui-icon class="right floated" size="small" name="trash" @click="deleteAccount(acc.id)" />
+          						<sui-icon class="right floated" size="small" name="pencil" @click="editAccount(acc.id)" />
+							</sui-card-header>
+
+							<sui-container text-align="center">
+								<h2>{{ acc.balance }}</h2>
+							</sui-container>
+						</sui-card-content>
+					</sui-card>
+				</sui-grid-column>
+			</sui-grid-row>
+		</sui-grid>
 	</article>
 </template>
 

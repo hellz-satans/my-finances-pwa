@@ -1,53 +1,34 @@
 <template>
-	<form
-		name="account"
-		method="POST"
-		@submit.prevent="submitAccount"
-		class="account-form"
-	>
-		<fieldset class="flex">
-			<legend>{{ action }} account</legend>
+	<sui-form name="account" method="POST" @submit.prevent="submitAccount">
+		<sui-form-field>
+			<label>First Name</label>
+			<sui-input
+				id="account_name"
+				name="account_name"
+				v-model="name"
+				placeholder="Name"
+				minlength="1"
+				pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+				required
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Name:
-				<input
-					name="account_name"
-					id="account_name"
-					minlength="1"
-					pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
-					required
-					v-model="name"
-				>
-			</label>
+		<sui-form-field>
+			<label>Last Name</label>
+			<sui-input
+				id="account_balance"
+				name="account_balance"
+				v-model="balance"
+				placeholder="Balance"
+				type="number"
+				step="any"
+				required
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Balance:
-				<input
-					type="number"
-					name="account_balance"
-					id="account_balance"
-					step="any"
-					required
-					v-model="balance"
-				>
-			</label>
-
-			<button
-				type="button"
-				@click.prevent.stop="unsetCurrentAccount"
-				v-if="action === 'Update'"
-				class="white bg-danger form-reset"
-			>
-				Cancel
-			</button>
-			<button
-				type="submit"
-				class="form-submit"
-			>
-				{{ action }}
-			</button>
-		</fieldset>
-	</form>
+		<sui-button type="button"  @click.prevent.stop="unsetCurrentAccount" v-if="action === 'Update'">Cancel</sui-button>
+		<sui-button type="submit">{{ action }}</sui-button>
+	</sui-form>
 </template>
 
 <script>
