@@ -10,7 +10,7 @@
 							<sui-card-header>
 								{{ acc.name }}
 								<sui-icon class="right floated" size="small" name="trash" @click="deleteAccount(acc.id)" />
-          						<sui-icon class="right floated" size="small" name="pencil" @click="editAccount(acc.id)" />
+								<sui-icon class="right floated" size="small" name="pencil" @click="editAccount(acc.id)" />
 							</sui-card-header>
 
 							<sui-container text-align="center">
@@ -18,6 +18,16 @@
 							</sui-container>
 						</sui-card-content>
 					</sui-card>
+				</sui-grid-column>
+
+				<sui-grid-column v-if="accounts.length === 0">
+					<p>
+						Ups! There are no accounts.
+						<router-link to="/accounts" is="sui-menu-item">
+							Add an account
+							<sui-icon class="right floated" size="small" name="plus" />
+						</router-link>
+					</p>
 				</sui-grid-column>
 			</sui-grid-row>
 		</sui-grid>
