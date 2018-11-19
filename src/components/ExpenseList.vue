@@ -1,51 +1,47 @@
-<style lang="scss">
-	.expense-list {
-		width: 100%;
-		overflow-x: auto;
-	}
-</style>
 <template>
-	<article class="expense-list">
+	<div>
 		<h3>Total ${{ totalExpenses }}</h3>
 		<expense-filters></expense-filters>
-		<table>
+
+		<table class="ui table">
 			<thead>
 				<tr>
-					<th scope="col"></th>
 					<th scope="col">Grand total</th>
 					<th scope="col">Price</th>
 					<th scope="col">Qty</th>
 					<th scope="col">Description</th>
 					<th scope="col">Tags</th>
 					<th scope="col">Date &darr;</th>
-					<th scope="col" colspan="2">Actions</th>
+					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(e, i) in expenses">
-					<th scope="row">{{ i+1 }}</th>
-					<td><b>${{ e.qty * e.price }}</b></td>
-					<td>${{ e.price }}</td>
+				<tr v-for="e in expenses" :key="e.id">
+					<td><b>{{ e.qty * e.price | currency }}</b></td>
+					<td>{{ e.price | currency}}</td>
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
-					<td class="smaller">{{ e.tags.join(', ') }}</td>
-					<td class="smaller">
-						{{ e.date.getUTCMonth() + 1 }}/{{ e.date.getUTCDate() }}/{{ e.date.getUTCFullYear() }}
-					</td>
+					<td>{{ e.tags.join(', ') }}</td>
+					<td>{{ e.date | format }}</td>
 					<td>
-						<button @click="editExpense(e.id)">
-							Edit &#9998;
-						</button>
-					</td>
-					<td>
-						<button class="white bg-red" @click="deleteExpense(e.id)">
-							Delete &#128465;
-						</button>
+						<sui-button size="mini" animated="vertical">
+							<sui-button-content visible>
+								<sui-icon name="trash" />
+							</sui-button-content>
+							<sui-button-content @click="deleteExpense(e.id)" hidden>Delete</sui-button-content>
+						</sui-button>
+
+						<sui-button size="mini" animated="vertical">
+							<sui-button-content visible>
+								<sui-icon name="pencil" />
+							</sui-button-content>
+							<sui-button-content @click="editExpense(e.id)" hidden>Edit</sui-button-content>
+						</sui-button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-	</article>
+	</div>
 </template>
 
 <script>
