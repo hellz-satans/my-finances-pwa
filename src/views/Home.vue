@@ -1,24 +1,38 @@
+<style lang="scss">
+	.home {
+		.expenses-chart-container {
+			max-width: 450px;
+		}
+	}
+</style>
+
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<section class="home">
+		<balance-summary></balance-summary>
+		<account-list></account-list>
+		<article>
+			<h2>// TODO:</h2>
+			<ul>
+				<li>add most recent expenses (maybe expenses summary?)</li>
+				<li>improve charts positioning and styles</li>
+			</ul>
+		</article>
+		<expenses-chart-container></expenses-chart-container>
+	</section>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import AccountList from '@/components/AccountList.vue';
+import BalanceSummary from '@/components/BalanceSummary.vue'
+import ExpensesChartContainer from '@/components/ExpensesChartContainer.vue';
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    AccountList,
+    BalanceSummary,
+		ExpensesChartContainer,
   }
 }
 </script>
-
-<style lang="scss">
-	.home {
-		text-align: center;
-	}
-</style>

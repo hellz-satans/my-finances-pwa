@@ -1,7 +1,7 @@
 <template>
 	<sui-form name="account" method="POST" @submit.prevent="submitAccount">
 		<sui-form-field>
-			<label>First Name</label>
+			<label for="account_name">Account Name</label>
 			<sui-input
 				id="account_name"
 				name="account_name"
@@ -14,7 +14,7 @@
 		</sui-form-field>
 
 		<sui-form-field>
-			<label>Last Name</label>
+			<label for="account_balance">Balance</label>
 			<sui-input
 				id="account_balance"
 				name="account_balance"

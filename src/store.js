@@ -32,8 +32,8 @@ export default new Vuex.Store({
   },
 
   getters: {
-    balanceSummary: (state, getters) => {
-      return getters.accounts.totalBalance - getters.expenses.totalExpenses;
+    balanceSummary: (state, getters, rootGetters) => {
+			return getters['accounts/totalBalance'] - getters['expenses/totalExpenses'];
     },
   }
 })

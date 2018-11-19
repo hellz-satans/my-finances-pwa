@@ -5,6 +5,7 @@
       <router-link to="/about" is="sui-menu-item">About</router-link>
       <router-link to="/accounts" is="sui-menu-item">Accounts</router-link>
       <router-link to="/expenses" is="sui-menu-item">Expenses</router-link>
+      <router-link to="/vue" is="sui-menu-item">Vue Docs</router-link>
     </sui-menu>
 
     <router-view/>
