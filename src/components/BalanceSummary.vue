@@ -6,8 +6,8 @@
 
 <template>
     <section class="balance-summary">
-		<h2 :class="cssClasses">Summary: \${{ balanceSummary }}</h2>
-		<h3>Goal: \${{ goal }}</h3>
+		<h2 :class="cssClasses">Summary: {{ balanceSummary | currency }}</h2>
+		<h3>Goal: {{ goal | currency }}</h3>
 	</section>
 </template>
 
@@ -18,7 +18,7 @@
 		name: 'BalanceSummary',
 		computed: {
 			... mapState([ 'goal' ]),
-			... mapGetters('accounts', [ 'balanceSummary' ]),
+			... mapGetters([ 'balanceSummary' ]),
 			cssClasses() {
 				return {
 					orange: this.balanceSummary < 0
