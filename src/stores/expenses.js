@@ -1,11 +1,18 @@
 import db from '../db';
 import { filterExpenses } from './filters';
+import moment from 'moment';
 
 const ExpensesStore = {
   namespaced: true,
 
   state: {
-    currentExpense: { tags: [] },
+    currentExpense: { 
+      description: null,
+      price: 0,
+      qty: 1,
+      date: moment().format('YYYY-MM-DD'),
+      tags: [],
+    },
     expenses: [],
     expensesFilters: [],
   },
