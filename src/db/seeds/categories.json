@@ -1,0 +1,92 @@
+{
+	"categories": [
+		{
+			"key": "household",
+			"name": "Household",
+			"subcategories": [
+				{
+					"key": "cleaning",
+					"name": "Cleaning Products"
+				},
+				{
+					"key": "food",
+					"name": "Food"
+				},
+				{
+					"key": "services",
+					"name": "Basic Services"
+				},
+				{
+					"key": "other",
+					"name": "Other"
+				}
+			]
+		},
+		{
+			"key": "transport",
+			"name": "Transportation",
+			"subcategories": [
+				{
+					"key": "taxi",
+					"name": "Taxi Services"
+				},
+				{
+					"key": "public",
+					"name": "Public Transport"
+				},
+				{
+					"key": "flights",
+					"name": "Flights"
+				},
+				{
+					"key": "trains",
+					"name": "Trains"
+				},
+				{
+					"key": "bus",
+					"name": "Bus"
+				},
+				{
+					"key": "other",
+					"name": "Other"
+				}
+			]
+		},
+		{
+			"key": "tech",
+			"name": "Technology",
+			"subcategories": [
+				{
+					"key": "hosting",
+					"name": "Cloud Hosting"
+				},
+				{
+					"key": "gadgets",
+					"name": "Gadgets"
+				},
+				{
+					"key": "videogames",
+					"name": "Videogames"
+				},
+				{
+					"key": "streaming",
+					"name": "Streaming Services"
+				},
+				{
+					"key": "other",
+					"name": "Other"
+				}
+			]
+		},
+		{
+			"key": "other",
+			"name": "Other Expenses",
+			"subcategories": [
+				{
+					"key": "other",
+					"name": "Other Expenses"
+				}
+			]
+		}
+	]
+}
