@@ -2,7 +2,7 @@
     <article class="account-list">
 		<h3>Total balance: ${{ totalBalance }}</h3>
 
-		<sui-grid stackable>
+		<sui-grid v-if="accounts.length" stackable>
 			<sui-grid-row>
 				<sui-grid-column v-for="acc in accounts" :key="acc.id" :mobile="5" :tablet="4" :computer="3" stretched>
 					<sui-card>
@@ -19,18 +19,16 @@
 						</sui-card-content>
 					</sui-card>
 				</sui-grid-column>
-
-				<sui-grid-column v-if="accounts.length === 0">
-					<p>
-						Ups! There are no accounts.
-						<router-link to="/accounts" is="sui-menu-item">
-							Add an account
-							<sui-icon class="right floated" size="small" name="plus" />
-						</router-link>
-					</p>
-				</sui-grid-column>
 			</sui-grid-row>
 		</sui-grid>
+
+		<sui-container v-if="!accounts.length" text-align="center">
+			<h2>Ups! There are no accounts.</h2>
+			<router-link to="/accounts" is="sui-menu-item">
+				Add an account
+				<sui-icon class="right floated" size="small" name="plus" />
+			</router-link>
+		</sui-container>
 	</article>
 </template>
 
