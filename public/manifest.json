@@ -1,6 +1,6 @@
 {
-  "name": "TEST",
-  "short_name": "TEST",
+  "name": "MyFin",
+  "short_name": "MyFin",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
