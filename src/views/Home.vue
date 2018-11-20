@@ -17,7 +17,7 @@
 				<li>improve charts positioning and styles</li>
 			</ul>
 		</article>
-		<expenses-chart-container></expenses-chart-container>
+		<expenses-chart></expenses-chart>
 	</section>
 </template>
 
@@ -25,14 +25,14 @@
 // @ is an alias to /src
 import AccountList from '@/components/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
-import ExpensesChartContainer from '@/components/ExpensesChartContainer.vue';
+import ExpensesChart from '@/components/charts/Expenses.vue';
 
 export default {
   name: 'home',
   components: {
     AccountList,
     BalanceSummary,
-		ExpensesChartContainer,
+		ExpensesChart
   }
 }
 </script>
