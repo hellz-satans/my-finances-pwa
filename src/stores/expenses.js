@@ -11,11 +11,17 @@ const ExpensesStore = {
   },
 
   mutations: {
-    getExpenses(state) {
+    getExpenses(state, options = {}) {
+      options.sort = options.sort || 1;
+
       db.expenses.toArray()
         .then((arr) => {
-          // sort by date in decreasing order
-          arr.sort((a, b) => b.date - a.date);
+          if (options.sort) {
+            arr.sort((a, b) => a.date - b.date);
+          } else {
+            // sort by date in decreasing order
+            arr.sort((a, b) => b.date - a.date);
+          }
           return arr;
         }).then((arr) => {
           return arr.filter((exp) => filterExpenses(exp, state.expensesFilters));
