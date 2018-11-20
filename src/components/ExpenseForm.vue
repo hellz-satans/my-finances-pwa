@@ -1,87 +1,72 @@
 <template>
-	<form
-		name="expense"
-		method="POST"
-		@submit.prevent="submitExpense"
-		class="expense-form"
-	>
-		<fieldset class="flex">
-			<legend>{{ action }} expense</legend>
+	<sui-form name="expense" method="POST" @submit.prevent="submitExpense">
+		<sui-form-field>
+			<label for="description">Description</label>
+			<sui-input
+				name="description"
+				minlength="1"
+				pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+				required
+				v-model="description"
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Description:
-				<input
-					name="description"
-					minlength="1"
-					pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
-					required
-					v-model="description"
-				>
-			</label>
+		<sui-form-field>
+			<label for="price">Price</label>
+			<sui-input
+				type="number"
+				name="price"
+				min="0"
+				step="any"
+				required
+				v-model="price"
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Price:
-				<input
-					type="number"
-					name="price"
-					min="0"
-					step="any"
-					required
-					v-model="price"
-				>
-			</label>
+		<sui-form-field>
+			<label for="quantity">Quantity</label>
+			<sui-input
+				type="number"
+				name="quantity"
+				min="0.01"
+				step="any"
+				required
+				v-model="qty"
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Quantity:
-				<input
-					type="number"
-					name="qty"
-					min="0.01"
-					step="any"
-					required
-					v-model="qty"
-				>
-			</label>
+		<sui-form-field>
+			<label for="tags">Tags</label>
+			<sui-dropdown
+				placeholder="Tags"
+				fluid
+				multiple
+				selection
+				:options="expenseTags"
+				v-model="tags"
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Tags:
-				<select
-					multiple
-					name="tags"
-					required
-					size="3"
-					v-model="tags"
-				>
-					<option v-for="c in categories">{{ c }}</option>
-				</select>
-			</label>
+		<sui-form-field>
+			<label for="date">Date</label>
+			<sui-input
+				name="date"
+				placeholder="Date"
+				type="date"
+				v-model="date"
+			/>
+		</sui-form-field>
 
-			<label class="form-field">
-				Date:
-				<input
-					type="date"
-					name="date"
-					required
-					v-model="date"
-				>
-			</label>
+		<sui-button
+			type="button"
+			@click.prevent.stop="unsetCurrentExpense"
+			v-if="action === 'Update'"
+		>
+			Cancel
+		</sui-button>
 
-			<button
-				type="button"
-				@click.prevent.stop="unsetCurrentExpense"
-				v-if="action === 'Update'"
-				class="white bg-danger form-reset"
-			>
-				Cancel
-			</button>
-			<button
-				type="submit"
-				class="form-submit"
-			>
-				{{ action }}
-			</button>
-		</fieldset>
-	</form>
+		<sui-button text-align="right" type="submit">{{ action }}</sui-button>
+	</sui-form>
 </template>
 
 <script>
@@ -108,6 +93,29 @@
 			... mapState([ 'categories' ]),
 			... mapState('expenses', [ 'currentExpense' ]),
 
+			/**
+			 * Semantic-UI-dropdown compatible options.
+			 *
+			 * <sui-dropdown multiple fluid selection> requires that the provided
+			 * options have the format:
+			 *
+			 * ```
+			 * 	{ key: '', text: '', value: '' }
+			 * ```
+			 *
+			 * @return [Object]
+			 */
+			expenseTags() {
+				const tags = [];
+				let c = null;
+
+				for (const i in this.categories) {
+					c = this.categories[i];
+					tags.push({ key: c, text: c, value: c });
+				}
+
+				return tags;
+			},
 			action() {
 				return this.currentExpense.id ? 'Update' : 'Add';
 			},
@@ -136,6 +144,7 @@
 				},
 			},
 			date: {
+				// TODO: fix warning when setting the input[type=date] with this
 				get() { return this.$store.state.expenses.currentExpense.date; },
 				set(value) {
 					return this.$store.commit('expenses/updateCurrentExpenseDate', value);
