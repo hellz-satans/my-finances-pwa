@@ -17,4 +17,19 @@ db.version(1).stores({
   tags: '++id,name'
 });
 
+// add color to accounts
+db.version(2).stores({
+  accounts: '++id,name,balance,color',
+}).upgrade((trans) => {
+	const defaultColor = '#68BC00';
+
+	return trans.accounts
+		.toCollection()
+		.modify((acc) => {
+			if (!acc.color) {
+				acc.color = defaultColor;
+			}
+		});
+});
+
 export default db;
