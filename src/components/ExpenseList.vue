@@ -24,18 +24,18 @@
 					<td>{{ e.tags.join(', ') }}</td>
 					<td>{{ e.date | format }}</td>
 					<td>
-						<sui-button size="mini" animated="vertical">
+						<sui-button size="mini" animated="vertical" @click="deleteExpense(e.id)">
 							<sui-button-content visible>
 								<sui-icon name="trash" />
 							</sui-button-content>
-							<sui-button-content @click="deleteExpense(e.id)" hidden>Delete</sui-button-content>
+							<sui-button-content hidden>Delete</sui-button-content>
 						</sui-button>
 
-						<sui-button size="mini" animated="vertical">
+						<sui-button size="mini" animated="vertical" @click="editExpense(e.id)">
 							<sui-button-content visible>
 								<sui-icon name="pencil" />
 							</sui-button-content>
-							<sui-button-content @click="editExpense(e.id)" hidden>Edit</sui-button-content>
+							<sui-button-content hidden>Edit</sui-button-content>
 						</sui-button>
 					</td>
 				</tr>
