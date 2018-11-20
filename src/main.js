@@ -11,6 +11,8 @@ import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 Vue.use(SuiVue);
 
+import "vue-swatches/dist/vue-swatches.min.css"
+
 window.moment = require('moment');
 
 Vue.config.productionTip = false

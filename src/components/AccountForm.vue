@@ -26,6 +26,12 @@
 			/>
 		</sui-form-field>
 
+		<sui-form-field>
+			<label for="account_color">Color</label>
+			<swatches v-model="color" inline />
+		</sui-form-field>
+
+
 		<sui-button type="button"  @click.prevent.stop="unsetCurrentAccount" v-if="action === 'Update'">Cancel</sui-button>
 		<sui-button type="submit">{{ action }}</sui-button>
 	</sui-form>
@@ -33,8 +39,12 @@
 
 <script>
 	import { mapMutations, mapState } from 'vuex';
+	import Swatches from 'vue-swatches'
 
 	export default {
+		components: {
+			Swatches,
+		},
 		methods: {
 			... mapMutations('accounts', [ 'unsetCurrentAccount' ]),
 			submitAccount() {
@@ -49,7 +59,6 @@
 				}
 			}
 		},
-
 		computed: {
 			... mapState('accounts', [ 'currentAccount' ]),
 			action() {
@@ -66,7 +75,13 @@
 				set(value) {
 					return this.$store.commit('accounts/updateCurrentAccountBalance', value);
 				},
-			}
+			},
+			color: {
+				get() { return this.$store.state.accounts.currentAccount.color; },
+				set(value) {
+					return this.$store.commit('accounts/updateCurrentAccountColor', value);
+				},
+			},
 		}
 	}
 </script>

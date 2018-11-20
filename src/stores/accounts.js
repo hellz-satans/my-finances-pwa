@@ -2,7 +2,11 @@ import db from '../db';
 
 const AccountsStore = {
   state: {
-    currentAccount: {},
+    currentAccount: {
+      name: null,
+      balance: 0,
+      color: '#1fbc9c',
+    },
     accounts: [],
   },
 
@@ -36,6 +40,9 @@ const AccountsStore = {
     },
     updateCurrentAccountBalance(state, balance) {
       state.currentAccount.balance = Number(balance);
+    },
+    updateCurrentAccountColor(state, color) {
+      state.currentAccount.color = color;
     },
   },
 
