@@ -8,6 +8,7 @@
  * For more information, see https://dexie.org/docs/Version/Version.upgrade()
  */
 import Dexie from 'dexie';
+import seeds from '@/db/seeds';
 
 const db = new Dexie('Finances');
 
@@ -30,6 +31,44 @@ db.version(2).stores({
 				acc.color = defaultColor;
 			}
 		});
+});
+
+/**
+ * Add categories and subcategories.
+ *
+ * They are all stored in the same collection, but subcategories are
+ * differentiated by the field `isSubcategory` which is a simple boolean flag.
+ */
+db.version(3).stores({
+	'categories': '++id,name,key,isSubcategory',
+}).upgrade((trans) => {
+	// populate db from seeds if empty
+	if ((trans.categories.toArray().length) === 0) {
+		let i = 0,
+			j = 0,
+			cat = null,
+			subCat = null;
+
+		for (i = 0; i < seeds.categories.length; ++i) {
+			cat = seeds.categories[i];
+			// insert category
+			trans.categories.add({
+				key: cat.key,
+				name: cat.name,
+				isSubcategory: false
+			}); 
+
+			// insert subcategories
+			for (j = 0; j < cat.subcategories; ++j) {
+				subCat = cat.subcategories[j];
+				trans.categories.add({
+					key: `${cat.key}_${subCat.key}`,
+					name: subCat.name,
+					isSubcategory: true
+				});
+			}
+		}
+	}
 });
 
 export default db;
