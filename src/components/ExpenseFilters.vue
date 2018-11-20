@@ -15,6 +15,11 @@
 			align-items: center;
 			align-content: space-around;
 			margin-bottom: 1rem;
+
+			legend {
+				font-weight: 600;
+				padding: 0 0.50rem;
+			}
 		}
 	}
 </style>
@@ -30,35 +35,65 @@
 		>
 			<label class="form-field">
 				From
-				<input type="date" name="start_date" v-model="startDate">
+				<sui-input
+					id="start_date"
+					name="start_date"
+					placeholder="From"
+					type="date"
+					v-model="startDate"
+				/>
 			</label>
+
 			<label class="form-field">
 				Until
-				<input type="date" name="end_date" v-model="endDate">
+				<sui-input
+					id="end_date"
+					name="end_date"
+					placeholder="Until"
+					type="date"
+					v-model="endDate"
+				/>
 			</label>
 
 			<fieldset>
 				<legend>Price</legend>
 				<label class="form-field">
 					<span hidden>Comparator</span>
-					<select name="price_comparator" v-model="comparator">
-						<option value="<=">Up to</option>
-						<option value=">=">At least</option>
-					</select>
+					<sui-dropdown
+						placeholder="Comparator"
+						selection
+						:options="comparatorOptions"
+						v-model="comparator"
+					/>
 				</label>
+
 				<label class="form-field">
 					<span hidden>Unit price</span>
-					<input type="number" name="grand_total" step="any" v-model="price">
+					<sui-input
+						id="grand_total"
+						name="grand_total"
+						placeholder="Unit price"
+						type="number"
+						step="any"
+						v-model="price"
+					/>
 				</label>
 			</fieldset>
 
-			<button type="reset" class="form-reset" @click="resetFilters">
-				Reset
-			</button>
+			<sui-button
+				type="reset"
+				content="Reset"
+				icon="x"
+				label-position="right"
+				@click="resetFilters"
+			/>
 
-			<button type="submit" class="form-submit">
-				Apply
-			</button>
+			<sui-button
+				type="submit"
+				content="Filter"
+				icon="filter"
+				label-position="right"
+			/>
 		</form>
 	</nav>
 </template>
@@ -71,21 +106,15 @@
 				startDate: null,
 				endDate: null,
 				comparator: '>=',
-				price: 0
+				price: 0,
+				comparatorOptions: [
+					{ text: 'Up to', value: '<=' },
+					{ text: 'At least', value: '>=' },
+				]
 			};
 		},
-
 		methods: {
 			filter() {
-				console.info('filtering: from',
-					this.startDate,
-					'until',
-					this.endDate,
-					'. Price',
-					this.comparator,
-					this.price
-				);
-
 				this.$store.dispatch('expenses/filterExpenses', {
 					startDate: this.startDate,
 					endDate: this.endDate,
