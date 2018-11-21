@@ -36,14 +36,24 @@
 		</sui-form-field>
 
 		<sui-form-field>
-			<label for="tags">Tags</label>
+			<label for="category">Category</label>
 			<sui-dropdown
-				placeholder="Tags"
+				placeholder="Category"
 				fluid
-				multiple
 				selection
-				:options="expenseTags"
-				v-model="tags"
+				:options="expenseCategories"
+				v-model="category"
+			/>
+		</sui-form-field>
+
+		<sui-form-field>
+			<label for="subcategory">Subcategory</label>
+			<sui-dropdown
+				placeholder="Subcategory"
+				fluid
+				selection
+				:options="expenseSubcategories"
+				v-model="subcategory"
 			/>
 		</sui-form-field>
 
@@ -90,7 +100,7 @@
 			}
 		},
 		computed: {
-			... mapState([ 'categories' ]),
+			... mapState('categories', [ 'categories', 'subcategories' ]),
 			... mapState('expenses', [ 'currentExpense' ]),
 
 			/**
@@ -105,16 +115,32 @@
 			 *
 			 * @return [Object]
 			 */
-			expenseTags() {
-				const tags = [];
+			expenseCategories() {
+				const list = [];
 				let c = null;
 
 				for (const i in this.categories) {
 					c = this.categories[i];
-					tags.push({ key: c, text: c, value: c });
+					list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
 				}
 
-				return tags;
+				return list;
+			},
+			expenseSubcategories() {
+				const list = [];
+				let c = null;
+
+				for (const i in this.subcategories) {
+					c = this.subcategories[i];
+					if (c.key.startsWith(this.category)) {
+						console.debug('subcategory found', JSON.stringify(c));
+						list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
+					} else {
+						console.debug('does NOT match', c);
+					}
+				}
+
+				return list;
 			},
 			action() {
 				return this.currentExpense.id ? 'Update' : 'Add';
@@ -137,10 +163,16 @@
 					return this.$store.commit('expenses/updateCurrentExpenseQty', value);
 				},
 			},
-			tags: {
-				get() { return this.$store.state.expenses.currentExpense.tags; },
+			category: {
+				get() { return this.$store.state.expenses.currentExpense.category; },
 				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseTags', value);
+					return this.$store.commit('expenses/updateCurrentExpenseCategory', value);
+				},
+			},
+			subcategory: {
+				get() { return this.$store.state.expenses.currentExpense.subcategory; },
+				set(value) {
+					return this.$store.commit('expenses/updateCurrentExpenseSubcategory', value);
 				},
 			},
 			date: {

@@ -11,7 +11,6 @@ const ExpensesStore = {
       price: 0,
       qty: 1,
       date: moment().format('YYYY-MM-DD'),
-      tags: [],
     },
     expenses: [],
     expensesFilters: [],
@@ -52,7 +51,7 @@ const ExpensesStore = {
     },
     unsetCurrentExpense(state) {
       if (state.currentExpense.id) {
-        state.currentExpense = { tags: [] };
+        state.currentExpense = {};
       }
     },
     updateCurrentExpenseDescription(state, description) {
@@ -64,8 +63,11 @@ const ExpensesStore = {
     updateCurrentExpenseQty(state, qty) {
       state.currentExpense.qty = Number(qty);
     },
-    updateCurrentExpenseTags(state, tags) {
-      state.currentExpense.tags = tags;
+    updateCurrentExpenseCategory(state, category) {
+      state.currentExpense.category = category;
+    },
+    updateCurrentExpenseSubcategory(state, subcategory) {
+      state.currentExpense.subcategory = subcategory;
     },
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date;
