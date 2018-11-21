@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import filters from './filters'
 import './registerServiceWorker'
-import { mapState } from 'vuex'
 import './styles/styles.scss'
 
 import SuiVue from 'semantic-ui-vue';
