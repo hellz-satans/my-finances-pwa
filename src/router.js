@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Expenses from './views/Expenses.vue'
 import UserAccounts from './views/UserAccounts.vue'
-import VuePage from './views/VuePage.vue'
 
 Vue.use(Router)
 
@@ -13,15 +12,8 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      exact: true,
       component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
       path: '/accounts',
@@ -34,9 +26,12 @@ export default new Router({
       component: Expenses
     },
     {
-      path: '/vue',
-      name: 'vue',
-      component: VuePage
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
   ]
 })
