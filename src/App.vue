@@ -12,7 +12,9 @@
       ></router-link>
     </sui-menu>
 
-    <router-view/>
+    <transition name="slide-fade">
+      <router-view/>
+    </transition>
   </sui-container>
 </template>
 
