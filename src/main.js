@@ -4,10 +4,9 @@ import router from './router'
 import store from './store'
 import filters from './filters'
 import './registerServiceWorker'
-import './styles/styles.scss'
+import './styles/main.scss'
 
 import SuiVue from 'semantic-ui-vue';
-import 'semantic-ui-css/semantic.min.css';
 Vue.use(SuiVue);
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -15,8 +14,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(fas)
 Vue.component('fa', FontAwesomeIcon)
-
-import "vue-swatches/dist/vue-swatches.min.css"
 
 window.moment = require('moment');
 
