@@ -1,4 +1,4 @@
-import db from '../db';
+import db from '@/db';
 import { filterExpenses } from './filters';
 import moment from 'moment';
 
@@ -6,7 +6,7 @@ const ExpensesStore = {
   namespaced: true,
 
   state: {
-    currentExpense: { 
+    currentExpense: {
       description: null,
       price: 0,
       qty: 1,

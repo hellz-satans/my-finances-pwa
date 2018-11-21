@@ -40,7 +40,7 @@ db.version(2).stores({
  * differentiated by the field `isSubcategory` which is a simple boolean flag.
  */
 db.version(3).stores({
-	'categories': '++id,name,key,isSubcategory',
+	'categories': '++id,name,key,icon,isSubcategory',
 }).upgrade((trans) => {
 	// populate db from seeds if empty
 	if ((trans.categories.toArray().length) === 0) {
@@ -55,8 +55,9 @@ db.version(3).stores({
 			trans.categories.add({
 				key: cat.key,
 				name: cat.name,
+				icon: cat.icon,
 				isSubcategory: false
-			}); 
+			});
 
 			// insert subcategories
 			for (j = 0; j < cat.subcategories; ++j) {
@@ -64,6 +65,7 @@ db.version(3).stores({
 				trans.categories.add({
 					key: `${cat.key}_${subCat.key}`,
 					name: subCat.name,
+					icon: subCat.icon,
 					isSubcategory: true
 				});
 			}

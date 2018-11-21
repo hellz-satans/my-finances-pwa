@@ -3,88 +3,108 @@
 		{
 			"key": "household",
 			"name": "Household",
+			"icon": "shopping-cart",
 			"subcategories": [
 				{
 					"key": "cleaning",
-					"name": "Cleaning Products"
+					"name": "Cleaning Products",
+					"icon": "bath"
 				},
 				{
 					"key": "food",
-					"name": "Food"
+					"name": "Food",
+					"icon": ""
 				},
 				{
 					"key": "services",
-					"name": "Basic Services"
+					"name": "Basic Services",
+					"icon": "home"
 				},
 				{
 					"key": "other",
-					"name": "Other"
+					"name": "Other",
+					"icon": "shopping-cart"
 				}
 			]
 		},
 		{
 			"key": "transport",
 			"name": "Transportation",
+			"icon": "",
 			"subcategories": [
 				{
 					"key": "taxi",
-					"name": "Taxi Services"
+					"name": "Taxi Services",
+					"icon": "taxi"
 				},
 				{
 					"key": "public",
-					"name": "Public Transport"
+					"name": "Public Transport",
+					"icon": "subway"
 				},
 				{
 					"key": "flights",
-					"name": "Flights"
+					"name": "Flights",
+					"icon": "plane"
 				},
 				{
 					"key": "trains",
-					"name": "Trains"
+					"name": "Trains",
+					"icon": "train"
 				},
 				{
 					"key": "bus",
-					"name": "Bus"
+					"name": "Bus",
+					"icon": "bus"
 				},
 				{
 					"key": "other",
-					"name": "Other"
+					"name": "Other",
+					"icon": "ticket-alternate"
 				}
 			]
 		},
 		{
 			"key": "tech",
 			"name": "Technology",
+			"icon": "laptop",
 			"subcategories": [
 				{
 					"key": "hosting",
-					"name": "Cloud Hosting"
+					"name": "Cloud Hosting",
+					"icon": "hdd"
 				},
 				{
 					"key": "gadgets",
-					"name": "Gadgets"
+					"name": "Gadgets",
+					"icon": "phone"
 				},
 				{
 					"key": "videogames",
-					"name": "Videogames"
+					"name": "Videogames",
+					"icon": "gamepad"
 				},
 				{
 					"key": "streaming",
-					"name": "Streaming Services"
+					"name": "Streaming Services",
+					"icon": "cloud"
 				},
 				{
 					"key": "other",
-					"name": "Other"
+					"name": "Other",
+					"icon": "save"
 				}
 			]
 		},
 		{
 			"key": "other",
 			"name": "Other Expenses",
+			"icon": "shopping-cart",
 			"subcategories": [
 				{
 					"key": "other",
-					"name": "Other Expenses"
+					"name": "Other Expenses",
+					"icon": "shopping-cart"
 				}
 			]
 		}
