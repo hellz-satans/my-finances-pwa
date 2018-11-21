@@ -1,106 +1,89 @@
-<style lang="scss">
-	.expense-filter {
-		.expense-filter-title {
-			display: none;
-		}
-
-		.expense-filter input[type=number] {
-			width: 5rem;
-		}
-
-		.expense-filter-form {
-			display: flex;
-			flex-flow: row wrap;
-			justify-content: space-evenly;
-			align-items: center;
-			align-content: space-around;
-			margin-bottom: 1rem;
-
-			legend {
-				font-weight: 600;
-				padding: 0 0.50rem;
-			}
-		}
-	}
-</style>
-
 <template>
 	<nav class="expense-filter">
 		<h3 class="expense-filter-title">Filters</h3>
-		<form
+		<sui-form
 			name="filters"
 			method="GET"
 			@submit.prevent="filter"
 			class="expense-filter-form"
 		>
-			<label class="form-field">
-				From
-				<sui-input
-					id="start_date"
-					name="start_date"
-					placeholder="From"
-					type="date"
-					v-model="startDate"
-				/>
-			</label>
+			<sui-grid >
+				<sui-grid-row>
+					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
+						<sui-form-field>
+							<label for="date">Start date</label>
+							<datetime v-model="startDate" placeholder="Start date"></datetime>
+						</sui-form-field>
+					</sui-grid-column>
+					
+					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
+						<sui-form-field>
+							<label for="date">End date</label>
+							<datetime v-model="endDate" placeholder="End date"></datetime>
+						</sui-form-field>
+					</sui-grid-column>
 
-			<label class="form-field">
-				Until
-				<sui-input
-					id="end_date"
-					name="end_date"
-					placeholder="Until"
-					type="date"
-					v-model="endDate"
-				/>
-			</label>
+					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
+						<sui-form-field>
+							<label for="date">To</label>
+							<sui-dropdown
+								placeholder="Comparator"
+								selection
+								:options="comparatorOptions"
+								v-model="comparator"
+							/>
+						</sui-form-field>
+					</sui-grid-column>
 
-			<fieldset>
-				<legend>Price</legend>
-				<label class="form-field">
-					<span hidden>Comparator</span>
-					<sui-dropdown
-						placeholder="Comparator"
-						selection
-						:options="comparatorOptions"
-						v-model="comparator"
-					/>
-				</label>
+					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
+						<sui-form-field>
+							<label for="date">Price</label>
+							<sui-input
+								id="grand_total"
+								name="grand_total"
+								placeholder="Unit price"
+								type="number"
+								step="any"
+								v-model="price"
+							/>
+						</sui-form-field>
+					</sui-grid-column>
 
-				<label class="form-field">
-					<span hidden>Unit price</span>
-					<sui-input
-						id="grand_total"
-						name="grand_total"
-						placeholder="Unit price"
-						type="number"
-						step="any"
-						v-model="price"
-					/>
-				</label>
-			</fieldset>
+					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
+						<sui-form-field>
+							<label for="date">Actions</label>
 
-			<sui-button
-				type="reset"
-				content="Reset"
-				icon="x"
-				label-position="right"
-				@click="resetFilters"
-			/>
+							<sui-button @click="resetFilters" animated="vertical">
+								<sui-button-content hidden>Reset</sui-button-content>
+								<sui-button-content visible>
+									<sui-icon name="undo" />
+								</sui-button-content>
+							</sui-button>
 
-			<sui-button
-				type="submit"
-				content="Filter"
-				icon="filter"
-				label-position="right"
-			/>
-		</form>
+							<sui-button type="submit" animated="vertical">
+								<sui-button-content hidden>Filter</sui-button-content>
+								<sui-button-content visible>
+									<sui-icon name="filter" />
+								</sui-button-content>
+							</sui-button>
+						</sui-form-field>
+					</sui-grid-column>
+				</sui-grid-row>
+			</sui-grid>
+
+			
+		</sui-form>
 	</nav>
 </template>
 
 <script>
+	import { Datetime } from 'vue-datetime';
+
 	export default {
 		name: 'ExpenseFilters',
+		components: {
+			datetime: Datetime,
+		},
 		data() {
 			return {
 				startDate: null,
