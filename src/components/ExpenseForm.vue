@@ -49,12 +49,7 @@
 
 		<sui-form-field>
 			<label for="date">Date</label>
-			<sui-input
-				name="date"
-				placeholder="Date"
-				type="date"
-				v-model="date"
-			/>
+			<datetime v-model="date" type="datetime"></datetime>
 		</sui-form-field>
 
 		<sui-button
@@ -71,9 +66,13 @@
 
 <script>
 	import { mapMutations, mapState } from 'vuex';
+	import { Datetime } from 'vue-datetime';
 
 	export default {
 		name: 'ExpenseForm',
+		components: {
+			datetime: Datetime,
+		},
 		methods: {
 			... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
 

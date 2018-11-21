@@ -10,7 +10,7 @@ const ExpensesStore = {
       description: null,
       price: 0,
       qty: 1,
-      date: moment().format('YYYY-MM-DD'),
+      date: moment().format(),
       tags: [],
     },
     expenses: [],
