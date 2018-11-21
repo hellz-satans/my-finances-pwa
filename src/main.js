@@ -27,5 +27,6 @@ new Vue({
   mounted() {
     this.$store.commit('accounts/getAccounts');
     this.$store.commit('expenses/getExpenses');
+    this.$store.dispatch('categories/seedData');
   },
 }).$mount('#app')

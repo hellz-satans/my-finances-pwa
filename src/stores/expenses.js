@@ -1,4 +1,4 @@
-import db from '../db';
+import db from '@/db';
 import { filterExpenses } from './filters';
 import moment from 'moment';
 
@@ -6,7 +6,7 @@ const ExpensesStore = {
   namespaced: true,
 
   state: {
-    currentExpense: { 
+    currentExpense: {
       description: null,
       price: 0,
       qty: 1,
@@ -52,7 +52,7 @@ const ExpensesStore = {
     },
     unsetCurrentExpense(state) {
       if (state.currentExpense.id) {
-        state.currentExpense = { tags: [] };
+        state.currentExpense = {};
       }
     },
     updateCurrentExpenseDescription(state, description) {
@@ -64,8 +64,11 @@ const ExpensesStore = {
     updateCurrentExpenseQty(state, qty) {
       state.currentExpense.qty = Number(qty);
     },
-    updateCurrentExpenseTags(state, tags) {
-      state.currentExpense.tags = tags;
+    updateCurrentExpenseCategory(state, category) {
+      state.currentExpense.category = category;
+    },
+    updateCurrentExpenseSubcategory(state, subcategory) {
+      state.currentExpense.subcategory = subcategory;
     },
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date;
