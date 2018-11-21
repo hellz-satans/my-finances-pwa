@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Accounts, Expenses } from './stores'
+import { Accounts, Expenses, Categories } from './stores'
 
 Vue.use(Vuex)
 
@@ -9,6 +9,10 @@ export default new Vuex.Store({
     accounts: {
       namespaced: true,
       ... Accounts,
+    },
+    categories: {
+      namespaced: true,
+      ... Categories,
     },
     expenses: {
       namespaced: true,

@@ -1,0 +1,112 @@
+{
+	"categories": [
+		{
+			"key": "household",
+			"name": "Household",
+			"icon": "shopping-cart",
+			"subcategories": [
+				{
+					"key": "cleaning",
+					"name": "Cleaning Products",
+					"icon": "bath"
+				},
+				{
+					"key": "food",
+					"name": "Food",
+					"icon": ""
+				},
+				{
+					"key": "services",
+					"name": "Basic Services",
+					"icon": "home"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "shopping-cart"
+				}
+			]
+		},
+		{
+			"key": "transport",
+			"name": "Transportation",
+			"icon": "",
+			"subcategories": [
+				{
+					"key": "taxi",
+					"name": "Taxi Services",
+					"icon": "taxi"
+				},
+				{
+					"key": "public",
+					"name": "Public Transport",
+					"icon": "subway"
+				},
+				{
+					"key": "flights",
+					"name": "Flights",
+					"icon": "plane"
+				},
+				{
+					"key": "trains",
+					"name": "Trains",
+					"icon": "train"
+				},
+				{
+					"key": "bus",
+					"name": "Bus",
+					"icon": "bus"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "ticket-alternate"
+				}
+			]
+		},
+		{
+			"key": "tech",
+			"name": "Technology",
+			"icon": "laptop",
+			"subcategories": [
+				{
+					"key": "hosting",
+					"name": "Cloud Hosting",
+					"icon": "hdd"
+				},
+				{
+					"key": "gadgets",
+					"name": "Gadgets",
+					"icon": "phone"
+				},
+				{
+					"key": "videogames",
+					"name": "Videogames",
+					"icon": "gamepad"
+				},
+				{
+					"key": "streaming",
+					"name": "Streaming Services",
+					"icon": "cloud"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "save"
+				}
+			]
+		},
+		{
+			"key": "other",
+			"name": "Other Expenses",
+			"icon": "shopping-cart",
+			"subcategories": [
+				{
+					"key": "other",
+					"name": "Other Expenses",
+					"icon": "shopping-cart"
+				}
+			]
+		}
+	]
+}
