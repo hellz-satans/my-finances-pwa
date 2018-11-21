@@ -2,35 +2,35 @@ import db from '@/db';
 import { categories as seeds } from '@/db/seeds';
 
 const CategoriesStore = {
-  state: {
-    categories: [],
-    subcategories: [],
-  },
+	state: {
+		categories: [],
+		subcategories: [],
+	},
 
-  mutations: {
-    getCategories(state) {
-      db.categories
+	mutations: {
+		getCategories(state) {
+			db.categories
 				.toArray()
 				.then(arr => arr.filter(el => !el.isSubcategory))
-        .then(arr => state.categories = arr)
-        .catch((err) => {
-          console.error('getCategories:', err);
-          throw err;
-        });
-    },
-    getSubcategories(state) {
-      db.categories
+				.then(arr => state.categories = arr)
+				.catch((err) => {
+					console.error('getCategories:', err);
+					throw err;
+				});
+		},
+		getSubcategories(state) {
+			db.categories
 				.toArray()
 				.then(arr => arr.filter(el => el.isSubcategory))
-        .then(arr => state.subcategories = arr)
-        .catch((err) => {
-          console.error('getSubcategories:', err);
-          throw err;
-        });
-    },
-  },
+				.then(arr => state.subcategories = arr)
+				.catch((err) => {
+					console.error('getSubcategories:', err);
+					throw err;
+				});
+		},
+	},
 
-  actions: {
+	actions: {
 		seedData({ commit }) {
 			db.categories
 				.toArray()
@@ -73,10 +73,10 @@ const CategoriesStore = {
 				.then(() => commit('getCategories'))
 				.then(() => commit('getSubcategories'));
 		},
-  },
+	},
 
-  getters: {
-  },
+	getters: {
+	},
 };
 
 export { CategoriesStore };
