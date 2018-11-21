@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import ImportExport from '@/components/ImportExport.vue'
 import Expenses from './views/Expenses.vue'
 import UserAccounts from './views/UserAccounts.vue'
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/expenses',
       name: 'expenses',
       component: Expenses
+    },
+    {
+      path: '/import-export',
+      name: 'import/export',
+      component: ImportExport
     },
     {
       path: '/about',

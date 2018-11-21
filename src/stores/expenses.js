@@ -6,7 +6,7 @@ const ExpensesStore = {
   namespaced: true,
 
   state: {
-    currentExpense: { 
+    currentExpense: {
       description: null,
       price: 0,
       qty: 1,
