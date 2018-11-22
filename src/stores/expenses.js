@@ -142,6 +142,38 @@ const ExpensesStore = {
       state.expensesFilters = filters;
       commit('getExpenses');
     },
+    /**
+     * Seed random data to the DB.
+     */
+    seedData({ commit, state }, data) {
+      db.expenses
+        .toArray()
+        .then((arr) => {
+          if (arr.length > 0)
+            return undefined;
+
+          const n = 15;
+          let i = 0,
+              j = 0,
+              expense = {};
+          for (i = 0; i < n; ++i) {
+            j = Math.random() * (20 - 1) + 1; // day range
+            expense.description = `Expense ${i}`;
+            expense.price = Math.floor(Math.random() * (100 - 20) + 20);
+            expense.qty = 1;
+            expense.category = 'other';
+            expense.subcategory = 'other_other';
+            if (Math.random() < 0.50) {
+              expense.date = moment().subtract(j, 'd').toISOString();
+            } else {
+              expense.date = moment().add(j, 'd').toISOString();
+            }
+
+            db.expenses.add(expense);
+          }
+        })
+        .then(() => commit('getExpenses'));
+    },
   },
 
   getters: {
