@@ -19,23 +19,27 @@
 						</sui-card-content>
 					</sui-card>
 				</sui-grid-column>
+				<sui-grid-column :mobile="5" :tablet="4" :computer="3" stretched>
+					<account-form></account-form>
+				</sui-grid-column>
 			</sui-grid-row>
 		</sui-grid>
 
 		<sui-container v-if="!accounts.length" text-align="center">
 			<h2>Ups! There are no accounts.</h2>
-			<router-link to="/accounts" is="sui-menu-item">
-				Add an account
-				<sui-icon class="right floated" size="small" name="plus" />
-			</router-link>
+			<account-form></account-form>
 		</sui-container>
 	</article>
 </template>
 
 <script>
 	import { mapActions, mapGetters, mapState } from 'vuex';
+	import AccountForm from '../components/AccountForm.vue';
 
 	export default {
+		components: {
+			AccountForm,
+		},
 		methods: {
 			... mapActions('accounts', [ 'editAccount', 'deleteAccount' ])
 		},

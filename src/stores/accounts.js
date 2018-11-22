@@ -7,6 +7,7 @@ const AccountsStore = {
       balance: 0,
       color: '#1fbc9c',
     },
+    openModal: false,
     accounts: [],
   },
 
@@ -44,14 +45,24 @@ const AccountsStore = {
     updateCurrentAccountColor(state, color) {
       state.currentAccount.color = color;
     },
+    toggleModal(state) {
+      state.openModal = !state.openModal;
+    },
   },
 
   actions: {
+    toggleModal({ commit }, unsetAccount = false) {
+      if (unsetAccount) {
+        commit('unsetCurrentAccount');
+      }
+      commit('toggleModal');
+    },
     createAccount({ commit }, account) {
       return db.accounts.add(account);
     },
     editAccount({ commit }, id) {
       commit('setCurrentAccount', id);
+      commit('toggleModal');
     },
     submitAccount({ commit, dispatch, state }, data) {
       const actionName = (state.currentAccount.id)
@@ -62,10 +73,12 @@ const AccountsStore = {
         .then((id) => {
           commit('getAccounts');
           commit('unsetCurrentAccount');
+          commit('toggleModal');
           return id;
         });
     },
     updateAccount({ commit, state }, data) {
+      commit('toggleModal');
       return db.accounts.update(state.currentAccount.id, data);
     },
     deleteAccount({ commit }, id) {

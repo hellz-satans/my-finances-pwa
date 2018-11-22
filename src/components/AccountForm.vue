@@ -1,44 +1,54 @@
 <template>
-	<sui-form name="account" method="POST" @submit.prevent="submitAccount">
-		<sui-form-field>
-			<label for="account_name">Account Name</label>
-			<sui-input
-				id="account_name"
-				name="account_name"
-				v-model="name"
-				placeholder="Name"
-				minlength="1"
-				pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
-				required
-			/>
-		</sui-form-field>
+	<div>
+		<sui-button @click.native="toggleModal(true)">Add account</sui-button>
 
-		<sui-form-field>
-			<label for="account_balance">Balance</label>
-			<sui-input
-				id="account_balance"
-				name="account_balance"
-				v-model="balance"
-				placeholder="Balance"
-				type="number"
-				step="any"
-				required
-			/>
-		</sui-form-field>
+		<sui-modal v-model="open" size="tiny">
+			<sui-modal-header>Add account</sui-modal-header>
+			<sui-modal-content>
+				<sui-form name="account" method="POST">
+					<sui-form-field>
+						<label for="account_name">Name</label>
+						<sui-input
+							id="account_name"
+							name="account_name"
+							v-model="name"
+							placeholder="Name"
+							minlength="1"
+							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+							required
+						/>
+					</sui-form-field>
 
-		<sui-form-field>
-			<label for="account_color">Color</label>
-			<swatches v-model="color" inline />
-		</sui-form-field>
+					<sui-form-field>
+						<label for="account_balance">Balance</label>
+						<sui-input
+							id="account_balance"
+							name="account_balance"
+							v-model="balance"
+							placeholder="Balance"
+							type="number"
+							step="any"
+							required
+						/>
+					</sui-form-field>
 
-
-		<sui-button type="button"  @click.prevent.stop="unsetCurrentAccount" v-if="action === 'Update'">Cancel</sui-button>
-		<sui-button type="submit">{{ action }}</sui-button>
-	</sui-form>
+					<sui-form-field>
+						<label for="account_color">Color</label>
+						<swatches v-model="color" inline />
+					</sui-form-field>
+				</sui-form>
+			</sui-modal-content>
+			<sui-modal-actions>
+				<sui-button @click="toggleModal">Close</sui-button>
+				<sui-button positive @click="submitAccount">Save</sui-button>
+			</sui-modal-actions>
+		</sui-modal>
+	</div>
+	
 </template>
 
 <script>
-	import { mapMutations, mapState } from 'vuex';
+	import { mapMutations, mapActions, mapState } from 'vuex';
 	import Swatches from 'vue-swatches'
 
 	export default {
@@ -47,6 +57,7 @@
 		},
 		methods: {
 			... mapMutations('accounts', [ 'unsetCurrentAccount' ]),
+			... mapActions('accounts', [ 'toggleModal' ]),
 			submitAccount() {
 				if (document.forms.account.checkValidity()) {
 					this.$store.dispatch('accounts/submitAccount', this.currentAccount)
@@ -60,9 +71,12 @@
 			}
 		},
 		computed: {
-			... mapState('accounts', [ 'currentAccount' ]),
+			... mapState('accounts', [ 'currentAccount', 'openModal' ]),
 			action() {
 				return this.currentAccount.id ? 'Update' : 'Add';
+			},
+			open() {
+				return this.openModal;
 			},
 			name: {
 				get() { return this.$store.state.accounts.currentAccount.name; },
