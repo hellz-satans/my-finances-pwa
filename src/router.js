@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import ImportExport from '@/components/ImportExport.vue'
 import Expenses from './views/Expenses.vue'
-import UserAccounts from './views/UserAccounts.vue'
 
 Vue.use(Router)
 
@@ -15,11 +14,6 @@ export default new Router({
       name: 'home',
       exact: true,
       component: Home
-    },
-    {
-      path: '/accounts',
-      name: 'accounts',
-      component: UserAccounts
     },
     {
       path: '/expenses',
