@@ -42,6 +42,7 @@ const ExpensesStore = {
     setCurrentExpense(state, id) {
       return db.expenses.get(id)
         .then((expense) => {
+          expense.date = moment(expense.date).format();
           state.currentExpense = expense;
           return id;
         })
