@@ -2,6 +2,7 @@
 	<section class="home">
 		<balance-summary></balance-summary>
 		<account-list></account-list>
+		<expense-list :amount="5"></expense-list>
 		<expenses-chart></expenses-chart>
 	</section>
 </template>
@@ -10,6 +11,7 @@
 // @ is an alias to /src
 import AccountList from '@/components/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
+import ExpenseList from '@/components/ExpenseList.vue';
 import ExpensesChart from '@/components/charts/Expenses.vue';
 
 export default {
@@ -17,7 +19,8 @@ export default {
   components: {
     AccountList,
     BalanceSummary,
-		ExpensesChart
+    ExpenseList,
+    ExpensesChart,
   }
 }
 </script>
