@@ -10,7 +10,7 @@
 					<th scope="col">Price</th>
 					<th scope="col">Qty</th>
 					<th scope="col">Description</th>
-					<th scope="col">Tags</th>
+					<th scope="col">Category</th>
 					<th scope="col">Date &darr;</th>
 					<th scope="col">Actions</th>
 				</tr>
@@ -21,8 +21,11 @@
 					<td>{{ e.price | currency}}</td>
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
-					<td>{{ e.tags.join(', ') }}</td>
-					<td>{{ e.date | format }}</td>
+					<td>
+						{{ getCategoryName(e.category) }},
+						{{ getCategoryName(e.subcategory, true) }}
+					</td>
+					<td :title="e.date | format">{{ e.date | ago }}</td>
 					<td>
 						<sui-button size="mini" animated="vertical" @click="deleteExpense(e.id)">
 							<sui-button-content visible>
@@ -54,11 +57,34 @@
 			ExpenseFilters,
 		},
 		methods: {
-			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ])
+			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
+			/**
+			 * Return category name for given key.
+			 *
+			 * TODO: extract this function, maybe add a component or filter (?)
+			 *
+			 * @param key String Category key as found in DB
+			 * @param isSubcategory Boolean Flag to indicate if it is a subcategory
+			 * @return String
+			 */
+			getCategoryName(key, isSubcategory = false) {
+				let cat = null;
+
+				if (isSubcategory) {
+					cat = this.subcategories.find(el => el.key === key);
+				} else {
+					cat = this.categories.find(el => el.key === key);
+				}
+
+				return cat
+					? cat.name
+					: key.replace(/^\w/, key.charAt(0).toUpperCase());
+			},
 		},
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
-			... mapGetters('expenses', [ 'totalExpenses' ])
+			... mapState('categories', [ 'categories', 'subcategories' ]),
+			... mapGetters('expenses', [ 'totalExpenses' ]),
 		}
 	}
 </script>
