@@ -1,11 +1,3 @@
-<style lang="scss">
-	.home {
-		.expenses-chart-container {
-			max-width: 450px;
-		}
-	}
-</style>
-
 <template>
 	<section class="home">
 		<balance-summary></balance-summary>
