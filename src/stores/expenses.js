@@ -164,9 +164,9 @@ const ExpensesStore = {
             expense.category = 'other';
             expense.subcategory = 'other_other';
             if (Math.random() < 0.50) {
-              expense.date = moment().subtract(j, 'd').toISOString();
+              expense.date = new Date(moment().subtract(j, 'd').toISOString());
             } else {
-              expense.date = moment().add(j, 'd').toISOString();
+              expense.date = new Date(moment().add(j, 'd').toISOString());
             }
 
             db.expenses.add(expense);
