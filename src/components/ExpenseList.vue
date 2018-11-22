@@ -92,6 +92,8 @@
 				// if we don't traverse the array manually, Vue reactivity kicks in
 				// and messes with this.expenses, affecting the whole application.
 				// tl;dr: do NOT use splice on this.expenses
+				//
+				// TODO: make it so that we take the _last_ n elements
 				for (i = 0; i < n && i < this.expenses.length; ++i) {
 					list.push(this.expenses[i]);
 				}
