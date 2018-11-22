@@ -5,6 +5,7 @@
 <script>
 	import VeLine from 'v-charts/lib/line.common'
 	import { mapState } from 'vuex'
+	import moment from 'moment'
 
 	export default {
 		components: {
@@ -18,7 +19,7 @@
 					.map((el, i, arr) => {
 						return {
 							price: el.price,
-							date: el.date.toLocaleDateString(),
+							date: moment(el.date).format('YYYY-MM-DD'),
 						};
 					});
 

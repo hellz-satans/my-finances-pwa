@@ -24,10 +24,10 @@ const ExpensesStore = {
       db.expenses.toArray()
         .then((arr) => {
           if (options.sort) {
-            arr.sort((a, b) => a.date - b.date);
+            arr.sort((a, b) => moment(a.date) - moment(b.date));
           } else {
             // sort by date in decreasing order
-            arr.sort((a, b) => b.date - a.date);
+            arr.sort((a, b) => moment(b.date) - moment(a.date));
           }
           return arr;
         }).then((arr) => {

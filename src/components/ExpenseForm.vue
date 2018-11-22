@@ -132,10 +132,7 @@
 				for (const i in this.subcategories) {
 					c = this.subcategories[i];
 					if (c.key.startsWith(this.category)) {
-						console.debug('subcategory found', JSON.stringify(c));
 						list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
-					} else {
-						console.debug('does NOT match', c);
 					}
 				}
 
