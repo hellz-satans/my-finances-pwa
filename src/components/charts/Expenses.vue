@@ -1,5 +1,5 @@
 <template>
-    <ve-line :data="chartData"></ve-line>
+    <ve-line :settings="chartSettings" :extend="chartOptions" :data="chartData"></ve-line>
 </template>
 
 <script>
@@ -13,6 +13,18 @@
 		},
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
+			chartSettings() {
+				return {
+					area: true,
+				};
+			},
+			chartOptions() {
+				return {
+					series: {
+						smooth: false,
+					},
+				};
+			},
 			chartData() {
 				const columns = [ 'date', 'price', ];
 				const rows = this.expenses
