@@ -2,13 +2,20 @@
 
 Expenses record keeper without a back-end -- easy to use, easy to erase.
 
-I have a hard time keeping record on what I spend my money and, since I'm a bit
-paranoid with my phone and apps, I wrote this simple application to keep a
-record and easily dispose the information.
+It's hard keeping record on what you spend money, and if you're a bit
+paranoid with your phone and apps, it continues to be hard. We're writing
+this simple application to keep a record and easily dispose the information
+-- **or not!** We're also writing a cloud storage for the information,
+but that comes later.
 
-It uses browser's IndexedDB through [Dexie.js](https://dexie.org) and
-[Vue](https://vuejs.org) with [VueX](https://vuex.vuejs.org/) for state
-management and [VueChartJs](https://vue-chartjs.org) for charts.
+The **first phase** of the project consists of a Progressive Web Application
+using [Vue](https://vuejs.org) and browsers' IndexedDB through
+[Dexie.js](https://dexie.org).
+
+The **second phase** will be a service to store the records safely
+in the cloud.
+
+The **third phase** will be a native android application.
 
 ## TODO:
 
