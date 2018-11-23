@@ -27,6 +27,10 @@ new Vue({
   mounted() {
     this.$store.commit('accounts/getAccounts');
     this.$store.dispatch('categories/seedData');
-    this.$store.dispatch('expenses/seedData'); // this commits expenses/getExpenses
+    if (process.env.NODE_ENV === 'production') {
+      this.$store.commit('expenses/getExpenses');
+    } else {
+      this.$store.dispatch('expenses/seedData'); // this commits expenses/getExpenses
+    }
   },
 }).$mount('#app')
