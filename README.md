@@ -8,6 +8,8 @@ this simple application to keep a record and easily dispose the information
 -- **or not!** We're also writing a cloud storage for the information,
 but that comes later.
 
+## [Demo](https://hellz-satans.github.io/my-finances-pwa)
+
 The **first phase** of the project consists of a Progressive Web Application
 using [Vue](https://vuejs.org) and browsers' IndexedDB through
 [Dexie.js](https://dexie.org).
