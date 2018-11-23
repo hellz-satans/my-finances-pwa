@@ -1,6 +1,5 @@
 <template>
 	<nav class="expense-filter">
-		<h3 class="expense-filter-title">Filters</h3>
 		<sui-form
 			name="filters"
 			method="GET"
