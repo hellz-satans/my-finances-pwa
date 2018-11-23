@@ -11,6 +11,53 @@
 		components: {
 			VeLine,
 		},
+		methods: {
+			/**
+			 * Summarize data by a given field.
+			 *
+			 * Suppose you have an array of data like this:
+			 *
+			 * 	[
+			 * 		{ date: '2018-01-01', price: 100 },
+			 * 		{ date: '2018-02-02', price: 100 },
+			 * 		{ date: '2018-01-01', price: 150 }
+			 * 	]
+			 *
+			 * 	This function returns as summarized array like this:
+			 *
+			 * 	[
+			 * 		{ date: '2018-01-01', price: 250 },
+			 * 		{ date: '2018-02-02', price: 100 },
+			 * 	]
+			 *
+			 * @param  data [Object]
+			 * @param  key String
+			 * @return [Object]
+			 */
+			mergeData(data, pivot, summarizable) {
+				const result = [],
+					dict = {};
+				let i = 0,
+					len = 0,
+					tmpObj = null;
+
+				for (i = 0, len = data.length; i < len; ++i) {
+					if (!dict[data[i][pivot]]) {
+						dict[data[i][pivot]] = 0;
+					}
+					dict[data[i][pivot]] += data[i][summarizable];
+				}
+
+				for (i in dict) {
+					tmpObj = {};
+					tmpObj[pivot] = i;
+					tmpObj[summarizable] = dict[i];
+					result.push(tmpObj)
+				}
+
+				return result;
+			}
+		},
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
 			chartSettings() {
@@ -35,12 +82,7 @@
 						};
 					});
 
-				// TODO: summarize expenses by day in rows, e.g.,
-				// [ { date: '2018/01/01', price: 50 }, { date: '2018/01/01', price: 100 } ]
-				// becomes:
-				// [ { date: '2018/01/01', price: 150 } ]
-
-				return { columns, rows };
+				return { columns, rows: this.mergeData(rows, 'date', 'price') };
 			},
 		},
 	}
