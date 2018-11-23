@@ -37,21 +37,19 @@
 			mergeData(data, pivot, summarizable) {
 				const result = [],
 					dict = {};
-				let i = 0,
-					len = 0,
-					tmpObj = null;
+				let tmpObj = null;
 
-				for (i = 0, len = data.length; i < len; ++i) {
-					if (!dict[data[i][pivot]]) {
-						dict[data[i][pivot]] = 0;
+				data.forEach((el, i, arr) => {
+					if (!dict[el[pivot]]) {
+						dict[el[pivot]] = 0;
 					}
-					dict[data[i][pivot]] += data[i][summarizable];
-				}
+					dict[el[pivot]] += el[summarizable];
+				});
 
-				for (i in dict) {
+				for (const key in dict) {
 					tmpObj = {};
-					tmpObj[pivot] = i;
-					tmpObj[summarizable] = dict[i];
+					tmpObj[pivot] = key;
+					tmpObj[summarizable] = dict[key];
 					result.push(tmpObj)
 				}
 
