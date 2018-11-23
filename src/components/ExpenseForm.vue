@@ -1,81 +1,86 @@
 <template>
-	<sui-form name="expense" method="POST" @submit.prevent="submitExpense">
-		<sui-form-field>
-			<label for="description">Description</label>
-			<sui-input
-				name="description"
-				minlength="1"
-				pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
-				required
-				v-model="description"
-			/>
-		</sui-form-field>
+	<div>
+		<sui-button @click.native="toggleModal(true)" positive>Add expense</sui-button>
 
-		<sui-form-field>
-			<label for="price">Price</label>
-			<sui-input
-				type="number"
-				name="price"
-				min="0"
-				step="any"
-				required
-				v-model="price"
-			/>
-		</sui-form-field>
+		<sui-modal v-model="open" size="tiny">
+			<sui-modal-header>Add expense</sui-modal-header>
+			
+			<sui-modal-content>
+				<sui-form name="expense" method="POST">
+					<sui-form-field>
+						<label for="price">Price</label>
+						<sui-input
+							type="number"
+							name="price"
+							min="0"
+							step="any"
+							required
+							v-model="price"
+						/>
+					</sui-form-field>
 
-		<sui-form-field>
-			<label for="quantity">Quantity</label>
-			<sui-input
-				type="number"
-				name="quantity"
-				min="0.01"
-				step="any"
-				required
-				v-model="qty"
-			/>
-		</sui-form-field>
+					<sui-form-field>
+						<label for="date">Date</label>
+						<datetime v-model="date" type="datetime"></datetime>
+					</sui-form-field>
 
-		<sui-form-field>
-			<label for="category">Category</label>
-			<sui-dropdown
-				placeholder="Category"
-				fluid
-				selection
-				:options="expenseCategories"
-				v-model="category"
-			/>
-		</sui-form-field>
+					<sui-form-field>
+						<label for="quantity">Quantity</label>
+						<sui-input
+							type="number"
+							name="quantity"
+							min="0.01"
+							step="any"
+							required
+							v-model="qty"
+						/>
+					</sui-form-field>
 
-		<sui-form-field>
-			<label for="subcategory">Subcategory</label>
-			<sui-dropdown
-				placeholder="Subcategory"
-				fluid
-				selection
-				:options="expenseSubcategories"
-				v-model="subcategory"
-			/>
-		</sui-form-field>
+					<sui-form-field>
+						<label for="category">Category</label>
+						<sui-dropdown
+							placeholder="Category"
+							fluid
+							selection
+							:options="expenseCategories"
+							v-model="category"
+						/>
+					</sui-form-field>
 
-		<sui-form-field>
-			<label for="date">Date</label>
-			<datetime v-model="date" type="datetime"></datetime>
-		</sui-form-field>
+					<sui-form-field>
+						<label for="subcategory">Subcategory</label>
+						<sui-dropdown
+							placeholder="Subcategory"
+							fluid
+							selection
+							:options="expenseSubcategories"
+							v-model="subcategory"
+						/>
+					</sui-form-field>
 
-		<sui-button
-			type="button"
-			@click.prevent.stop="unsetCurrentExpense"
-			v-if="action === 'Update'"
-		>
-			Cancel
-		</sui-button>
+					<sui-form-field>
+						<label for="description">Description</label>
+						<sui-input
+							name="description"
+							minlength="1"
+							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+							required
+							v-model="description"
+						/>
+					</sui-form-field>
+				</sui-form>
+			</sui-modal-content>
 
-		<sui-button text-align="right" type="submit">{{ action }}</sui-button>
-	</sui-form>
+			<sui-modal-actions>
+				<sui-button @click="toggleModal">Close</sui-button>
+				<sui-button positive @click="submitExpense">{{ action }}</sui-button>
+			</sui-modal-actions>
+		</sui-modal>
+	</div>
 </template>
 
 <script>
-	import { mapMutations, mapState } from 'vuex';
+	import { mapMutations, mapActions, mapState } from 'vuex';
 	import { Datetime } from 'vue-datetime';
 
 	export default {
@@ -85,7 +90,7 @@
 		},
 		methods: {
 			... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
-
+			... mapActions('expenses', [ 'toggleModal' ]),
 			submitExpense() {
 				if (document.forms.expense.checkValidity()) {
 					this.$store.dispatch('expenses/submitExpense', this.currentExpense)
@@ -100,7 +105,11 @@
 		},
 		computed: {
 			... mapState('categories', [ 'categories', 'subcategories' ]),
-			... mapState('expenses', [ 'currentExpense' ]),
+			... mapState('expenses', [ 'currentExpense', 'openModal' ]),
+
+			open() {
+				return this.openModal;
+			},
 
 			/**
 			 * Semantic-UI-dropdown compatible options.
@@ -139,7 +148,7 @@
 				return list;
 			},
 			action() {
-				return this.currentExpense.id ? 'Update' : 'Add';
+				return this.currentExpense.id ? 'Update' : 'Save';
 			},
 			description: {
 				get() { return this.$store.state.expenses.currentExpense.description; },

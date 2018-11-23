@@ -15,6 +15,7 @@ const ExpensesStore = {
     },
     expenses: [],
     expensesFilters: [],
+    openModal: false,
   },
 
   mutations: {
@@ -73,6 +74,9 @@ const ExpensesStore = {
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date;
     },
+    toggleModal(state) {
+      state.openModal = !state.openModal;
+    },
   },
 
   actions: {
@@ -86,12 +90,19 @@ const ExpensesStore = {
      *
      * @return Promise
      */
+    toggleModal({ commit }, unsetExpense) {
+      if(unsetExpense) {
+        commit('unsetCurrentExpense');
+      }
+      commit('toggleModal');
+    },
     createExpense({ commit }, expense) {
       expense.date = new Date(expense.date);
       return db.expenses.add(expense);
     },
     editExpense({ commit }, id) {
       commit('setCurrentExpense', id);
+      commit('toggleModal');
     },
     submitExpense({ commit, dispatch, state }, data) {
       const actionName = (state.currentExpense.id)
@@ -102,6 +113,7 @@ const ExpensesStore = {
         .then((id) => {
           commit('getExpenses');
           commit('unsetCurrentExpense');
+          commit('toggleModal');
           return id;
         });
     },

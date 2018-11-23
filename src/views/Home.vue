@@ -1,9 +1,19 @@
 <template>
-	<section class="home">
+	<div>
 		<balance-summary></balance-summary>
 		<account-list></account-list>
-		<expenses-chart></expenses-chart>
-	</section>
+
+		<expense-form style="float: right; margin-bottom: 1em"></expense-form>
+
+		<sui-card width="100%" style="width: 100%">
+			<sui-card-content>
+				<sui-card-header>Expenses charts</sui-card-header>
+				<sui-container text-align="center">
+					<expenses-chart></expenses-chart>
+				</sui-container>
+			</sui-card-content>
+		</sui-card>
+	</div>
 </template>
 
 <script>
@@ -11,13 +21,15 @@
 import AccountList from '@/components/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
 import ExpensesChart from '@/components/charts/Expenses.vue';
+import ExpenseForm from '@/components/ExpenseForm.vue';
 
 export default {
   name: 'home',
   components: {
     AccountList,
     BalanceSummary,
-		ExpensesChart
+		ExpensesChart,
+		ExpenseForm,
   }
 }
 </script>
