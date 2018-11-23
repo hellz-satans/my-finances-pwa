@@ -1,7 +1,5 @@
 <template>
 	<div>
-		<expense-filters></expense-filters>
-
 		<table class="ui table">
 			<thead>
 				<tr>
@@ -15,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="e in expenses" :key="e.id">
+				<tr v-for="e in expensesList" :key="e.id">
 					<td><b>{{ e.qty * e.price | currency }}</b></td>
 					<td>{{ e.price | currency}}</td>
 					<td>{{ e.qty }}</td>
@@ -48,12 +46,12 @@
 
 <script>
 	import { mapActions, mapState, mapGetters } from 'vuex';
-	import ExpenseFilters from './ExpenseFilters.vue';
 
 	export default {
 		name: 'ExpenseList',
-		components: {
-			ExpenseFilters,
+		props: {
+			amount: { type: Number, required: false, default: null },
+			sort: { type: Number, required: false, default: 1 },
 		},
 		methods: {
 			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
@@ -83,6 +81,29 @@
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
 			... mapState('categories', [ 'categories', 'subcategories' ]),
-		}
+			... mapGetters('expenses', [ 'totalExpenses' ]),
+			expensesList() {
+				let list = [],
+					i = 0,
+					n = this.amount || this.expenses.length;
+
+				// if we don't traverse the array manually, Vue reactivity kicks in
+				// and messes with this.expenses, affecting the whole application.
+				// tl;dr: do NOT use splice on this.expenses
+				//
+				// TODO: make it so that we take the _last_ n elements
+				for (i = 0; i < n && i < this.expenses.length; ++i) {
+					list.push(this.expenses[i]);
+				}
+
+				if (this.sort) {
+					list.sort((a, b) => moment(b.date) - moment(a.date));
+				} else {
+					list.sort((a, b) => moment(a.date) - moment(b.date));
+				}
+
+				return list;
+			},
+		},
 	}
 </script>

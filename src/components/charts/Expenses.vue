@@ -35,6 +35,11 @@
 						};
 					});
 
+				// TODO: summarize expenses by day in rows, e.g.,
+				// [ { date: '2018/01/01', price: 50 }, { date: '2018/01/01', price: 100 } ]
+				// becomes:
+				// [ { date: '2018/01/01', price: 150 } ]
+
 				return { columns, rows };
 			},
 		},

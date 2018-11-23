@@ -13,6 +13,8 @@
 				</sui-container>
 			</sui-card-content>
 		</sui-card>
+
+		<expense-list :amount="5"></expense-list>
 	</div>
 </template>
 
@@ -20,14 +22,16 @@
 // @ is an alias to /src
 import AccountList from '@/components/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
+import ExpenseList from '@/components/ExpenseList.vue';
 import ExpensesChart from '@/components/charts/Expenses.vue';
 import ExpenseForm from '@/components/ExpenseForm.vue';
 
 export default {
   name: 'home',
   components: {
-    AccountList,
+		AccountList,
     BalanceSummary,
+    ExpenseList,
 		ExpensesChart,
 		ExpenseForm,
   }
