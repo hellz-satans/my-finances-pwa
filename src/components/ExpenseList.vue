@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h3>Total ${{ totalExpenses }}</h3>
 		<expense-filters></expense-filters>
 
 		<table class="ui table">
@@ -84,7 +83,6 @@
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
 			... mapState('categories', [ 'categories', 'subcategories' ]),
-			... mapGetters('expenses', [ 'totalExpenses' ]),
 		}
 	}
 </script>
