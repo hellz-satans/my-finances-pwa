@@ -2,7 +2,7 @@
 	<div>
 		<sui-button @click.native="toggleModal(true)">Add account</sui-button>
 
-		<sui-modal v-model="open" size="tiny">
+		<sui-modal v-model="accountModal" size="tiny">
 			<sui-modal-header>Add account</sui-modal-header>
 			<sui-modal-content>
 				<sui-form name="account" method="POST">
@@ -75,9 +75,6 @@
 			action() {
 				return this.currentAccount.id ? 'Update' : 'Add';
 			},
-			open() {
-				return this.openModal;
-			},
 			name: {
 				get() { return this.$store.state.accounts.currentAccount.name; },
 				set(value) {
@@ -95,6 +92,11 @@
 				set(value) {
 					return this.$store.commit('accounts/updateCurrentAccountColor', value);
 				},
+			},
+
+			accountModal: {
+				get() { return this.$store.state.accounts.openModal; },
+				set(value) { return this.$store.commit('accounts/toggleModal'); },
 			},
 		}
 	}

@@ -2,9 +2,9 @@
 	<div>
 		<sui-button @click.native="toggleModal(true)" positive>Add expense</sui-button>
 
-		<sui-modal v-model="open" size="tiny">
+		<sui-modal v-model="expenseModal" size="tiny">
 			<sui-modal-header>Add expense</sui-modal-header>
-			
+
 			<sui-modal-content>
 				<sui-form name="expense" method="POST">
 					<sui-form-field>
@@ -107,10 +107,6 @@
 			... mapState('categories', [ 'categories', 'subcategories' ]),
 			... mapState('expenses', [ 'currentExpense', 'openModal' ]),
 
-			open() {
-				return this.openModal;
-			},
-
 			/**
 			 * Semantic-UI-dropdown compatible options.
 			 *
@@ -186,6 +182,11 @@
 				set(value) {
 					return this.$store.commit('expenses/updateCurrentExpenseDate', value);
 				},
+			},
+
+			expenseModal: {
+				get() { return this.$store.state.expenses.openModal; },
+				set(value) { return this.$store.commit('expenses/toggleModal'); },
 			},
 		}
 	}
