@@ -1,7 +1,5 @@
 <template>
     <article class="account-list">
-		<h3>Total balance: ${{ totalBalance }}</h3>
-
 		<sui-grid v-if="accounts.length" stackable>
 			<sui-grid-row>
 				<sui-grid-column v-for="acc in accounts" :key="acc.id" :mobile="5" :tablet="4" :computer="3" stretched>
@@ -45,7 +43,6 @@
 		},
 		computed: {
 			... mapState('accounts', [ 'accounts' ]),
-			... mapGetters('accounts', [ 'totalBalance' ])
 		}
 	}
 </script>
