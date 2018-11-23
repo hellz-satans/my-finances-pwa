@@ -64,7 +64,7 @@
 			 * @param isSubcategory Boolean Flag to indicate if it is a subcategory
 			 * @return String
 			 */
-			getCategoryName(key, isSubcategory = false) {
+			getCategoryName(key = '', isSubcategory = false) {
 				let cat = null;
 
 				if (isSubcategory) {
