@@ -12,6 +12,8 @@ const ExpensesStore = {
       qty: 1,
       date: moment().format(),
       tags: [],
+      category: 'other',
+      subcategory: 'other_other',
     },
     expenses: [],
     expensesFilters: [],
@@ -19,6 +21,17 @@ const ExpensesStore = {
   },
 
   mutations: {
+    setNewExpense() {
+      state.expense = {
+        description: null,
+        price: 0,
+        qty: 1,
+        date: moment().format(),
+        tags: [],
+        category: 'other',
+        subcategory: 'other_other',
+      };
+    },
     getExpenses(state, options = {}) {
       options.sort = options.sort || 1;
 
@@ -115,6 +128,7 @@ const ExpensesStore = {
           commit('getExpenses');
           commit('unsetCurrentExpense');
           commit('toggleModal');
+          commit('setNewExpense');
           return id;
         });
     },
