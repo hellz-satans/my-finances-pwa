@@ -21,7 +21,7 @@ const ExpensesStore = {
   },
 
   mutations: {
-    setNewExpense() {
+    setNewExpense(state) {
       state.expense = {
         description: null,
         price: 0,
