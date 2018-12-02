@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<sui-button @click.native="toggleModal(true)" positive>Add expense</sui-button>
+		<sui-button @click.native="toggleModal(true)" v-if="!hideBtn" positive>Add expense</sui-button>
 
 		<sui-modal v-model="expenseModal" size="tiny">
 			<sui-modal-header>Add expense</sui-modal-header>
@@ -85,6 +85,7 @@
 
 	export default {
 		name: 'ExpenseForm',
+		props: ['hideBtn'],
 		components: {
 			datetime: Datetime,
 		},
