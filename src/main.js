@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VeeValidate from 'vee-validate'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -8,6 +9,7 @@ import './styles/main.scss'
 
 import SuiVue from 'semantic-ui-vue';
 Vue.use(SuiVue);
+Vue.use(VeeValidate)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -18,6 +20,11 @@ Vue.component('fa', FontAwesomeIcon)
 window.moment = require('moment');
 
 Vue.config.productionTip = false
+
+// register vue filters
+for (const k in filters) {
+	Vue.filter(k, filters[k])
+}
 
 new Vue({
   router,

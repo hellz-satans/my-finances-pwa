@@ -12,7 +12,7 @@
 							</sui-card-header>
 
 							<sui-container text-align="center">
-								<h2>{{ acc.balance }}</h2>
+								<h2>{{ acc.balance | currency }}</h2>
 							</sui-container>
 						</sui-card-content>
 					</sui-card>
