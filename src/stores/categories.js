@@ -76,6 +76,30 @@ const CategoriesStore = {
 	},
 
 	getters: {
+
+		/**
+		 * Semantic-UI-dropdown compatible options.
+		 *
+		 * <sui-dropdown multiple fluid selection> requires that the provided
+		 * options have the format:
+		 *
+		 * ```
+		 * 	{ key: '', text: '', value: '' }
+		 * ```
+		 *
+		 * @return [Object]
+		 */
+		expenseCategories(state) {
+			const list = [];
+			let c = null;
+
+			for (const i in state.categories) {
+				c = state.categories[i];
+				list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
+			}
+
+			return list;
+		}
 	},
 };
 

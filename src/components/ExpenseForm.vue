@@ -12,16 +12,19 @@
 						<sui-input
 							type="number"
 							name="price"
-							min="0"
+							min="0.1"
 							step="any"
 							required
+							data-rules="min_value:0.1"
+							v-validate
 							v-model="price"
 						/>
 					</sui-form-field>
 
 					<sui-form-field>
 						<label for="date">Date</label>
-						<datetime v-model="date" type="datetime"></datetime>
+						<datetime v-model="date" type="datetime" v-validate="'required'">
+						</datetime>
 					</sui-form-field>
 
 					<sui-form-field>
@@ -32,6 +35,8 @@
 							min="0.01"
 							step="any"
 							required
+							data-rules="min_value:0.1"
+							v-validate
 							v-model="qty"
 						/>
 					</sui-form-field>
@@ -43,6 +48,8 @@
 							fluid
 							selection
 							:options="expenseCategories"
+							data-rules="required"
+							v-validate
 							v-model="category"
 						/>
 					</sui-form-field>
@@ -54,6 +61,8 @@
 							fluid
 							selection
 							:options="expenseSubcategories"
+							data-rules="required"
+							v-validate
 							v-model="subcategory"
 						/>
 					</sui-form-field>
@@ -65,6 +74,8 @@
 							minlength="1"
 							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
 							required
+							data-rules="required"
+							v-validate
 							v-model="description"
 						/>
 					</sui-form-field>
@@ -80,7 +91,7 @@
 </template>
 
 <script>
-	import { mapMutations, mapActions, mapState } from 'vuex';
+	import { mapMutations, mapActions, mapGetters, mapState } from 'vuex';
 	import { Datetime } from 'vue-datetime';
 
 	export default {
@@ -94,7 +105,7 @@
 			... mapActions('expenses', [ 'toggleModal' ]),
 			submitExpense() {
 				if (document.forms.expense.checkValidity()) {
-					this.$store.dispatch('expenses/submitExpense', this.currentExpense)
+					this.$store.dispatch('expenses/submitExpense')
 						.catch((err) => {
 							console.error('submitExpense:', err, err.stack);
 						});
@@ -105,32 +116,9 @@
 			}
 		},
 		computed: {
+			... mapGetters('categories', [ 'expenseCategories' ]),
 			... mapState('categories', [ 'categories', 'subcategories' ]),
 			... mapState('expenses', [ 'currentExpense', 'openModal' ]),
-
-			/**
-			 * Semantic-UI-dropdown compatible options.
-			 *
-			 * <sui-dropdown multiple fluid selection> requires that the provided
-			 * options have the format:
-			 *
-			 * ```
-			 * 	{ key: '', text: '', value: '' }
-			 * ```
-			 *
-			 * @return [Object]
-			 */
-			expenseCategories() {
-				const list = [];
-				let c = null;
-
-				for (const i in this.categories) {
-					c = this.categories[i];
-					list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
-				}
-
-				return list;
-			},
 			expenseSubcategories() {
 				const list = [];
 				let c = null;

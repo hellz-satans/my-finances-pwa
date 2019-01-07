@@ -2,6 +2,18 @@ import db from '@/db';
 import { filterExpenses } from './filters';
 import moment from 'moment';
 
+function newExpense () {
+	return {
+		description: null,
+		price: 0,
+		qty: 1,
+		date: moment().format(),
+		tags: [],
+		category: 'other',
+		subcategory: 'other_other',
+	}
+}
+
 const ExpensesStore = {
   namespaced: true,
 
@@ -22,15 +34,7 @@ const ExpensesStore = {
 
   mutations: {
     setNewExpense(state) {
-      state.expense = {
-        description: null,
-        price: 0,
-        qty: 1,
-        date: moment().format(),
-        tags: [],
-        category: 'other',
-        subcategory: 'other_other',
-      };
+      state.expense = newExpense;
     },
     getExpenses(state, options = {}) {
       options.sort = options.sort || 1;
@@ -94,16 +98,6 @@ const ExpensesStore = {
   },
 
   actions: {
-    /**
-     * Create expense record.
-     *
-     * Dexies takes a reactive Vue object and, if the transaction
-     * is successful, adds the property `id` to the object.
-     * That's why `unsetCurrentExpense` works, 'cuz the object is
-     * being passed around by reference.
-     *
-     * @return Promise
-     */
     toggleModal({ commit }, unsetExpense) {
       if(unsetExpense) {
         commit('unsetCurrentExpense');
@@ -118,10 +112,21 @@ const ExpensesStore = {
       commit('setCurrentExpense', id);
       commit('toggleModal');
     },
-    submitExpense({ commit, dispatch, state }, data) {
+    /**
+     * Submit current expense for storage.
+     */
+    submitExpense({ commit, dispatch, state }) {
       const actionName = (state.currentExpense.id)
         ? 'updateExpense'
         : 'createExpense';
+      const data = {
+		  category: state.currentExpense.category,
+		  date: state.currentExpense.date,
+		  description: state.currentExpense.description,
+		  price: state.currentExpense.price,
+		  qty: state.currentExpense.qty,
+		  subcategory: state.currentExpense.subcategory
+	  }
 
       return dispatch(actionName, data)
         .then((id) => {
