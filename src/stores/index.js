@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Accounts, Expenses, Categories } from '@/stores/modules'
+import { downloadJsonUsingBrowser } from '@/download'
 
 Vue.use(Vuex)
 
@@ -40,15 +41,15 @@ export default new Vuex.Store({
      * First encode data and then cipher it, see
      * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
      */
-    exportData(ctx) {
+    exportData({ state }) {
       const data = {
-        expenses: ctx.state.expenses.expenses,
-        accounts: ctx.state.accounts.accounts,
+        expenses: state.expenses.expenses,
+        accounts: state.accounts.accounts,
       };
 
-      console.debug('Bleep-bloop, exporting data', JSON.stringify(data));
-      console.debug('write a module to handle the download');
+      downloadJsonUsingBrowser('my_finances.json', data)
     },
+
     /**
      * Import secured data.
      *
