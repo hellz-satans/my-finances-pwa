@@ -16,6 +16,7 @@
 							step="any"
 							required
 							data-rules="min_value:0.1"
+							data-vv-name="price"
 							v-validate
 							v-model="price"
 						/>
@@ -36,6 +37,7 @@
 							step="any"
 							required
 							data-rules="min_value:0.1"
+							data-vv-name="quantity"
 							v-validate
 							v-model="qty"
 						/>
@@ -49,6 +51,7 @@
 							selection
 							:options="expenseCategories"
 							data-rules="required"
+							data-vv-name="category"
 							v-validate
 							v-model="category"
 						/>
@@ -62,6 +65,7 @@
 							selection
 							:options="expenseSubcategories"
 							data-rules="required"
+							data-vv-name="subcategory"
 							v-validate
 							v-model="subcategory"
 						/>
@@ -75,6 +79,7 @@
 							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
 							required
 							data-rules="required"
+							data-vv-name="description"
 							v-validate
 							v-model="description"
 						/>
