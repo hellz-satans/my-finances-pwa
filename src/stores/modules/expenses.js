@@ -1,5 +1,5 @@
 import db from '@/db';
-import { filterExpenses } from './filters';
+import { filterExpenses } from '@/stores/filters';
 import moment from 'moment';
 
 function newExpense () {

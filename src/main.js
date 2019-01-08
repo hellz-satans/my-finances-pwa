@@ -1,25 +1,30 @@
 import Vue from 'vue'
+import VueX from 'vuex'
 import VeeValidate from 'vee-validate'
+import SuiVue from 'semantic-ui-vue'
+import moment from 'moment'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from '@/stores'
 import filters from './filters'
 import './registerServiceWorker'
 import './styles/main.scss'
 
-import SuiVue from 'semantic-ui-vue';
-Vue.use(SuiVue);
-Vue.use(VeeValidate)
-
+// styles
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+// setup libraries
 library.add(fas)
-Vue.component('fa', FontAwesomeIcon)
+window.moment = moment
 
-window.moment = require('moment');
-
+// config Vue
+Vue.use(SuiVue);
+Vue.use(VueX)
+Vue.use(VeeValidate)
 Vue.config.productionTip = false
+Vue.component('fa', FontAwesomeIcon)
 
 // register vue filters
 for (const k in filters) {
