@@ -89,6 +89,10 @@ const AccountsStore = {
 					return whatever;
 				});
 		},
+		importAccount({ commit, state }, acc) {
+			console.info('accounts/importAccount:', acc)
+			// TODO: check if acc.name exists (===), if so, update balance
+		},
 	},
 
 	getters: {

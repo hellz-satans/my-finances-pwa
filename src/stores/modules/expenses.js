@@ -207,6 +207,11 @@ const ExpensesStore = {
 				})
 				.then(() => commit('getExpenses'));
 		},
+		importExpense({ commit, state }, exp) {
+			console.info('expenses/importExpense:', exp)
+			// TODO: check if exp.id && exp.date exists (===),
+			// if so, DO NOT insert
+		},
 	},
 
 	getters: {

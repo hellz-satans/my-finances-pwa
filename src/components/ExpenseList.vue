@@ -100,7 +100,6 @@
 					return key
 				}
 
-				console.debug('getIcon: returning', cat.icon)
 				return cat.icon
 			}
 		},

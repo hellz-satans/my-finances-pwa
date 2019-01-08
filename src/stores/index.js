@@ -52,8 +52,17 @@ export default new Vuex.Store({
 		 * Maybe ask the user for a passphrase or something like that and
 		 * decipher before inserting.
 		 */
-		importData(ctx, data) {
-			console.debug('Bleep-bloop, importing data', data);
+		importData({ dispatch }, data) {
+			if (data.expenses) {
+				for (let i in data.expenses) {
+					dispatch('expenses/importExpense', data.expenses[i])
+				}
+			}
+			if (data.accounts) {
+				for (let i in data.accounts) {
+					dispatch('accounts/importAccount', data.accounts[i])
+				}
+			}
 		},
 	},
 
