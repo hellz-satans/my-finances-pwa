@@ -51,7 +51,6 @@ export default {
 				str += `${k}: ${styles[k]};`
 			}
 
-			console.debug('accountStyle:', str)
 			return str
 		}
 	},

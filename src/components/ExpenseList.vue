@@ -19,8 +19,9 @@
 					<td>{{ e.qty }}</td>
 					<td>{{ e.description }}</td>
 					<td>
-						{{ getCategoryName(e.category) }},
-						{{ getCategoryName(e.subcategory, true) }}
+						<sui-icon :name="getIcon(e.subcategory, true)" />
+						{{ getName(e.category) }},
+						{{ getName(e.subcategory, true) }}
 					</td>
 					<td :title="e.date | format">{{ e.date | ago }}</td>
 					<td>
@@ -55,28 +56,53 @@
 		},
 		methods: {
 			... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
+
 			/**
 			 * Return category name for given key.
-			 *
-			 * TODO: extract this function, maybe add a component or filter (?)
 			 *
 			 * @param key String Category key as found in DB
 			 * @param isSubcategory Boolean Flag to indicate if it is a subcategory
 			 * @return String
 			 */
-			getCategoryName(key = '', isSubcategory = false) {
-				let cat = null;
+			getName(key = '', isSubcategory = false) {
+				let cat = null
 
 				if (isSubcategory) {
-					cat = this.subcategories.find(el => el.key === key);
+					cat = this.subcategories.find(el => el.key === key)
 				} else {
-					cat = this.categories.find(el => el.key === key);
+					cat = this.categories.find(el => el.key === key)
 				}
 
-				return cat
-					? cat.name
-					: key.replace(/^\w/, key.charAt(0).toUpperCase());
+				if (!cat) {
+					return key.replace(/^\w/, key.charAt(0).toUpperCase())
+				}
+
+				return cat.name
 			},
+
+			/**
+			 * Return category icon for given key.
+			 *
+			 * @param key String Category key as found in DB
+			 * @param isSubcategory Boolean Flag to indicate if it is a subcategory
+			 * @return String
+			 */
+			getIcon(key = '', isSubcategory = false) {
+				let cat = null
+
+				if (isSubcategory) {
+					cat = this.subcategories.find(el => el.key === key)
+				} else {
+					cat = this.categories.find(el => el.key === key)
+				}
+
+				if (!cat) {
+					return key
+				}
+
+				console.debug('getIcon: returning', cat.icon)
+				return cat.icon
+			}
 		},
 		computed: {
 			... mapState('expenses', [ 'expenses' ]),
