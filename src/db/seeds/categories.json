@@ -1,19 +1,68 @@
 {
 	"categories": [
 		{
+			"key": "food",
+			"name": "Food",
+			"icon": "utensils",
+			"subcategories": [
+				{
+					"key": "groceries",
+					"name": "Groceries",
+					"icon": "shopping basket"
+				},
+				{
+					"key": "breakfast",
+					"name": "Breakfast",
+					"icon": "utensils"
+				},
+				{
+					"key": "meal",
+					"name": "Meal",
+					"icon": "utensils"
+				},
+				{
+					"key": "dinner",
+					"name": "Dinner",
+					"icon": "utensils"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "cart"
+				}
+			]
+		},
+		{
+			"key": "social",
+			"name": "Social",
+			"icon": "users",
+			"subcategories": [
+				{
+					"key": "gathering",
+					"name": "Gathering",
+					"icon": "users"
+				},
+				{
+					"key": "drinks",
+					"name": "Drinks",
+					"icon": "beer"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "street view"
+				}
+			]
+		},
+		{
 			"key": "household",
 			"name": "Household",
-			"icon": "shopping-cart",
+			"icon": "home",
 			"subcategories": [
 				{
 					"key": "cleaning",
 					"name": "Cleaning Products",
 					"icon": "bath"
-				},
-				{
-					"key": "food",
-					"name": "Food",
-					"icon": ""
 				},
 				{
 					"key": "services",
@@ -23,14 +72,14 @@
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "shopping-cart"
+					"icon": "dollar"
 				}
 			]
 		},
 		{
 			"key": "transport",
 			"name": "Transportation",
-			"icon": "",
+			"icon": "bicycle",
 			"subcategories": [
 				{
 					"key": "taxi",
@@ -60,7 +109,7 @@
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "ticket-alternate"
+					"icon": "car"
 				}
 			]
 		},
@@ -97,14 +146,36 @@
 			]
 		},
 		{
+			"key": "subscriptions",
+			"name": "Subscriptions",
+			"icon": "sync",
+			"subcategories": [
+				{
+					"key": "insurance",
+					"name": "Insurance",
+					"icon": "certificate"
+				},
+				{
+					"key": "streaming",
+					"name": "Streaming",
+					"icon": "tv"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "sync"
+				}
+			]
+		},
+		{
 			"key": "other",
 			"name": "Other Expenses",
-			"icon": "shopping-cart",
+			"icon": "dollar",
 			"subcategories": [
 				{
 					"key": "other",
 					"name": "Other Expenses",
-					"icon": "shopping-cart"
+					"icon": "dollar"
 				}
 			]
 		}
