@@ -22,7 +22,7 @@ export default new Router({
     },
     {
       path: '/import-export',
-      name: 'import/export',
+      name: 'data',
       component: ImportExport
     },
     {

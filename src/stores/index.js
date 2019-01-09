@@ -31,6 +31,18 @@ export default new Vuex.Store({
 
 	actions: {
 		/**
+		 * Destroy local data:
+		 *
+		 * 	* accounts
+		 * 	* expenses
+		 *
+		 * @return void
+		 */
+		deleteData({ state }) {
+			console.log('bleep-bloop, deleting data');
+		},
+
+		/**
 		 * Export data in a secure fashion.
 		 *
 		 * Maybe ask the user for a passphrase or something like that.

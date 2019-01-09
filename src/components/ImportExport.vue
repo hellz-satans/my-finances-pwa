@@ -1,5 +1,5 @@
 <template>
-	<sui-card-group class="import-export" :items-per-row="2">
+	<sui-card-group class="import-export" :items-per-row="3">
 		<sui-card>
 			<sui-card-content>
 				<sui-card-header>Import</sui-card-header>
@@ -14,6 +14,15 @@
 					/>
 				</sui-card-description>
 			</sui-card-content>
+			<sui-button
+				type="button"
+				color="green"
+				@click.prevent.stop="readData"
+				attached="bottom"
+			>
+				<sui-icon name="upload" />
+				Upload
+			</sui-button>
 		</sui-card>
 
 		<sui-card>
@@ -36,6 +45,27 @@
 				Download
 			</sui-button>
 		</sui-card>
+
+		<sui-card>
+			<sui-card-content>
+				<sui-card-header>Destroy</sui-card-header>
+				<sui-card-description>
+					<p>
+						Destroy <strong>all</strong> local data
+						&mdash; export first if unsure
+					</p>
+				</sui-card-description>
+			</sui-card-content>
+			<sui-button
+				type="button"
+				color="red"
+				@click.prevent.stop="deleteData"
+				attached="bottom"
+			>
+				<sui-icon name="trash" />
+				Destroy
+			</sui-button>
+		</sui-card>
 	</sui-card-group>
 </template>
 
@@ -44,7 +74,7 @@ import { mapActions } from 'vuex'
 
 export default {
 	methods: {
-		... mapActions([ 'exportData', 'importData' ]),
+		... mapActions([ 'deleteData', 'exportData', 'importData' ]),
 		handleFile() {
 			const files = this.$refs.importFile.files
 
@@ -58,7 +88,10 @@ export default {
 
 				reader.readAsBinaryString(files.item(0))
 			}
-		}
+		},
+		// TODO: add readData function
+		// 	* make `handleFile` call readData
+		// 	* make readData call importData
 	}
 }
 </script>
