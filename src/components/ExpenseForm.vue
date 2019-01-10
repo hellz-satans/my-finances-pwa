@@ -76,7 +76,7 @@
 						<sui-input
 							name="description"
 							minlength="1"
-							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+							pattern=".+"
 							required
 							data-rules="required"
 							data-vv-name="description"

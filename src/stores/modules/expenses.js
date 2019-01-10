@@ -79,7 +79,11 @@ const ExpensesStore = {
 			}
 		},
 		updateCurrentExpenseDescription(state, description) {
-			state.currentExpense.description = description;
+			if (description) {
+				description = description.trim()
+			}
+
+			state.currentExpense.description = description
 		},
 		updateCurrentExpensePrice(state, price) {
 			state.currentExpense.price = Number(price);
