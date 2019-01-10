@@ -1,5 +1,5 @@
 <template>
-	<sui-card-group class="import-export" :items-per-row="3">
+	<sui-card-group class="import-export" :items-per-row="3" stackable>
 		<sui-card>
 			<sui-card-content>
 				<sui-card-header>Import</sui-card-header>
@@ -76,9 +76,13 @@ export default {
 	methods: {
 		... mapActions([ 'deleteData', 'exportData', 'importData' ]),
 		handleFile() {
-			const files = this.$refs.importFile.files
+			if (this.$refs.importFile.files.length > 0) {
+				this.readData()
+			}
+		},
 
-			if (files.length > 0) {
+		readData() {
+			if (this.$refs.importFile.files.length > 0) {
 				const reader = new FileReader()
 
 				reader.addEventListener('load', (ev) => {
@@ -86,12 +90,9 @@ export default {
 					this.importData(data)
 				})
 
-				reader.readAsBinaryString(files.item(0))
+				reader.readAsBinaryString(this.$refs.importFile.files.item(0))
 			}
 		},
-		// TODO: add readData function
-		// 	* make `handleFile` call readData
-		// 	* make readData call importData
 	}
 }
 </script>

@@ -33,6 +33,10 @@ const ExpensesStore = {
 	},
 
 	mutations: {
+		createExpense(state, expense) {
+			expense.date = new Date(expense.date);
+			db.expenses.add(expense);
+		},
 		setNewExpense(state) {
 			state.expense = newExpense;
 		},
@@ -105,8 +109,8 @@ const ExpensesStore = {
 			commit('toggleModal');
 		},
 		createExpense({ commit }, expense) {
-			expense.date = new Date(expense.date);
-			return db.expenses.add(expense);
+			commit('createExpense', expense)
+			window.setTimeout(ev => commit('getExpenses'), 10)
 		},
 		editExpense({ commit }, id) {
 			commit('setCurrentExpense', id);
@@ -152,6 +156,19 @@ const ExpensesStore = {
 					commit('getExpenses');
 					return whatever;
 				});
+		},
+		deleteAll({ dispatch }) {
+			db.expenses
+				.toArray()
+				.then((arr) => {
+					for (let i in arr) {
+						dispatch('deleteExpense', arr[i].id)
+					}
+				})
+				.catch((err) => {
+					console.error('expenses/deleteAll:', err)
+					throw err
+				})
 		},
 		filterExpenses({ commit, state }, data) {
 			const filters = [];
@@ -207,10 +224,24 @@ const ExpensesStore = {
 				})
 				.then(() => commit('getExpenses'));
 		},
-		importExpense({ commit, state }, exp) {
-			console.info('expenses/importExpense:', exp)
-			// TODO: check if exp.id && exp.date exists (===),
-			// if so, DO NOT insert
+		importExpense({ commit, dispatch }, exp) {
+			db.expenses
+				.toArray()
+				.then((arr) => {
+					let exists = false
+
+					exists = arr.some((el) => {
+						return el.id === exp.id && el.date === exp.date
+					})
+
+					if (!exists) {
+						dispatch('createExpense', exp)
+					}
+				})
+				.catch((err) => {
+					console.error('expenses/importExpense:', err)
+					throw err
+				})
 		},
 	},
 

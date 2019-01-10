@@ -38,8 +38,9 @@ export default new Vuex.Store({
 		 *
 		 * @return void
 		 */
-		deleteData({ state }) {
-			console.log('bleep-bloop, deleting data');
+		deleteData({ dispatch }) {
+			dispatch('accounts/deleteAll')
+			dispatch('expenses/deleteAll')
 		},
 
 		/**

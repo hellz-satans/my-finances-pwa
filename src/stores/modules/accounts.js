@@ -12,6 +12,9 @@ const AccountsStore = {
 	},
 
 	mutations: {
+		createAccount(state, account) {
+			return db.accounts.add(account);
+		},
 		getAccounts(state) {
 			db.accounts.toArray()
 				.then(arr => state.accounts = arr)
@@ -58,7 +61,8 @@ const AccountsStore = {
 			commit('toggleModal');
 		},
 		createAccount({ commit }, account) {
-			return db.accounts.add(account);
+			commit('createAccount', account)
+			window.setTimeout(ev => commit('getAccounts'), 10)
 		},
 		editAccount({ commit }, id) {
 			commit('setCurrentAccount', id);
@@ -89,9 +93,37 @@ const AccountsStore = {
 					return whatever;
 				});
 		},
-		importAccount({ commit, state }, acc) {
-			console.info('accounts/importAccount:', acc)
-			// TODO: check if acc.name exists (===), if so, update balance
+		deleteAll({ dispatch }) {
+			db.accounts
+				.toArray()
+				.then((arr) => {
+					for (let i in arr) {
+						dispatch('deleteAccount', arr[i].id)
+					}
+				})
+				.catch((err) => {
+					console.error('accounts/deleteAll:', err)
+					throw err
+				})
+		},
+		importAccount({ dispatch }, acc) {
+			db.accounts
+				.toArray()
+				.then((arr) => {
+					let exists = false
+
+					exists = arr.some((el) => {
+						return el.id === acc.id && el.name === acc.name
+					})
+
+					if (!exists) {
+						dispatch('createAccount', acc)
+					}
+				})
+				.catch((err) => {
+					console.error('accounts/importAccount:', err)
+					throw err
+				})
 		},
 	},
 
