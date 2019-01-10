@@ -33,8 +33,8 @@
 						<sui-input
 							type="number"
 							name="quantity"
-							min="0.01"
-							step="any"
+							min="1"
+							step="1"
 							required
 							data-rules="min_value:0.1"
 							data-vv-name="quantity"

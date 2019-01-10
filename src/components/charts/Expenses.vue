@@ -75,7 +75,7 @@
 				const rows = this.expenses
 					.map((el, i, arr) => {
 						return {
-							price: el.price,
+							price: el.price * el.qty,
 							date: moment(el.date).format('YYYY-MM-DD'),
 						};
 					});
