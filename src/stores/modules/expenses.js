@@ -1,5 +1,5 @@
 import db from '@/db';
-import { filterExpenses } from '@/stores/filters';
+import { filterExpenses, expensesInRange } from '@/stores/filters';
 import moment from 'moment';
 
 function newExpense () {
@@ -29,6 +29,8 @@ const ExpensesStore = {
 		},
 		expenses: [],
 		expensesFilters: [],
+		expensesPastMonth: 0,
+		expensesPastWeek: 0,
 		openModal: false,
 	},
 
@@ -102,6 +104,16 @@ const ExpensesStore = {
 		},
 		toggleModal(state) {
 			state.openModal = !state.openModal;
+		},
+		updatePastExpenses(state) {
+			expensesInRange(1, 'week')
+				.then((total) => {
+					state.expensesPastWeek = total
+				})
+			expensesInRange(1, 'month')
+				.then((total) => {
+					state.expensesPastMonth = total
+				})
 		},
 	},
 
@@ -196,6 +208,10 @@ const ExpensesStore = {
 			commit('getExpenses');
 		},
 
+		updatePastExpenses({ commit }) {
+			commit('updatePastExpenses')
+		},
+
 		/**
 		 * Seed random data to the DB.
 		 */
@@ -255,44 +271,6 @@ const ExpensesStore = {
 				return 0;
 
 			return state.expenses
-				.map(expense => expense.price * expense.qty)
-				.reduce((total, curr) => total + curr);
-		},
-		pastWeekExpenses: (state) => {
-			const list = []
-			const endDate = moment()
-			const startDate = moment().subtract(1, 'week')
-
-			for (let exp of state.expenses) {
-				if (moment(exp.date).isBetween(startDate, endDate)) {
-					list.push(exp)
-				}
-			}
-
-			if (list.length < 1) {
-				return 0
-			}
-
-			return list
-				.map(expense => expense.price * expense.qty)
-				.reduce((total, curr) => total + curr);
-		},
-		pastMonthExpenses: (state) => {
-			const list = []
-			const endDate = moment()
-			const startDate = moment().subtract(1, 'month')
-
-			for (let exp of state.expenses) {
-				if (moment(exp.date).isBetween(startDate, endDate)) {
-					list.push(exp)
-				}
-			}
-
-			if (list.length < 1) {
-				return 0
-			}
-
-			return list
 				.map(expense => expense.price * expense.qty)
 				.reduce((total, curr) => total + curr);
 		},

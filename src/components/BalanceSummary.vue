@@ -8,10 +8,10 @@
 	<section class="balance-summary">
 		<h2>Savings Goal: {{ goal | currency }}</h2>
 		<span class="semi-bold">Expenses last 7 days:</span> &nbsp;
-		<span class="bold">{{ pastWeekExpenses | currency }}</span>
+		<span class="bold">{{ expensesPastWeek | currency }}</span>
 		<br>
 		<span class="semi-bold">Expenses last month:</span> &nbsp;
-		<span class="bold">{{ pastMonthExpenses | currency }}</span>
+		<span class="bold">{{ expensesPastMonth | currency }}</span>
 	</section>
 </template>
 
@@ -23,12 +23,15 @@ export default {
 	computed: {
 		... mapState([ 'goal' ]),
 		... mapGetters([ 'balanceSummary' ]),
-		... mapGetters('expenses', [ 'pastWeekExpenses', 'pastMonthExpenses' ]),
+		... mapState('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
 		cssClasses() {
 			return {
 				orange: this.balanceSummary < 0
 			};
 		},
+	},
+	created() {
+		this.$store.dispatch('expenses/updatePastExpenses')
 	},
 }
 </script>

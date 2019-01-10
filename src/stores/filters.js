@@ -1,3 +1,5 @@
+import db from '@/db';
+
 /**
  * Filter the expense with the given filters criteria
  *
@@ -42,4 +44,42 @@ const filterExpenses = (expense, filters) => {
   return allow;
 }
 
-export { filterExpenses, }
+/**
+ * Calculate total expenses in the specified range.
+ *
+ * @param n Number
+ * @param unit String Any moment.js compatible unit
+ * @return Promise
+ */
+const expensesInRange = (n = 1, unit = 'week') => {
+	const endDate = moment()
+	const startDate = moment().subtract(n, unit)
+
+	return db.expenses
+		.toArray()
+		.then((arr) => {
+			const list = []
+
+			for (let exp of arr) {
+				if (moment(exp.date).isBetween(startDate, endDate)) {
+					list.push(exp)
+				}
+			}
+
+			return list
+		})
+		.then((expenses) => {
+			if (expenses.length < 1) {
+				return 0
+			}
+
+			return expenses
+				.map(expense => expense.price * expense.qty)
+				.reduce((total, curr) => total + curr);
+		})
+}
+
+export {
+	expensesInRange,
+	filterExpenses,
+}
