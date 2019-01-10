@@ -4,6 +4,9 @@ body {
     overflow-y: scroll;
 }
 
+.semi-bold { font-weight: 500; }
+.bold { font-weight: 600; }
+
 // Vue router transition
 .slide-fade-enter-active {
   transition: all .3s ease;

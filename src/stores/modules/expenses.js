@@ -258,6 +258,44 @@ const ExpensesStore = {
 				.map(expense => expense.price * expense.qty)
 				.reduce((total, curr) => total + curr);
 		},
+		pastWeekExpenses: (state) => {
+			const list = []
+			const endDate = moment()
+			const startDate = moment().subtract(1, 'week')
+
+			for (let exp of state.expenses) {
+				if (moment(exp.date).isBetween(startDate, endDate)) {
+					list.push(exp)
+				}
+			}
+
+			if (list.length < 1) {
+				return 0
+			}
+
+			return list
+				.map(expense => expense.price * expense.qty)
+				.reduce((total, curr) => total + curr);
+		},
+		pastMonthExpenses: (state) => {
+			const list = []
+			const endDate = moment()
+			const startDate = moment().subtract(1, 'month')
+
+			for (let exp of state.expenses) {
+				if (moment(exp.date).isBetween(startDate, endDate)) {
+					list.push(exp)
+				}
+			}
+
+			if (list.length < 1) {
+				return 0
+			}
+
+			return list
+				.map(expense => expense.price * expense.qty)
+				.reduce((total, curr) => total + curr);
+		},
 	}
 };
 
