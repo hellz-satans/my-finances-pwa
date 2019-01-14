@@ -55,8 +55,6 @@ const ExpensesStore = {
 					}
 					return arr;
 				}).then((arr) => {
-					return arr.filter((exp) => filterExpenses(exp, state.expensesFilters));
-				}).then((arr) => {
 					state.expenses = arr;
 				}).catch((err) => {
 					console.error('getExpenses:', err);
@@ -185,27 +183,6 @@ const ExpensesStore = {
 					console.error('expenses/deleteAll:', err)
 					throw err
 				})
-		},
-		filterExpenses({ commit, state }, data) {
-			const filters = [];
-			if (data.startDate) {
-				filters.push({ field: 'date', op: '>=', value: new Date(data.startDate) });
-			}
-
-			if (data.endDate) {
-				filters.push({ field: 'date', op: '<=', value: new Date(data.endDate) });
-			}
-
-			if (data.price) {
-				filters.push({
-					field: 'price',
-					op: (data.comparator === '<=') ? '<=' : '>=',
-					value: data.price
-				});
-			}
-
-			state.expensesFilters = filters;
-			commit('getExpenses');
 		},
 
 		updatePastExpenses({ commit }) {

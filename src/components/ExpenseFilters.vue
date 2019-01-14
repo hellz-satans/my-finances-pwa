@@ -1,5 +1,11 @@
+<style lang="scss" scoped>
+.expense-filters {
+  margin-bottom: 1rem;
+}
+</style>
+
 <template>
-	<nav class="expense-filter">
+	<nav class="expense-filters">
 		<sui-form
 			name="filters"
 			method="GET"
@@ -14,7 +20,7 @@
 							<datetime v-model="startDate" placeholder="Start date"></datetime>
 						</sui-form-field>
 					</sui-grid-column>
-					
+
 					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
 						<sui-form-field>
 							<label for="date">End date</label>
@@ -69,47 +75,69 @@
 					</sui-grid-column>
 				</sui-grid-row>
 			</sui-grid>
-
-			
 		</sui-form>
 	</nav>
 </template>
 
 <script>
-	import { Datetime } from 'vue-datetime';
+import { Datetime } from 'vue-datetime';
 
-	export default {
-		name: 'ExpenseFilters',
-		components: {
-			datetime: Datetime,
-		},
-		data() {
-			return {
-				startDate: null,
-				endDate: null,
-				comparator: '>=',
-				price: 0,
-				comparatorOptions: [
-					{ text: 'Up to', value: '<=' },
-					{ text: 'At least', value: '>=' },
-				]
-			};
-		},
-		methods: {
-			filter() {
-				this.$store.dispatch('expenses/filterExpenses', {
-					startDate: this.startDate,
-					endDate: this.endDate,
-					comparator: this.comparator,
-					price: this.price,
-				});
-			},
-			resetFilters() {
-				this.startDate = this.endDate = null;
-				this.comparator = '>=';
-				this.price = 0;
-				this.$store.dispatch('expenses/filterExpenses', {});
-			}
-		}
-	}
+export default {
+  name: 'ExpenseFilters',
+  components: {
+    datetime: Datetime,
+  },
+  props: {
+    filters: { type: Array, required: false, default: () => { return [] } },
+  },
+  data() {
+    return {
+      startDate: null,
+      endDate: null,
+      comparator: '>=',
+      price: 0,
+      comparatorOptions: [
+        { text: 'Up to', value: '<=' },
+        { text: 'At least', value: '>=' },
+      ]
+    };
+  },
+  methods: {
+    filter() {
+      const filters = [];
+
+      if (this.startDate) {
+        filters.push({
+          field: 'date',
+          op: '>=',
+          value: new Date(this.startDate)
+        })
+      }
+
+      if (this.endDate) {
+        filters.push({
+          field: 'date',
+          op: '<=',
+          value: new Date(this.endDate)
+        })
+      }
+
+      if (this.price) {
+        filters.push({
+          field: 'price',
+          op: (this.comparator === '<=') ? '<=' : '>=',
+          value: this.price
+        })
+      }
+      console.debug('ExpenseFilters: filter', this.filters)
+      this.$emit('setFilters', filters)
+    },
+    resetFilters() {
+      this.startDate = this.endDate = null;
+      this.comparator = '>=';
+      this.price = 0;
+      this.$store.dispatch('expenses/filterExpenses', {});
+    }
+  }
+}
 </script>
