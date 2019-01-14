@@ -129,7 +129,6 @@ export default {
           value: this.price
         })
       }
-      console.debug('ExpenseFilters: filter', this.filters)
       this.$emit('setFilters', filters)
     },
     resetFilters() {
