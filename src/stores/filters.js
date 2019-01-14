@@ -1,4 +1,3 @@
-import db from '@/db';
 import moment from 'moment'
 
 /**
@@ -52,32 +51,24 @@ const filterExpenses = (expense, filters) => {
  * @param unit String Any moment.js compatible unit
  * @return Promise
  */
-const expensesInRange = (n = 1, unit = 'week') => {
+const expensesInRange = (expenses, n = 1, unit = 'week') => {
 	const endDate = moment()
 	const startDate = moment().subtract(n, unit)
+	const list = []
 
-	return db.expenses
-		.toArray()
-		.then((arr) => {
-			const list = []
+	for (const exp of expenses) {
+		if (moment(exp.date).isBetween(startDate, endDate)) {
+			list.push(exp)
+		}
+	}
 
-			for (let exp of arr) {
-				if (moment(exp.date).isBetween(startDate, endDate)) {
-					list.push(exp)
-				}
-			}
+	if (list.length < 1) {
+		return 0
+	}
 
-			return list
-		})
-		.then((expenses) => {
-			if (expenses.length < 1) {
-				return 0
-			}
-
-			return expenses
-				.map(expense => expense.price * expense.qty)
-				.reduce((total, curr) => total + curr);
-		})
+	return list
+		.map(expense => expense.price * expense.qty)
+		.reduce((total, curr) => total + curr);
 }
 
 export {

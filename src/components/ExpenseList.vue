@@ -119,7 +119,7 @@ export default {
       // tl;dr: do NOT use splice on this.expenses
       //
       // TODO: make it so that we take the _last_ n elements
-      for (i = 0; i < n; ++i) {
+      for (i = 0; i < n && i < this.expenses.length; ++i) {
         list.push(this.expenses[i]);
       }
       list = list.filter(exp => filterExpenses(exp, this.filters))

@@ -23,15 +23,12 @@ export default {
 	computed: {
 		... mapState([ 'goal' ]),
 		... mapGetters([ 'balanceSummary' ]),
-		... mapState('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
+		... mapGetters('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
 		cssClasses() {
 			return {
 				orange: this.balanceSummary < 0
 			};
 		},
-	},
-	created() {
-		this.$store.dispatch('expenses/updatePastExpenses')
 	},
 }
 </script>

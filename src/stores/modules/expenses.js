@@ -1,5 +1,5 @@
 import db from '@/db';
-import { filterExpenses, expensesInRange } from '@/stores/filters';
+import { expensesInRange } from '@/stores/filters';
 import moment from 'moment';
 
 function newExpense () {
@@ -29,8 +29,6 @@ const ExpensesStore = {
 		},
 		expenses: [],
 		expensesFilters: [],
-		expensesPastMonth: 0,
-		expensesPastWeek: 0,
 		openModal: false,
 	},
 
@@ -250,6 +248,12 @@ const ExpensesStore = {
 			return state.expenses
 				.map(expense => expense.price * expense.qty)
 				.reduce((total, curr) => total + curr);
+		},
+		expensesPastWeek: (state) => {
+			return expensesInRange(state.expenses, 1, 'week')
+		},
+		expensesPastMonth: (state) => {
+			return expensesInRange(state.expenses, 1, 'month')
 		},
 	}
 };
