@@ -8,6 +8,10 @@ const requiredFields = [
 const PreferencesStore = {
 	state: {
 		preferences: [],
+		modals: {
+			// TODO: remove this -- if not hard-coded, reactiveness doesn't trigger
+			goal: false,
+		},
 	},
 
 	mutations: {
@@ -16,38 +20,48 @@ const PreferencesStore = {
 				.toArray()
 				.then(arr => state.preferences = arr)
 				.catch((err) => {
-					console.error('preferences/getPreferences:', err);
-					throw err;
-				});
+					console.error('preferences/getPreferences:', err)
+					throw err
+				})
 		},
 		createPreference(state, data) {
 			db.preferences.add(data)
+			state.modals[data.key] = !state.modals[data.key]
 		},
 		updatePreference(state, data) {
 			db.preferences.update(data.key, data)
+			state.modals[data.key] = !state.modals[data.key]
+		},
+		toggleModal(state, key) {
+			state.modals[key] = !state.modals[key]
 		},
 	},
 
 	actions: {
 		createPreference({ commit }, data) {
-			for (const k in requiredFields) {
+			for (const k of requiredFields) {
 				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
-					console.error('preferences/createPreferences: missing', k, data)
+					console.error('preferences/createPreference: missing', k, data)
 					return false
 				}
 			}
 
 			commit('createPreference', data)
+			commit('getPreferences')
 		},
 		updatePreference({ commit }, data) {
-			for (const k in requiredFields) {
+			for (const k of requiredFields) {
 				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
-					console.error('preferences/updatePreferences: missing', k, data)
+					console.error('preferences/updatePreference: missing', k, data)
 					return false
 				}
 			}
 
 			commit('updatePreference', data)
+			commit('getPreferences')
+		},
+		toggleModal({ commit }, key) {
+			commit('toggleModal', key)
 		},
 	},
 
