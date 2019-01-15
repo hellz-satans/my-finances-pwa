@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Accounts, Expenses, Categories } from '@/stores/modules'
+import modules from '@/stores/modules'
 import { downloadJsonUsingBrowser } from '@/download'
 
 Vue.use(Vuex)
@@ -9,21 +9,23 @@ export default new Vuex.Store({
 	modules: {
 		accounts: {
 			namespaced: true,
-			... Accounts,
+			... modules.accounts,
 		},
 		categories: {
 			namespaced: true,
-			... Categories,
+			... modules.categories,
 		},
 		expenses: {
 			namespaced: true,
-			... Expenses,
+			... modules.expenses,
+		},
+		preferences: {
+			namespaced: true,
+			... modules.preferences,
 		},
 	},
 
 	state: {
-		// TODO: get goal
-		goal: 200000
 	},
 
 	mutations: {

@@ -21,9 +21,9 @@ import { mapGetters, mapState } from 'vuex';
 export default {
 	name: 'BalanceSummary',
 	computed: {
-		... mapState([ 'goal' ]),
 		... mapGetters([ 'balanceSummary' ]),
 		... mapGetters('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
+		... mapGetters('preferences', [ 'goal' ]),
 		cssClasses() {
 			return {
 				orange: this.balanceSummary < 0
