@@ -204,6 +204,14 @@ const ExpensesStore = {
 				});
 			}
 
+      if (data.category) {
+        filters.push({
+          field: 'category',
+          op: '===',
+          value: data.category,
+        })
+      }
+
 			state.expensesFilters = filters;
 			commit('getExpenses');
 		},

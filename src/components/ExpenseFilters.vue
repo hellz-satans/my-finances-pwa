@@ -14,7 +14,7 @@
 							<datetime v-model="startDate" placeholder="Start date"></datetime>
 						</sui-form-field>
 					</sui-grid-column>
-					
+
 					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
 						<sui-form-field>
 							<label for="date">End date</label>
@@ -48,6 +48,22 @@
 						</sui-form-field>
 					</sui-grid-column>
 
+          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+            <sui-form-field>
+              <label for="category">Category</label>
+              <sui-dropdown
+                placeholder="Category"
+                fluid
+                selection
+                :options="expenseCategories"
+                data-rules="required"
+                data-vv-name="category"
+                v-validate
+                v-model="category"
+              />
+            </sui-form-field>
+          </sui-grid-column>
+
 					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
 						<sui-form-field>
 							<label for="date">Actions</label>
@@ -69,47 +85,51 @@
 					</sui-grid-column>
 				</sui-grid-row>
 			</sui-grid>
-
-			
 		</sui-form>
 	</nav>
 </template>
 
 <script>
-	import { Datetime } from 'vue-datetime';
+import { mapGetters } from 'vuex'
+import { Datetime } from 'vue-datetime'
 
-	export default {
-		name: 'ExpenseFilters',
-		components: {
-			datetime: Datetime,
-		},
-		data() {
-			return {
-				startDate: null,
-				endDate: null,
-				comparator: '>=',
-				price: 0,
-				comparatorOptions: [
-					{ text: 'Up to', value: '<=' },
-					{ text: 'At least', value: '>=' },
-				]
-			};
-		},
-		methods: {
-			filter() {
-				this.$store.dispatch('expenses/filterExpenses', {
-					startDate: this.startDate,
-					endDate: this.endDate,
-					comparator: this.comparator,
-					price: this.price,
-				});
-			},
-			resetFilters() {
-				this.startDate = this.endDate = null;
-				this.comparator = '>=';
-				this.price = 0;
-				this.$store.dispatch('expenses/filterExpenses', {});
-			}
-		}
-	}
+export default {
+  name: 'ExpenseFilters',
+  components: {
+    datetime: Datetime,
+  },
+  data() {
+    return {
+      startDate: null,
+      endDate: null,
+      category: null,
+      comparator: '>=',
+      price: 0,
+      comparatorOptions: [
+        { text: 'Up to', value: '<=' },
+        { text: 'At least', value: '>=' },
+      ]
+    };
+  },
+  methods: {
+    filter() {
+      this.$store.dispatch('expenses/filterExpenses', {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        category: this.category,
+        comparator: this.comparator,
+        price: this.price,
+      });
+    },
+    resetFilters() {
+      this.startDate = this.endDate = null;
+      this.comparator = '>=';
+      this.price = 0;
+      this.$store.dispatch('expenses/filterExpenses', {});
+    }
+  },
+  computed: {
+    ... mapGetters('categories', [ 'expenseCategories' ]),
+  },
+}
 </script>
