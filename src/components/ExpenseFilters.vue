@@ -162,7 +162,7 @@ export default {
       this.startDate = this.endDate = this.category = null;
       this.comparator = '>=';
       this.price = 0;
-      this.$store.dispatch('expenses/filterExpenses', {});
+      this.$emit('setFilters', [])
     }
   },
   computed: {

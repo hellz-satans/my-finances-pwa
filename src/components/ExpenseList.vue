@@ -193,7 +193,7 @@ export default {
       return list;
     },
   },
-  mounted() {
+  created() {
     if (this.amount) {
       this.perPage = this.amount
     }

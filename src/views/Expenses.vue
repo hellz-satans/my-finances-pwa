@@ -6,7 +6,7 @@
 			<sui-card-content>
 				<sui-card-header>Expenses charts</sui-card-header>
 				<sui-container text-align="center">
-					<expenses-chart></expenses-chart>
+					<expenses-chart :filters="expensesFilters"></expenses-chart>
 				</sui-container>
 			</sui-card-content>
 		</sui-card>

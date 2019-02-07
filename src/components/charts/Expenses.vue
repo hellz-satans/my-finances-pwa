@@ -6,10 +6,14 @@
 import VeLine from 'v-charts/lib/line.common'
 import { mapState } from 'vuex'
 import moment from 'moment'
+import { filterExpenses } from '@/stores/filters';
 
 export default {
   components: {
     VeLine,
+  },
+  props: {
+    filters: { type: Array, required: false, default: () => { return [] } },
   },
   methods: {
     /**
@@ -71,8 +75,16 @@ export default {
       };
     },
     chartData() {
+      let i = 0,
+        list = []
       const columns = [ 'date', 'Total expense', ];
-      const rows = this.expenses
+
+      for (i = 0; i < this.expenses.length; ++i) {
+        list.push(this.expenses[i])
+      }
+      list = list.filter(exp => filterExpenses(exp, this.filters))
+
+      const rows = list
         .map((el, i, arr) => {
           return {
             'Total expense': el.price * el.qty,
