@@ -54,8 +54,9 @@ export default new Vuex.Store({
 		 */
 		exportData({ state }) {
 			const data = {
-				expenses: state.expenses.expenses,
 				accounts: state.accounts.accounts,
+				expenses: state.expenses.expenses,
+				preferences: state.preferences.preferences,
 			};
 
 			downloadJsonUsingBrowser('my_finances.json', data)
