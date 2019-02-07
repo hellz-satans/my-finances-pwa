@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<expense-filters style="margin-bottom: 1em"></expense-filters>
+    <expense-filters @setFilters="setFilters($event)"></expense-filters>
 		<expense-form :hide-btn="true"></expense-form>
 		<sui-card width="100%" style="width: 100%">
 			<sui-card-content>
@@ -10,23 +10,34 @@
 				</sui-container>
 			</sui-card-content>
 		</sui-card>
-		<expense-list></expense-list>
+    <expense-list :filters="expensesFilters"></expense-list>
 	</div>
 </template>
+
 
 <script>
 import ExpensesChart from '@/components/charts/Expenses.vue';
 import ExpenseFilters from '@/components/ExpenseFilters.vue';
-import ExpenseList from '@/components/ExpenseList.vue';
 import ExpenseForm from '@/components/ExpenseForm.vue';
+import ExpenseList from '@/components/ExpenseList.vue';
 
 export default {
-  name: 'home',
+  name: 'expenses',
   components: {
     ExpensesChart,
     ExpenseFilters,
-    ExpenseForm,
     ExpenseList,
-  }
+    ExpenseForm,
+  },
+  data() {
+    return {
+      expensesFilters: []
+    }
+  },
+  methods: {
+    setFilters(filters) {
+      this.expensesFilters = filters
+    },
+  },
 }
 </script>

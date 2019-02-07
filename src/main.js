@@ -38,6 +38,7 @@ new Vue({
   render: h => h(App),
   mounted() {
     this.$store.commit('accounts/getAccounts');
+    this.$store.commit('preferences/getPreferences');
     this.$store.dispatch('categories/seedData');
     if (process.env.NODE_ENV === 'production') {
       this.$store.commit('expenses/getExpenses');

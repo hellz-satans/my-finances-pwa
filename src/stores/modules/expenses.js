@@ -1,5 +1,5 @@
 import db from '@/db';
-import { filterExpenses, expensesInRange } from '@/stores/filters';
+import { expensesInRange } from '@/stores/filters';
 import moment from 'moment';
 
 function newExpense () {
@@ -29,8 +29,6 @@ const ExpensesStore = {
 		},
 		expenses: [],
 		expensesFilters: [],
-		expensesPastMonth: 0,
-		expensesPastWeek: 0,
 		openModal: false,
 	},
 
@@ -54,8 +52,6 @@ const ExpensesStore = {
 						arr.sort((a, b) => moment(a.date) - moment(b.date));
 					}
 					return arr;
-				}).then((arr) => {
-					return arr.filter((exp) => filterExpenses(exp, state.expensesFilters));
 				}).then((arr) => {
 					state.expenses = arr;
 				}).catch((err) => {
@@ -186,35 +182,6 @@ const ExpensesStore = {
 					throw err
 				})
 		},
-		filterExpenses({ commit, state }, data) {
-			const filters = [];
-			if (data.startDate) {
-				filters.push({ field: 'date', op: '>=', value: new Date(data.startDate) });
-			}
-
-			if (data.endDate) {
-				filters.push({ field: 'date', op: '<=', value: new Date(data.endDate) });
-			}
-
-			if (data.price) {
-				filters.push({
-					field: 'price',
-					op: (data.comparator === '<=') ? '<=' : '>=',
-					value: data.price
-				});
-			}
-
-      if (data.category) {
-        filters.push({
-          field: 'category',
-          op: '===',
-          value: data.category,
-        })
-      }
-
-			state.expensesFilters = filters;
-			commit('getExpenses');
-		},
 
 		updatePastExpenses({ commit }) {
 			commit('updatePastExpenses')
@@ -281,6 +248,12 @@ const ExpensesStore = {
 			return state.expenses
 				.map(expense => expense.price * expense.qty)
 				.reduce((total, curr) => total + curr);
+		},
+		expensesPastWeek: (state) => {
+			return expensesInRange(state.expenses, 1, 'week')
+		},
+		expensesPastMonth: (state) => {
+			return expensesInRange(state.expenses, 1, 'month')
 		},
 	}
 };

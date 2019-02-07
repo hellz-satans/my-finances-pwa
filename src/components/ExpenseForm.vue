@@ -5,7 +5,7 @@
 		<sui-modal v-model="expenseModal" size="tiny">
 			<sui-modal-header>Add expense</sui-modal-header>
 
-			<sui-modal-content>
+			<sui-modal-content scrolling>
 				<sui-form name="expense" method="POST">
 					<sui-form-field>
 						<label for="price">Price</label>

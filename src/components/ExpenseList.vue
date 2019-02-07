@@ -76,6 +76,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
+import { filterExpenses } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
 
 export default {
@@ -83,6 +84,7 @@ export default {
   props: {
     amount: { type: Number, required: false, default: null },
     sort: { type: Number, required: false, default: 1 },
+    filters: { type: Array, required: false, default: () => { return [] } },
   },
   components: {
     Paginatron,
@@ -180,6 +182,7 @@ export default {
       for (i = 0; i < n && i < this.expenses.length; ++i) {
         list.push(this.expenses[i]);
       }
+      list = list.filter(exp => filterExpenses(exp, this.filters))
 
       if (this.sort) {
         list.sort((a, b) => moment(b.date) - moment(a.date));

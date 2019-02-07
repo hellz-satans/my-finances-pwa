@@ -44,4 +44,19 @@ db.version(3).stores({
 	tags: null,
 });
 
+/**
+ * Add preferences
+ *
+ * This is meant to be a key-value collection for things like user settings,
+ * and the like. Maybe even stuff that doesn't fit anywhere else (like a
+ * savings goal).
+ * Feel free to add any property to **stored** objects, we only declare
+ * properties that we want to index.
+ *
+ * See https://dexie.org/docs/API-Reference#quick-reference
+ */
+db.version(4).stores({
+	preferences: '&key,value'
+});
+
 export default db;

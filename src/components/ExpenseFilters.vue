@@ -1,5 +1,11 @@
+<style lang="scss" scoped>
+.expense-filters {
+  margin-bottom: 1rem;
+}
+</style>
+
 <template>
-	<nav class="expense-filter">
+	<nav class="expense-filters">
 		<sui-form
 			name="filters"
 			method="GET"
@@ -98,6 +104,9 @@ export default {
   components: {
     datetime: Datetime,
   },
+  props: {
+    filters: { type: Array, required: false, default: () => { return [] } },
+  },
   data() {
     return {
       startDate: null,
@@ -113,16 +122,44 @@ export default {
   },
   methods: {
     filter() {
-      this.$store.dispatch('expenses/filterExpenses', {
-        startDate: this.startDate,
-        endDate: this.endDate,
-        category: this.category,
-        comparator: this.comparator,
-        price: this.price,
-      });
+      const filters = [];
+
+      if (this.startDate) {
+        filters.push({
+          field: 'date',
+          op: '>=',
+          value: new Date(this.startDate)
+        })
+      }
+
+      if (this.endDate) {
+        filters.push({
+          field: 'date',
+          op: '<=',
+          value: new Date(this.endDate)
+        })
+      }
+
+      if (this.price) {
+        filters.push({
+          field: 'price',
+          op: (this.comparator === '<=') ? '<=' : '>=',
+          value: this.price
+        })
+      }
+
+      if (this.category) {
+        filters.push({
+          field: 'category',
+          op: '===',
+          value: this.category,
+        })
+      }
+
+      this.$emit('setFilters', filters)
     },
     resetFilters() {
-      this.startDate = this.endDate = null;
+      this.startDate = this.endDate = this.category = null;
       this.comparator = '>=';
       this.price = 0;
       this.$store.dispatch('expenses/filterExpenses', {});
