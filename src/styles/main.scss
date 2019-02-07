@@ -9,6 +9,10 @@ body {
 .semi-bold { font-weight: 500; }
 .bold { font-weight: 600; }
 
+.text-center { text-align: center; }
+.text-left { text-align: right; }
+.text-right { text-align: right; }
+
 // Vue router transition
 .slide-fade-enter-active {
   transition: all .3s ease;

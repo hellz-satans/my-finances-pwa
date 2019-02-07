@@ -71,7 +71,24 @@ const expensesInRange = (expenses, n = 1, unit = 'week') => {
 		.reduce((total, curr) => total + curr);
 }
 
+/**
+ * Calculate total expenses in the specified expenses list.
+ *
+ * @param expenses Array of expense objects
+ * @return Number
+ */
+const expensesSum = (expenses) => {
+  if (expenses.length < 1) {
+    return 0
+  }
+
+  return expenses
+    .map(expense => expense.price * expense.qty)
+    .reduce((total, curr) => total + curr);
+}
+
 export {
 	expensesInRange,
+	expensesSum,
 	filterExpenses,
 }

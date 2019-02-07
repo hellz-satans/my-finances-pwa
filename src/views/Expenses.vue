@@ -2,14 +2,7 @@
 	<div>
     <expense-filters @setFilters="setFilters($event)"></expense-filters>
 		<expense-form :hide-btn="true"></expense-form>
-		<sui-card width="100%" style="width: 100%">
-			<sui-card-content>
-				<sui-card-header>Expenses charts</sui-card-header>
-				<sui-container text-align="center">
-					<expenses-chart :filters="expensesFilters"></expenses-chart>
-				</sui-container>
-			</sui-card-content>
-		</sui-card>
+    <expenses-chart :filters="expensesFilters"></expenses-chart>
     <expense-list :filters="expensesFilters"></expense-list>
 	</div>
 </template>

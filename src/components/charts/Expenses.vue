@@ -1,5 +1,5 @@
 <template>
-    <ve-line :settings="chartSettings" :extend="chartOptions" :data="chartData"></ve-line>
+  <ve-line :settings="chartSettings" :extend="chartOptions" :data="chartData"></ve-line>
 </template>
 
 <script>
@@ -62,6 +62,17 @@ export default {
   },
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+    expensesList() {
+      let i = 0,
+        list = []
+
+      for (i = 0; i < this.expenses.length; ++i) {
+        list.push(this.expenses[i])
+      }
+      list = list.filter(exp => filterExpenses(exp, this.filters))
+
+      return list
+    },
     chartSettings() {
       return {
         area: true,
@@ -75,16 +86,9 @@ export default {
       };
     },
     chartData() {
-      let i = 0,
-        list = []
       const columns = [ 'date', 'Total expense', ];
 
-      for (i = 0; i < this.expenses.length; ++i) {
-        list.push(this.expenses[i])
-      }
-      list = list.filter(exp => filterExpenses(exp, this.filters))
-
-      const rows = list
+      const rows = this.expensesList
         .map((el, i, arr) => {
           return {
             'Total expense': el.price * el.qty,

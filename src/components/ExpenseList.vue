@@ -9,6 +9,9 @@
     @previous="decreased"
   >
     <article slot-scope="{ setPage, nextPage, prevPage, page, pages, hasNextPage, hasPrevPage, nextButtonEvents, prevButtonEvents, nextButtonAttrs, prevButtonAttrs }">
+      <h3 class="text-right">
+        Sum of expenses: <strong>{{ expensesSum | currency }}</strong>
+      </h3>
       <table class="ui table">
         <thead>
           <tr>
@@ -76,7 +79,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
-import { filterExpenses } from '@/stores/filters';
+import { filterExpenses, expensesSum } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
 
 export default {
@@ -191,6 +194,9 @@ export default {
       }
 
       return list;
+    },
+    expensesSum() {
+      return expensesSum(this.expensesList)
     },
   },
   created() {
