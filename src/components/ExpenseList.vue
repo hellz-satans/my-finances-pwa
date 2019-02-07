@@ -2,7 +2,7 @@
   <paginatron
     class="expenses-list"
     @change="updateItems"
-    :items-per-page="20"
+    :items-per-page="perPage"
     :items="expensesList"
     v-if="expensesList.length > 0"
     @next="advanced"
@@ -91,6 +91,7 @@ export default {
     return {
       activeItems: [],
       currentPage: 0,
+      perPage: 20,
     }
   },
   methods: {
@@ -188,6 +189,11 @@ export default {
 
       return list;
     },
+  },
+  mounted() {
+    if (this.amount) {
+      this.perPage = this.amount
+    }
   },
 }
 </script>

@@ -14,7 +14,7 @@
 			</sui-card-content>
 		</sui-card>
 
-		<expense-list :amount="5"></expense-list>
+		<expense-list :amount="7"></expense-list>
 	</div>
 </template>
 
