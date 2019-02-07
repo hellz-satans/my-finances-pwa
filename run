@@ -1,0 +1,28 @@
+#!/bin/bash
+# Run the application inside a docker container.
+# To add new npm packages use docker-exec(1), e.g.:
+# docker exec -t ${CONTAINER_NAME} npm install my-new-pkg --save
+
+SCRIPT="run serve"
+NODE_VERSION="${NODE_VERSION:-10.13}"
+DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
+CONTAINER_NAME="$(pwd | tr / '\n' | tail -1 | sed 's|[- ]|_|g')"
+
+if [ -n "$1" ]; then
+	if [ "$1" = "install" ]; then
+		SCRIPT="$1"
+	else
+		SCRIPT="run $1"
+	fi
+fi
+
+sudo docker run \
+	--name ${CONTAINER_NAME} \
+	--rm \
+	-it \
+	-w /app \
+	-v $PWD:/app \
+	-p 8080:8080 \
+	${DOCKER_IMAGE} \
+	npm ${SCRIPT}
+
