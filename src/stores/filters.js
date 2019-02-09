@@ -52,8 +52,8 @@ const filterExpenses = (expense, filters) => {
  * @return Promise
  */
 const expensesInRange = (expenses, n = 1, unit = 'week') => {
-	const endDate = moment()
-	const startDate = moment().subtract(n, unit)
+	const endDate = moment().endOf('day')
+	const startDate = moment().subtract(n, unit).startOf('day')
 	const list = []
 
 	for (const exp of expenses) {

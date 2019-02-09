@@ -128,7 +128,7 @@ export default {
         filters.push({
           field: 'date',
           op: '>=',
-          value: new Date(this.startDate)
+          value: moment(this.startDate).startOf('day'),
         })
       }
 
@@ -136,7 +136,7 @@ export default {
         filters.push({
           field: 'date',
           op: '<=',
-          value: new Date(this.endDate)
+          value: moment(this.endDate).startOf('day'),
         })
       }
 

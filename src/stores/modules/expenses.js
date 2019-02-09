@@ -44,12 +44,19 @@ const ExpensesStore = {
 			options.sort = options.sort || 1;
 
 			db.expenses.toArray()
+        .then((arr) => {
+          // convert dates to moment instances
+          for (const exp of arr) {
+            exp.date = moment(exp.date)
+          }
+          return arr
+        })
 				.then((arr) => {
 					if (options.sort) {
 						// sort by date in decreasing order
-						arr.sort((a, b) => moment(b.date) - moment(a.date));
+						arr.sort((a, b) => b.date - a.date);
 					} else {
-						arr.sort((a, b) => moment(a.date) - moment(b.date));
+						arr.sort((a, b) => a.date - b.date);
 					}
 					return arr;
 				}).then((arr) => {
