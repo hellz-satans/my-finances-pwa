@@ -1,6 +1,31 @@
 <style lang="scss" scoped>
 .expense-filters {
   margin-bottom: 1rem;
+
+  .expense-filters-form {
+    fieldset {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-evenly;
+      align-items: center;
+      align-content: space-around;
+      border: 1px solid #ccc;
+      border-radius: 0.3rem;
+
+      legend {
+        padding: 0 0.5rem;
+        font-weight: 600;
+      }
+
+      label {
+        flex-grow: 1;
+      }
+    }
+
+    label[for=actions] {
+      display: none !important;
+    }
+  }
 }
 </style>
 
@@ -10,13 +35,13 @@
 			name="filters"
 			method="GET"
 			@submit.prevent="filter"
-			class="expense-filter-form"
+			class="expense-filters-form"
 		>
-			<sui-grid >
+			<sui-grid>
 				<sui-grid-row>
 					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
 						<sui-form-field>
-							<label for="date">Start date</label>
+							<label class="hidden" hidden for="startDate">Start date</label>
 							<datetime v-model="startDate" placeholder="Start date"></datetime>
 						</sui-form-field>
 					</sui-grid-column>
@@ -28,31 +53,31 @@
 						</sui-form-field>
 					</sui-grid-column>
 
-					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
-						<sui-form-field>
-							<label for="date">To</label>
-							<sui-dropdown
-								placeholder="Comparator"
-								selection
-								:options="comparatorOptions"
-								v-model="comparator"
-							/>
-						</sui-form-field>
-					</sui-grid-column>
+          <sui-grid-column :mobile="8" :tablet="6" :computer="6">
+            <fieldset>
+              <legend>Price</legend>
+              <label for="comparator">
+                <span hidden>Price Comparator</span>
+                <sui-dropdown
+                  v-model="comparator"
+                  :options="comparatorOptions"
+                  placeholder="Price Comparator"
+                />
+              </label>
 
-					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
-						<sui-form-field>
-							<label for="date">Price</label>
-							<sui-input
-								id="grand_total"
-								name="grand_total"
-								placeholder="Unit price"
-								type="number"
-								step="any"
-								v-model="price"
-							/>
-						</sui-form-field>
-					</sui-grid-column>
+              <label for="price">
+                <span hidden>Price</span>
+                <input
+                  id="price"
+                  name="price"
+                  placeholder="Unit price"
+                  type="number"
+                  step="any"
+                  v-model="price"
+                />
+              </label>
+            </fieldset>
+          </sui-grid-column>
 
           <sui-grid-column :mobile="8" :tablet="3" :computer="3">
             <sui-form-field>
@@ -69,26 +94,17 @@
               />
             </sui-form-field>
           </sui-grid-column>
+        </sui-grid-row>
 
-					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
-						<sui-form-field>
-							<label for="date">Actions</label>
-
-							<sui-button @click="resetFilters" animated="vertical">
-								<sui-button-content hidden>Reset</sui-button-content>
-								<sui-button-content visible>
-									<sui-icon name="undo" />
-								</sui-button-content>
-							</sui-button>
-
-							<sui-button type="submit" animated="vertical">
-								<sui-button-content hidden>Filter</sui-button-content>
-								<sui-button-content visible>
-									<sui-icon name="filter" />
-								</sui-button-content>
-							</sui-button>
-						</sui-form-field>
-					</sui-grid-column>
+        <sui-grid-row>
+          <sui-grid-column></sui-grid-column>
+          <sui-grid-column align="right" floated="right" :mobile="12">
+            <sui-form-field>
+              <label hidden for="actions">Actions</label>
+              <sui-button @click="resetFilters" icon="undo" content="Reset" />
+              <sui-button type="submit" icon="filter" content="Filter" />
+            </sui-form-field>
+          </sui-grid-column>
 				</sui-grid-row>
 			</sui-grid>
 		</sui-form>

@@ -10,7 +10,7 @@
   >
     <article slot-scope="{ setPage, nextPage, prevPage, page, pages, hasNextPage, hasPrevPage, nextButtonEvents, prevButtonEvents, nextButtonAttrs, prevButtonAttrs }">
       <h3 class="text-right">
-        Sum of expenses: <strong>{{ expensesSum | currency }}</strong>
+        Sum of listed expenses: <strong>{{ expensesSum | currency }}</strong>
       </h3>
       <table class="ui table">
         <thead>
