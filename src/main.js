@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueX from 'vuex'
-import VeeValidate from 'vee-validate'
 import SuiVue from 'semantic-ui-vue'
 import moment from 'moment'
 import App from './App.vue'
@@ -22,7 +21,6 @@ window.moment = moment
 // config Vue
 Vue.use(SuiVue);
 Vue.use(VueX)
-Vue.use(VeeValidate)
 Vue.config.productionTip = false
 Vue.component('fa', FontAwesomeIcon)
 
