@@ -24,7 +24,7 @@
 
           <sui-form-field>
             <label for="date">Date</label>
-            <datetime v-model="date" type="datetime" />
+            <input type="date" v-model="date" />
             <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
               {{ err }}
             </p>
@@ -99,14 +99,10 @@
 
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
-import { Datetime } from 'vue-datetime'
 
 export default {
   name: 'ExpenseForm',
   props: ['hideBtn'],
-  components: {
-    datetime: Datetime,
-  },
   methods: {
     ... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
     ... mapActions('expenses', [ 'toggleModal' ]),

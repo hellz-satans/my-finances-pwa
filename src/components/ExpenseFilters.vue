@@ -42,14 +42,14 @@
         <sui-grid-column :mobile="8" :tablet="3" :computer="3">
           <sui-form-field>
             <label class="hidden" hidden for="startDate">Start date</label>
-            <datetime v-model="startDate" placeholder="Start date" />
+            <input type="date" v-model="startDate" placeholder="Start date" />
           </sui-form-field>
         </sui-grid-column>
 
         <sui-grid-column :mobile="8" :tablet="3" :computer="3">
           <sui-form-field>
             <label for="date">End date</label>
-            <datetime v-model="endDate" placeholder="End date" />
+            <input type="date" v-model="endDate" placeholder="End date" />
           </sui-form-field>
         </sui-grid-column>
 
@@ -110,13 +110,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Datetime } from 'vue-datetime'
 
 export default {
   name: 'ExpenseFilters',
-  components: {
-    datetime: Datetime,
-  },
   props: {
     filters: { type: Array, required: false, default: () => { return [] } },
   },
