@@ -25,3 +25,11 @@ body {
   transform: translateY(10px);
   opacity: 0;
 }
+
+// colored text
+$text-colors: blue, green, orange, pink, purple, red, teal, yellow, black, grey, white;
+@each $tc in $text-colors{
+	.text.#{$tc}{
+		color: #{$tc};
+	}
+}
