@@ -21,9 +21,6 @@
 						<sui-input
 							name="preferenceKey"
 							required
-							data-rules="required"
-							data-vv-name="value"
-							v-validate
 							v-model="value"
 						/>
 					</sui-form-field>

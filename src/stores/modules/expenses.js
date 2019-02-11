@@ -1,8 +1,10 @@
-import db from '@/db';
-import { expensesInRange } from '@/stores/filters';
-import moment from 'moment';
+import db from '@/db'
+import { expensesInRange } from '@/stores/filters'
+import { expenseConstraints } from '@/stores/constraints'
+import moment from 'moment'
+import validate from 'validate.js'
 
-function newExpense () {
+function newExpense() {
 	return {
 		description: null,
 		price: 0,
@@ -27,6 +29,7 @@ const ExpensesStore = {
 			category: 'other',
 			subcategory: 'other_other',
 		},
+    expenseErrors: {},
 		expenses: [],
 		expensesFilters: [],
 		openModal: false,
@@ -38,7 +41,7 @@ const ExpensesStore = {
 			db.expenses.add(expense);
 		},
 		setNewExpense(state) {
-			state.expense = newExpense;
+			state.expense = newExpense();
 		},
 		getExpenses(state, options = {}) {
 			options.sort = options.sort || 1;
@@ -77,11 +80,6 @@ const ExpensesStore = {
 					console.warn('expense not found:', id);
 					throw err;
 				});
-		},
-		unsetCurrentExpense(state) {
-			if (state.currentExpense.id) {
-				state.currentExpense = {};
-			}
 		},
 		updateCurrentExpenseDescription(state, description) {
 			if (description) {
@@ -122,8 +120,8 @@ const ExpensesStore = {
 
 	actions: {
 		toggleModal({ commit }, unsetExpense) {
-			if(unsetExpense) {
-				commit('unsetCurrentExpense');
+			if (unsetExpense) {
+				commit('setNewExpense');
 			}
 			commit('toggleModal');
 		},
@@ -150,15 +148,21 @@ const ExpensesStore = {
 				qty: state.currentExpense.qty,
 				subcategory: state.currentExpense.subcategory
 			}
+      const errors = validate(data, expenseConstraints)
 
-			return dispatch(actionName, data)
-				.then((id) => {
-					commit('getExpenses');
-					commit('unsetCurrentExpense');
-					commit('toggleModal');
-					commit('setNewExpense');
-					return id;
-				});
+      if (!errors) {
+        return dispatch(actionName, data)
+          .then((id) => {
+            commit('getExpenses');
+            commit('toggleModal');
+            commit('setNewExpense');
+            state.expenseErrors = {}
+            return id;
+          });
+      } else {
+        console.error('submitExpense:', errors)
+        state.expenseErrors = errors
+      }
 		},
 		updateExpense({ commit, state }, data) {
 			// convert date input to Date type

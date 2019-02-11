@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<article>
 		<sui-button @click.native="toggleModal(true)" v-if="!hideBtn" positive>Add expense</sui-button>
 
 		<sui-modal v-model="expenseModal" size="tiny">
@@ -15,32 +15,34 @@
 							min="0.1"
 							step="any"
 							required
-							data-rules="min_value:0.1"
-							data-vv-name="price"
-							v-validate
 							v-model="price"
 						/>
+            <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 
 					<sui-form-field>
 						<label for="date">Date</label>
-						<datetime v-model="date" type="datetime" v-validate="'required'">
-						</datetime>
+						<datetime v-model="date" type="datetime" />
+            <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 
 					<sui-form-field>
-						<label for="quantity">Quantity</label>
+						<label for="qty">Quantity</label>
 						<sui-input
 							type="number"
-							name="quantity"
+							name="qty"
 							min="1"
 							step="1"
 							required
-							data-rules="min_value:0.1"
-							data-vv-name="quantity"
-							v-validate
 							v-model="qty"
 						/>
+            <p v-for="(err, i) in expenseErrors.qty" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 
 					<sui-form-field>
@@ -50,11 +52,11 @@
 							fluid
 							selection
 							:options="expenseCategories"
-							data-rules="required"
-							data-vv-name="category"
-							v-validate
 							v-model="category"
 						/>
+            <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 
 					<sui-form-field>
@@ -64,11 +66,11 @@
 							fluid
 							selection
 							:options="expenseSubcategories"
-							data-rules="required"
-							data-vv-name="subcategory"
-							v-validate
 							v-model="subcategory"
 						/>
+            <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 
 					<sui-form-field>
@@ -78,11 +80,11 @@
 							minlength="1"
 							pattern=".+"
 							required
-							data-rules="required"
-							data-vv-name="description"
-							v-validate
 							v-model="description"
 						/>
+            <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
+              {{ err }}
+            </p>
 					</sui-form-field>
 				</sui-form>
 			</sui-modal-content>
@@ -92,12 +94,12 @@
 				<sui-button positive @click="submitExpense">{{ action }}</sui-button>
 			</sui-modal-actions>
 		</sui-modal>
-	</div>
+	</article>
 </template>
 
 <script>
-	import { mapMutations, mapActions, mapGetters, mapState } from 'vuex';
-	import { Datetime } from 'vue-datetime';
+	import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
+	import { Datetime } from 'vue-datetime'
 
 	export default {
 		name: 'ExpenseForm',
@@ -109,78 +111,61 @@
 			... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
 			... mapActions('expenses', [ 'toggleModal' ]),
 			submitExpense() {
-				if (document.forms.expense.checkValidity()) {
-					this.$store.dispatch('expenses/submitExpense')
-						.catch((err) => {
-							console.error('submitExpense:', err, err.stack);
-						});
-				} else {
-					document.forms.expense.reportValidity();
-					console.error('submitExpense: invalid data');
-				}
+        this.$store.dispatch('expenses/submitExpense')
+          .catch((err) => {
+            console.error('expenseForm:', err, err.stack)
+          })
 			}
 		},
 		computed: {
 			... mapGetters('categories', [ 'expenseCategories' ]),
 			... mapState('categories', [ 'categories', 'subcategories' ]),
-			... mapState('expenses', [ 'currentExpense', 'openModal' ]),
+			... mapState('expenses', [ 'currentExpense', 'expenseErrors', 'openModal' ]),
 			expenseSubcategories() {
-				const list = [];
-				let c = null;
+				const list = []
+				let c = null
 
 				for (const i in this.subcategories) {
-					c = this.subcategories[i];
+					c = this.subcategories[i]
 					if (c.key.startsWith(this.category)) {
-						list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
+						list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon })
 					}
 				}
 
-				return list;
+				return list
 			},
 			action() {
-				return this.currentExpense.id ? 'Update' : 'Save';
+				return this.currentExpense.id ? 'Update' : 'Save'
 			},
 			description: {
-				get() { return this.$store.state.expenses.currentExpense.description; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseDescription', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.description },
+				set(v) { this.$store.commit('expenses/updateCurrentExpenseDescription', v) },
 			},
 			price: {
-				get() { return this.$store.state.expenses.currentExpense.price; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpensePrice', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.price },
+				set(v) { this.$store.commit('expenses/updateCurrentExpensePrice', v) },
 			},
 			qty: {
-				get() { return this.$store.state.expenses.currentExpense.qty; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseQty', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.qty },
+				set(v) { this.$store.commit('expenses/updateCurrentExpenseQty', v) },
 			},
 			category: {
-				get() { return this.$store.state.expenses.currentExpense.category; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseCategory', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.category },
+				set(v) { this.$store.commit('expenses/updateCurrentExpenseCategory', v) },
 			},
 			subcategory: {
-				get() { return this.$store.state.expenses.currentExpense.subcategory; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseSubcategory', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.subcategory },
+				set(v) { this.$store.commit('expenses/updateCurrentExpenseSubcategory', v) },
 			},
 			date: {
 				// TODO: fix warning when setting the input[type=date] with this
-				get() { return this.$store.state.expenses.currentExpense.date; },
-				set(value) {
-					return this.$store.commit('expenses/updateCurrentExpenseDate', value);
-				},
+				get() { return this.$store.state.expenses.currentExpense.date },
+				set(v) { this.$store.commit('expenses/updateCurrentExpenseDate', v) },
 			},
 
 			expenseModal: {
-				get() { return this.$store.state.expenses.openModal; },
-				set(value) { return this.$store.commit('expenses/toggleModal'); },
+				get() { return this.$store.state.expenses.openModal },
+				set(v) { return this.$store.commit('expenses/toggleModal') },
 			},
 		}
 	}
