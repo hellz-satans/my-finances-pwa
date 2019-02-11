@@ -30,85 +30,82 @@
 </style>
 
 <template>
-	<nav class="expense-filters">
-		<sui-form
-			name="filters"
-			method="GET"
-			@submit.prevent="filter"
-			class="expense-filters-form"
-		>
-			<sui-grid>
-				<sui-grid-row>
-					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
-						<sui-form-field>
-							<label class="hidden" hidden for="startDate">Start date</label>
-							<datetime v-model="startDate" placeholder="Start date"></datetime>
-						</sui-form-field>
-					</sui-grid-column>
+  <nav class="expense-filters">
+    <sui-form
+      name="filters"
+      method="GET"
+      @submit.prevent="filter"
+      class="expense-filters-form"
+    >
+    <sui-grid>
+      <sui-grid-row>
+        <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+          <sui-form-field>
+            <label class="hidden" hidden for="startDate">Start date</label>
+            <datetime v-model="startDate" placeholder="Start date" />
+          </sui-form-field>
+        </sui-grid-column>
 
-					<sui-grid-column :mobile="8" :tablet="3" :computer="3">
-						<sui-form-field>
-							<label for="date">End date</label>
-							<datetime v-model="endDate" placeholder="End date"></datetime>
-						</sui-form-field>
-					</sui-grid-column>
+        <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+          <sui-form-field>
+            <label for="date">End date</label>
+            <datetime v-model="endDate" placeholder="End date" />
+          </sui-form-field>
+        </sui-grid-column>
 
-          <sui-grid-column :mobile="8" :tablet="6" :computer="6">
-            <fieldset>
-              <legend>Price</legend>
-              <label for="comparator">
-                <span hidden>Price Comparator</span>
-                <sui-dropdown
-                  v-model="comparator"
-                  :options="comparatorOptions"
-                  placeholder="Price Comparator"
-                />
-              </label>
-
-              <label for="price">
-                <span hidden>Price</span>
-                <input
-                  id="price"
-                  name="price"
-                  placeholder="Unit price"
-                  type="number"
-                  step="any"
-                  v-model="price"
-                />
-              </label>
-            </fieldset>
-          </sui-grid-column>
-
-          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-            <sui-form-field>
-              <label for="category">Category</label>
+        <sui-grid-column :mobile="8" :tablet="6" :computer="6">
+          <fieldset>
+            <legend>Price</legend>
+            <label for="comparator">
+              <span hidden>Price Comparator</span>
               <sui-dropdown
-                placeholder="Category"
-                fluid
-                selection
-                :options="expenseCategories"
-                data-rules="required"
-                data-vv-name="category"
-                v-validate
-                v-model="category"
+                v-model="comparator"
+                :options="comparatorOptions"
+                placeholder="Price Comparator"
               />
-            </sui-form-field>
-          </sui-grid-column>
-        </sui-grid-row>
+            </label>
 
-        <sui-grid-row>
-          <sui-grid-column></sui-grid-column>
-          <sui-grid-column align="right" floated="right" :mobile="12">
-            <sui-form-field>
-              <label hidden for="actions">Actions</label>
-              <sui-button @click="resetFilters" icon="undo" content="Reset" />
-              <sui-button type="submit" icon="filter" content="Filter" />
-            </sui-form-field>
-          </sui-grid-column>
-				</sui-grid-row>
-			</sui-grid>
-		</sui-form>
-	</nav>
+            <label for="price">
+              <span hidden>Price</span>
+              <input
+                id="price"
+                name="price"
+                placeholder="Unit price"
+                type="number"
+                step="any"
+                v-model="price"
+              />
+            </label>
+          </fieldset>
+        </sui-grid-column>
+
+        <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+          <sui-form-field>
+            <label for="category">Category</label>
+            <sui-dropdown
+              placeholder="Category"
+              fluid
+              selection
+              :options="expenseCategories"
+              v-model="category"
+            />
+          </sui-form-field>
+        </sui-grid-column>
+      </sui-grid-row>
+
+      <sui-grid-row>
+        <sui-grid-column></sui-grid-column>
+        <sui-grid-column align="right" floated="right" :mobile="12">
+          <sui-form-field>
+            <label hidden for="actions">Actions</label>
+            <sui-button @click="resetFilters" icon="undo" content="Reset" />
+            <sui-button type="submit" icon="filter" content="Filter" />
+          </sui-form-field>
+        </sui-grid-column>
+        </sui-grid-row>
+      </sui-grid>
+    </sui-form>
+  </nav>
 </template>
 
 <script>
@@ -152,7 +149,7 @@ export default {
         filters.push({
           field: 'date',
           op: '<=',
-          value: moment(this.endDate).startOf('day'),
+          value: moment(this.endDate).endOf('day'),
         })
       }
 
@@ -175,9 +172,9 @@ export default {
       this.$emit('setFilters', filters)
     },
     resetFilters() {
-      this.startDate = this.endDate = this.category = null;
-      this.comparator = '>=';
-      this.price = 0;
+      this.startDate = this.endDate = this.category = null
+      this.comparator = '>='
+      this.price = 0
       this.$emit('setFilters', [])
     }
   },
