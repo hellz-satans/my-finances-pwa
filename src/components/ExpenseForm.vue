@@ -24,7 +24,7 @@
 
           <sui-form-field>
             <label for="date">Date</label>
-            <input type="date" v-model="date" />
+            <input type="datetime-local" v-model="date" />
             <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
               {{ err }}
             </p>
