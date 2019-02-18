@@ -41,7 +41,7 @@ const ExpensesStore = {
       db.expenses.add(expense);
     },
     setNewExpense(state) {
-      state.expense = newExpense();
+      state.currentExpense = newExpense()
     },
     getExpenses(state, options = {}) {
       options.sort = options.sort || 1;
@@ -153,9 +153,9 @@ const ExpensesStore = {
       if (!errors) {
         return dispatch(actionName, data)
           .then((id) => {
-            commit('getExpenses');
-            commit('toggleModal');
-            commit('setNewExpense');
+            commit('getExpenses')
+            commit('toggleModal')
+            commit('setNewExpense')
             state.expenseErrors = {}
             return id;
           });
