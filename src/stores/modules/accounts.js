@@ -82,7 +82,6 @@ const AccountsStore = {
 				});
 		},
 		updateAccount({ commit, state }, data) {
-			commit('toggleModal');
 			return db.accounts.update(state.currentAccount.id, data);
 		},
 		deleteAccount({ commit }, id) {
@@ -136,6 +135,22 @@ const AccountsStore = {
 				.map(acc => acc.balance)
 				.reduce((total, curr) => total + curr);
 		},
+    /**
+     * Return SUI-compatible options for dropdown component.
+     *
+     * @return [Object]
+     */
+    accountsOptions(state) {
+      const list = []
+      let a = null
+
+      for (const i in state.accounts) {
+        a = state.accounts[i]
+        list.push({ key: a.id, text: a.name, value: a.id })
+      }
+
+      return list
+    },
 	},
 };
 

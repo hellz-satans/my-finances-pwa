@@ -74,6 +74,19 @@
           </sui-form-field>
 
           <sui-form-field>
+            <label for="account">Account</label>
+            <sui-dropdown
+              fluid
+              selection
+              :options="accountsOptions"
+              v-model="account"
+            />
+            <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+
+          <sui-form-field>
             <label for="description">Description</label>
             <sui-input
               name="description"
@@ -114,6 +127,7 @@ export default {
     }
   },
   computed: {
+    ... mapGetters('accounts', [ 'accountsOptions', ]),
     ... mapGetters('categories', [ 'expenseCategories' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapState('expenses', [ 'currentExpense', 'expenseErrors', 'openModal' ]),
@@ -158,10 +172,14 @@ export default {
       get() { return this.$store.state.expenses.currentExpense.date },
       set(v) { this.$store.commit('expenses/updateCurrentExpenseDate', v) },
     },
+    account: {
+      get() { return this.$store.state.expenses.currentExpense.account },
+      set(v) { this.$store.commit('expenses/updateCurrentExpenseAccount', v) },
+    },
 
     expenseModal: {
       get() { return this.$store.state.expenses.openModal },
-      set(v) { return this.$store.commit('expenses/toggleModal') },
+      set(v) { this.$store.commit('expenses/toggleModal') },
     },
   }
 }

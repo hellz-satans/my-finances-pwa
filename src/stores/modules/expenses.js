@@ -13,6 +13,7 @@ function newExpense() {
     tags: [],
     category: 'other',
     subcategory: 'other_other',
+    account: null,
   }
 }
 
@@ -102,6 +103,9 @@ const ExpensesStore = {
     },
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date;
+    },
+    updateCurrentExpenseAccount(state, account) {
+      state.currentExpense.account = account;
     },
     toggleModal(state) {
       state.openModal = !state.openModal;
