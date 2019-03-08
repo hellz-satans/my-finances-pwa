@@ -13,7 +13,7 @@ const AccountsStore = {
 
 	mutations: {
 		createAccount(state, account) {
-			return db.accounts.add(account);
+			db.accounts.add(account);
 		},
 		getAccounts(state) {
 			db.accounts.toArray()
@@ -62,7 +62,6 @@ const AccountsStore = {
 		},
 		createAccount({ commit }, account) {
 			commit('createAccount', account)
-			window.setTimeout(ev => commit('getAccounts'), 10)
 		},
 		editAccount({ commit }, id) {
 			commit('setCurrentAccount', id);
@@ -84,6 +83,19 @@ const AccountsStore = {
 		updateAccount({ commit, state }, data) {
 			return db.accounts.update(state.currentAccount.id, data);
 		},
+    deduct({ commit }, data) {
+      return db.accounts.get(data.id)
+        .then((account) => {
+          const fields = {
+            balance: account.balance - data.amount,
+          }
+
+          return db.accounts.update(account.id, fields)
+        })
+        .then((id) => {
+          commit('getAccounts')
+        })
+    },
 		deleteAccount({ commit }, id) {
 			// on success, resolves with an undefined result
 			return db.accounts.delete(id)

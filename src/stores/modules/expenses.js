@@ -13,7 +13,7 @@ function newExpense() {
     tags: [],
     category: 'other',
     subcategory: 'other_other',
-    account: null,
+    accountId: null,
   }
 }
 
@@ -71,7 +71,7 @@ const ExpensesStore = {
         });
     },
     setCurrentExpense(state, id) {
-      return db.expenses.get(id)
+      db.expenses.get(id)
         .then((expense) => {
           expense.date = moment(expense.date).format();
           state.currentExpense = expense;
@@ -104,8 +104,8 @@ const ExpensesStore = {
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date;
     },
-    updateCurrentExpenseAccount(state, account) {
-      state.currentExpense.account = account;
+    updateCurrentExpenseAccount(state, accountId) {
+      state.currentExpense.accountId = accountId;
     },
     toggleModal(state) {
       state.openModal = !state.openModal;
@@ -129,9 +129,25 @@ const ExpensesStore = {
       }
       commit('toggleModal');
     },
-    createExpense({ commit }, expense) {
+    createExpense({ commit, dispatch }, expense) {
       commit('createExpense', expense)
-      window.setTimeout(ev => commit('getExpenses'), 10)
+
+      if (expense.accountId) {
+        const deduct = {
+          id: expense.accountId,
+          amount: expense.price * expense.qty,
+        }
+        dispatch('accounts/deduct', deduct, { root: true })
+      }
+    },
+    updateExpense({ commit, state }, data) {
+      // convert date input to Date type
+      if (data.date) {
+        data.date = new Date(data.date);
+      }
+      // TODO: update account balance
+
+      return db.expenses.update(state.currentExpense.id, data);
     },
     editExpense({ commit }, id) {
       commit('setCurrentExpense', id);
@@ -145,12 +161,13 @@ const ExpensesStore = {
         ? 'updateExpense'
         : 'createExpense';
       const data = {
+        accountId: state.currentExpense.accountId,
         category: state.currentExpense.category,
         date: state.currentExpense.date,
         description: state.currentExpense.description,
         price: state.currentExpense.price,
         qty: state.currentExpense.qty,
-        subcategory: state.currentExpense.subcategory
+        subcategory: state.currentExpense.subcategory,
       }
       const errors = validate(data, expenseConstraints)
 
@@ -167,14 +184,6 @@ const ExpensesStore = {
         console.error('submitExpense:', errors)
         state.expenseErrors = errors
       }
-    },
-    updateExpense({ commit, state }, data) {
-      // convert date input to Date type
-      if (data.date) {
-        data.date = new Date(data.date);
-      }
-
-      return db.expenses.update(state.currentExpense.id, data);
     },
     deleteExpense({ commit }, id) {
       // on success, resolves with an undefined result

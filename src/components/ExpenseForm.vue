@@ -81,7 +81,7 @@
               :options="accountsOptions"
               v-model="account"
             />
-            <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
+            <p v-for="(err, i) in expenseErrors.accountId" :key="i" class="red text">
               {{ err }}
             </p>
           </sui-form-field>
@@ -173,7 +173,7 @@ export default {
       set(v) { this.$store.commit('expenses/updateCurrentExpenseDate', v) },
     },
     account: {
-      get() { return this.$store.state.expenses.currentExpense.account },
+      get() { return this.$store.state.expenses.currentExpense.accountId },
       set(v) { this.$store.commit('expenses/updateCurrentExpenseAccount', v) },
     },
 
