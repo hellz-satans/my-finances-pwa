@@ -1,6 +1,21 @@
+<style lang="scss">
+  .expense-form-button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 999;
+  }
+</style>
+
 <template>
   <article>
-    <sui-button @click.native="toggleModal(true)" v-if="!hideBtn" positive>Add expense</sui-button>
+    <sui-button
+      class="expense-form-button"
+      @click.native="toggleModal(true)"
+      circular
+      icon="plus"
+      positive
+    />
 
     <sui-modal v-model="expenseModal" size="tiny">
       <sui-modal-header>Add expense</sui-modal-header>
