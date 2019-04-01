@@ -63,5 +63,6 @@ self.addEventListener('activate', function(event) {
           return caches.delete(key);
         }
       }));
-    });
+    })
+  );
 });
