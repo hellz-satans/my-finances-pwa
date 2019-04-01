@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="manifest" href="manifest.json">
     <title>MyFin: Finances</title>
   </head>
   <body>
@@ -15,5 +16,12 @@
 
     <section id="app"></section>
     <!-- built files will be auto injected -->
+    <script>
+      if (!navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("sw.js").then(function(reg) {
+          console.debug("Service worker has been registered for scope: " + reg.scope);
+        });
+      }
+    </script>
   </body>
 </html>
