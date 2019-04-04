@@ -7,7 +7,7 @@ self.addEventListener("install", function(event) {
 var preLoad = function() {
   console.log("Installing web app");
   return caches.open(VERSION).then(function(cache) {
-    return cache.addAll([ "/", "/my-finances-pwa", "/my-finances-pwa/", "offline.html" ]);
+    return cache.addAll([ "/my-finances-pwa/", "/my-finances-pwa/offline.html" ]);
   });
 };
 
@@ -18,7 +18,10 @@ self.addEventListener("fetch", function(event) {
         return returnFromCache(event.request);
       })
   );
-  event.waitUntil(addToCache(event.request));
+  event.waitUntil(addToCache(event.request))
+    .catch(function(err) {
+      console.error("Could not add to cache");
+    });
 });
 
 var checkResponse = function(request) {
@@ -35,10 +38,17 @@ var checkResponse = function(request) {
 
 var addToCache = function(request) {
   return caches.open(VERSION).then(function (cache) {
-    return fetch(request).then(function (response) {
-      console.log(response.url + " was cached");
-      return cache.put(request, response);
-    });
+    return fetch(request)
+      .then(function (response) {
+        console.log(response.url + " was cached");
+        return cache.put(request, response);
+      })
+      .catch(function(err) {
+        console.error("Could not cache " + request.url, err);
+      });
+  })
+  .catch(function(err) {
+    console.error("Could not open cache.", err);
   });
 };
 
