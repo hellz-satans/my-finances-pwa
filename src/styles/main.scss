@@ -13,6 +13,11 @@ body {
 .text-left { text-align: right; }
 .text-right { text-align: right; }
 
+.text-smaller { font-size: smaller; }
+.text-small { font-size: small; }
+.text-large { font-size: large; }
+.text-larger { font-size: larger; }
+
 // Vue router transition
 .slide-fade-enter-active {
   transition: all .3s ease;

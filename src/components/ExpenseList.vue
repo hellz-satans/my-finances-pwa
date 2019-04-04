@@ -15,9 +15,8 @@
       <table class="ui table">
         <thead>
           <tr>
-            <th scope="col">Grand total</th>
-            <th scope="col">Price</th>
-            <th scope="col">Qty</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Account</th>
             <th scope="col">Description</th>
             <th scope="col">Category</th>
             <th scope="col">Date &darr;</th>
@@ -26,9 +25,17 @@
         </thead>
         <tbody>
           <tr v-for="e in activeItems" :key="e.id">
-            <td><b>{{ e.qty * e.price | currency }}</b></td>
-            <td>{{ e.price | currency}}</td>
-            <td>{{ e.qty }}</td>
+            <td>
+              <b>{{ e.qty * e.price | currency }}</b>
+              <span class="text-smaller" v-if="e.qty > 1">
+                ({{ e.price | currency }} x {{ e.qty }})
+              </span>
+            </td>
+            <td>
+              <span v-if="e.account" :style="accountStyle(e.account)">
+                {{ e.account.name }}
+              </span>
+            </td>
             <td>{{ e.description }}</td>
             <td>
               <sui-icon :name="getIcon(e.subcategory, true)" />
@@ -81,6 +88,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import { filterExpenses, expensesSum } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
+import { accountStyle } from '@/services/accounts'
 
 export default {
   name: 'ExpenseList',
@@ -101,6 +109,7 @@ export default {
   },
   methods: {
     ... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
+    accountStyle,
 
     pagesClasses(page, index) {
       return {
@@ -170,6 +179,7 @@ export default {
   },
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+    ... mapState('accounts', [ 'accounts' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
     expensesList() {
@@ -183,7 +193,11 @@ export default {
       //
       // TODO: make it so that we take the _last_ n elements
       for (i = 0; i < n && i < this.expenses.length; ++i) {
-        list.push(this.expenses[i]);
+        let exp = this.expenses[i]
+        if (exp.accountId) {
+          exp.account = this.accounts.find(el => el.id === exp.accountId)
+        }
+        list.push(exp);
       }
       list = list.filter(exp => filterExpenses(exp, this.filters))
 

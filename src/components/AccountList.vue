@@ -31,8 +31,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
-import AccountForm from '../components/AccountForm.vue';
+import { mapActions, mapGetters, mapState } from 'vuex'
+import AccountForm from '@/components/AccountForm.vue'
+import { accountStyle } from '@/services/accounts'
 
 export default {
 	components: {
@@ -40,19 +41,7 @@ export default {
 	},
 	methods: {
 		... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
-		accountStyle(acc) {
-			const styles = {
-				'padding-left': '3px',
-				'border-left': `4px solid ${acc.color}`
-			}
-			let str = ''
-
-			for (const k in styles) {
-				str += `${k}: ${styles[k]};`
-			}
-
-			return str
-		}
+    accountStyle,
 	},
 	computed: {
 		... mapState('accounts', [ 'accounts' ]),
