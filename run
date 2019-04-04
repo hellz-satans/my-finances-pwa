@@ -4,8 +4,9 @@
 # docker exec -t ${CONTAINER_NAME} npm install my-new-pkg --save
 
 SCRIPT="run serve"
-NODE_VERSION="${NODE_VERSION:-10.13}"
-DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
+# NODE_VERSION="${NODE_VERSION:-10.13}"
+# DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
+DOCKER_IMAGE="juankman94/myfinances"
 CONTAINER_NAME="$(pwd | tr / '\n' | tail -1 | sed 's|[- ]|_|g')"
 
 if [ -n "$1" ]; then
@@ -20,7 +21,6 @@ sudo docker run \
 	--name ${CONTAINER_NAME} \
 	--rm \
 	-it \
-	-w /app \
 	-v $PWD:/app \
 	-p 8080:8080 \
 	${DOCKER_IMAGE} \
