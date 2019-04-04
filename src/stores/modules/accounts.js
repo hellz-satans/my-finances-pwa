@@ -94,6 +94,7 @@ const AccountsStore = {
         })
         .then((id) => {
           commit('getAccounts')
+          return id
         })
     },
 		deleteAccount({ commit }, id) {

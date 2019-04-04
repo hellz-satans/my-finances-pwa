@@ -5,8 +5,8 @@
 				<sui-grid-column v-for="acc in accounts" :key="acc.id" :mobile="5" :tablet="4" :computer="3" stretched>
 					<sui-card>
 						<sui-card-content>
-							<sui-card-header :style="accountStyle(acc)">
-								{{ acc.name }}
+							<sui-card-header>
+                <account-label :account="acc" />
 								<sui-icon class="right floated" size="small" name="trash" @click="deleteAccount(acc.id)" />
 								<sui-icon class="right floated" size="small" name="pencil" @click="editAccount(acc.id)" />
 							</sui-card-header>
@@ -33,15 +33,15 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import AccountForm from '@/components/AccountForm.vue'
-import { accountStyle } from '@/services/accounts'
+import AccountLabel from '@/components/accounts/AccountLabel.vue'
 
 export default {
 	components: {
 		AccountForm,
+    AccountLabel,
 	},
 	methods: {
 		... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
-    accountStyle,
 	},
 	computed: {
 		... mapState('accounts', [ 'accounts' ]),

@@ -28,19 +28,18 @@
             <td>
               <b>{{ e.qty * e.price | currency }}</b>
               <span class="text-smaller" v-if="e.qty > 1">
+                <br>
                 ({{ e.price | currency }} x {{ e.qty }})
               </span>
             </td>
             <td>
-              <span v-if="e.account" :style="accountStyle(e.account)">
-                {{ e.account.name }}
-              </span>
+              <account-label v-if="e.account" :account="e.account" />
             </td>
             <td>{{ e.description }}</td>
             <td>
-              <sui-icon :name="getIcon(e.subcategory, true)" />
-              {{ getName(e.category) }},
-              {{ getName(e.subcategory, true) }}
+              <category-label
+                :category="{ category: e.category, subcategory: e.subcategory }"
+              />
             </td>
             <td :title="e.date | format">{{ e.date | ago }}</td>
             <td>
@@ -88,7 +87,8 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import { filterExpenses, expensesSum } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
-import { accountStyle } from '@/services/accounts'
+import AccountLabel from '@/components/accounts/AccountLabel.vue'
+import CategoryLabel from '@/components/categories/CategoryLabel.vue'
 
 export default {
   name: 'ExpenseList',
@@ -98,6 +98,8 @@ export default {
     filters: { type: Array, required: false, default: () => { return [] } },
   },
   components: {
+    AccountLabel,
+    CategoryLabel,
     Paginatron,
   },
   data() {
@@ -109,7 +111,6 @@ export default {
   },
   methods: {
     ... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
-    accountStyle,
 
     pagesClasses(page, index) {
       return {
@@ -127,52 +128,6 @@ export default {
       this.currentPage = current
     },
 
-    /**
-     * Return category name for given key.
-     *
-     * @param key String Category key as found in DB
-     * @param isSubcategory Boolean Flag to indicate if it is a subcategory
-     * @return String
-     */
-    getName(key = '', isSubcategory = false) {
-      let cat = null
-
-      if (isSubcategory) {
-        cat = this.subcategories.find(el => el.key === key)
-      } else {
-        cat = this.categories.find(el => el.key === key)
-      }
-
-      if (!cat) {
-        return key.replace(/^\w/, key.charAt(0).toUpperCase())
-      }
-
-      return cat.name
-    },
-
-    /**
-     * Return category icon for given key.
-     *
-     * @param key String Category key as found in DB
-     * @param isSubcategory Boolean Flag to indicate if it is a subcategory
-     * @return String
-     */
-    getIcon(key = '', isSubcategory = false) {
-      let cat = null
-
-      if (isSubcategory) {
-        cat = this.subcategories.find(el => el.key === key)
-      } else {
-        cat = this.categories.find(el => el.key === key)
-      }
-
-      if (!cat) {
-        return key
-      }
-
-      return cat.icon
-    },
-
     updateItems(activeItems) {
       this.activeItems = activeItems
     },
@@ -180,7 +135,6 @@ export default {
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
     ... mapState('accounts', [ 'accounts' ]),
-    ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
     expensesList() {
       let list = [],
