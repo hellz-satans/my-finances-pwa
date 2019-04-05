@@ -19,6 +19,10 @@ in the cloud.
 
 The **third phase** will be a native android application.
 
+## References
+
+* [Heroku: How to make a Progressive Web Application](https://blog.heroku.com/how-to-make-progressive-web-app)
+
 ## TODO:
 
 - [x] Add webpack configuration and stop using CDNs
