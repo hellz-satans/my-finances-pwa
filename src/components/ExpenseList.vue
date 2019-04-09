@@ -26,11 +26,7 @@
         <tbody>
           <tr v-for="e in activeItems" :key="e.id">
             <td>
-              <b>{{ e.qty * e.price | currency }}</b>
-              <span class="text-smaller" v-if="e.qty > 1">
-                <br>
-                ({{ e.price | currency }} x {{ e.qty }})
-              </span>
+              <b>{{ e.price | currency }}</b>
             </td>
             <td>
               <account-label v-if="e.account" :account="e.account" />

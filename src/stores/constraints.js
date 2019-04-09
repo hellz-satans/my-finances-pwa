@@ -8,12 +8,6 @@ const expense = {
   date: {
     presence: true,
   },
-  qty: {
-    presence: true,
-    numericality: {
-      greaterThan: 0,
-    },
-  },
   category: {
     presence: true,
     length: {

@@ -67,7 +67,7 @@ const expensesInRange = (expenses, n = 1, unit = 'week') => {
 	}
 
 	return list
-		.map(expense => expense.price * expense.qty)
+		.map(expense => expense.price)
 		.reduce((total, curr) => total + curr);
 }
 
@@ -83,7 +83,7 @@ const expensesSum = (expenses) => {
   }
 
   return expenses
-    .map(expense => expense.price * expense.qty)
+    .map(expense => expense.price)
     .reduce((total, curr) => total + curr);
 }
 

@@ -8,7 +8,6 @@ function newExpense() {
   return {
     description: null,
     price: 0,
-    qty: 1,
     date: moment().format(),
     tags: [],
     category: 'other',
@@ -24,7 +23,6 @@ const ExpensesStore = {
     currentExpense: {
       description: null,
       price: 0,
-      qty: 1,
       date: moment().format(),
       tags: [],
       category: 'other',
@@ -92,9 +90,6 @@ const ExpensesStore = {
     updateCurrentExpensePrice(state, price) {
       state.currentExpense.price = Number(price);
     },
-    updateCurrentExpenseQty(state, qty) {
-      state.currentExpense.qty = Number(qty);
-    },
     updateCurrentExpenseCategory(state, category) {
       state.currentExpense.category = category;
     },
@@ -135,7 +130,7 @@ const ExpensesStore = {
       if (expense.accountId) {
         const deduct = {
           id: expense.accountId,
-          amount: expense.price * expense.qty,
+          amount: expense.price,
         }
         dispatch('accounts/deduct', deduct, { root: true })
       }
@@ -166,7 +161,6 @@ const ExpensesStore = {
         date: state.currentExpense.date,
         description: state.currentExpense.description,
         price: state.currentExpense.price,
-        qty: state.currentExpense.qty,
         subcategory: state.currentExpense.subcategory,
       }
       const errors = validate(data, expenseConstraints)
@@ -229,7 +223,6 @@ const ExpensesStore = {
             j = Math.random() * (20 - 1) + 1; // day range
             expense.description = `Expense ${i}`;
             expense.price = Math.floor(Math.random() * (100 - 20) + 20);
-            expense.qty = 1;
             expense.category = 'other';
             expense.subcategory = 'other_other';
             if (Math.random() < 0.50) {
@@ -270,7 +263,7 @@ const ExpensesStore = {
         return 0;
 
       return state.expenses
-        .map(expense => expense.price * expense.qty)
+        .map(expense => expense.price)
         .reduce((total, curr) => total + curr);
     },
     expensesPastWeek: (state) => {

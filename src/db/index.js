@@ -59,4 +59,21 @@ db.version(4).stores({
 	preferences: '&key,value'
 });
 
+/**
+ * Remove expeneses' quantity field.
+ *
+ * To improve a little bit the expense creation process.
+ */
+db.version(5).upgrade((transaction) => {
+  return transaction.expenses
+    .toCollection()
+    .modify((exp) => {
+      if (exp.qty > 1) {
+        exp.price = exp.price * exp.qty
+      }
+
+      delete exp.qty
+    })
+})
+
 export default db;

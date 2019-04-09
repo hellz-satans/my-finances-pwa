@@ -46,21 +46,6 @@
           </sui-form-field>
 
           <sui-form-field>
-            <label for="qty">Quantity</label>
-            <sui-input
-              type="number"
-              name="qty"
-              min="1"
-              step="1"
-              required
-              v-model="qty"
-            />
-            <p v-for="(err, i) in expenseErrors.qty" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-
-          <sui-form-field>
             <label for="category">Category</label>
             <sui-dropdown
               placeholder="Category"
@@ -169,10 +154,6 @@ export default {
     price: {
       get() { return this.$store.state.expenses.currentExpense.price },
       set(v) { this.$store.commit('expenses/updateCurrentExpensePrice', v) },
-    },
-    qty: {
-      get() { return this.$store.state.expenses.currentExpense.qty },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseQty', v) },
     },
     category: {
       get() { return this.$store.state.expenses.currentExpense.category },

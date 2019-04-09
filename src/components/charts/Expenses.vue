@@ -91,7 +91,7 @@ export default {
       const rows = this.expensesList
         .map((el, i, arr) => {
           return {
-            'Total expense': el.price * el.qty,
+            'Total expense': el.price,
             date: moment(el.date).format('YYYY-MM-DD'),
           };
         });
