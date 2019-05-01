@@ -8,40 +8,40 @@ import moment from 'moment'
  */
 const filterExpenses = (expense, filters) => {
   let f = null, // current filter
-    allow = true;
+    allow = true
 
   for (const i in filters) {
-    f = filters[i];
+    f = filters[i]
 
     switch (f.op) {
       case '<':
-        allow = expense[f.field] < f.value;
-        break;
+        allow = expense[f.field] < f.value
+        break
       case '<=':
-        allow = expense[f.field] <= f.value;
-        break;
+        allow = expense[f.field] <= f.value
+        break
       case '>':
-        allow = expense[f.field] > f.value;
-        break;
+        allow = expense[f.field] > f.value
+        break
       case '>=':
-        allow = expense[f.field] >= f.value;
-        break;
+        allow = expense[f.field] >= f.value
+        break
       case '==':
-        allow = expense[f.field] == f.value;
-        break;
+        allow = expense[f.field] == f.value
+        break
       case '===':
-        allow = expense[f.field] === f.value;
-        break;
+        allow = expense[f.field] === f.value
+        break
       default:
-        allow = true;
+        allow = true
     }
 
     // if a single restriction fails, reject
     if (!allow)
-      return false;
+      return false
   }
 
-  return allow;
+  return allow
 }
 
 /**
@@ -51,24 +51,24 @@ const filterExpenses = (expense, filters) => {
  * @param unit String Any moment.js compatible unit
  * @return Promise
  */
-const expensesInRange = (expenses, n = 1, unit = 'week') => {
+const expensesInRange = (expenses, n = 1, unit = 'week', options = {}) => {
 	const endDate = moment().endOf('day')
 	const startDate = moment().subtract(n, unit).startOf('day')
 	const list = []
+  // expenses sorted in decreasing order?
+  options.decreasing = options.decreasing || true
 
 	for (const exp of expenses) {
 		if (moment(exp.date).isBetween(startDate, endDate)) {
 			list.push(exp)
-		}
-	}
-
-	if (list.length < 1) {
-		return 0
+		} else if (options.decreasing) {
+      break
+    }
 	}
 
 	return list
 		.map(expense => expense.price)
-		.reduce((total, curr) => total + curr);
+		.reduce((total, curr) => total + curr)
 }
 
 /**
@@ -84,7 +84,7 @@ const expensesSum = (expenses) => {
 
   return expenses
     .map(expense => expense.price)
-    .reduce((total, curr) => total + curr);
+    .reduce((total, curr) => total + curr)
 }
 
 export {

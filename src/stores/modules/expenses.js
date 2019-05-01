@@ -36,14 +36,14 @@ const ExpensesStore = {
 
   mutations: {
     createExpense(state, expense) {
-      expense.date = new Date(expense.date);
-      db.expenses.add(expense);
+      expense.date = new Date(expense.date)
+      return db.expenses.add(expense)
     },
     setNewExpense(state) {
       state.currentExpense = newExpense()
     },
     getExpenses(state, options = {}) {
-      options.sort = options.sort || 1;
+      options.sort = options.sort || 1
 
       db.expenses.toArray()
         .then((arr) => {
@@ -56,29 +56,29 @@ const ExpensesStore = {
         .then((arr) => {
           if (options.sort) {
             // sort by date in decreasing order
-            arr.sort((a, b) => b.date - a.date);
+            arr.sort((a, b) => b.date - a.date)
           } else {
-            arr.sort((a, b) => a.date - b.date);
+            arr.sort((a, b) => a.date - b.date)
           }
-          return arr;
+          return arr
         }).then((arr) => {
-          state.expenses = arr;
+          state.expenses = arr
         }).catch((err) => {
-          console.error('getExpenses:', err);
-          throw err;
-        });
+          console.error('getExpenses:', err)
+          throw err
+        })
     },
     setCurrentExpense(state, id) {
       db.expenses.get(id)
         .then((expense) => {
-          expense.date = moment(expense.date).format();
-          state.currentExpense = expense;
-          return id;
+          expense.date = moment(expense.date).format()
+          state.currentExpense = expense
+          return id
         })
         .catch((err) => {
-          console.warn('expense not found:', id);
-          throw err;
-        });
+          console.warn('expense not found:', id)
+          throw err
+        })
     },
     updateCurrentExpenseDescription(state, description) {
       if (description) {
@@ -88,41 +88,31 @@ const ExpensesStore = {
       state.currentExpense.description = description
     },
     updateCurrentExpensePrice(state, price) {
-      state.currentExpense.price = Number(price);
+      state.currentExpense.price = Number(price)
     },
     updateCurrentExpenseCategory(state, category) {
-      state.currentExpense.category = category;
+      state.currentExpense.category = category
     },
     updateCurrentExpenseSubcategory(state, subcategory) {
-      state.currentExpense.subcategory = subcategory;
+      state.currentExpense.subcategory = subcategory
     },
     updateCurrentExpenseDate(state, date) {
-      state.currentExpense.date = date;
+      state.currentExpense.date = date
     },
     updateCurrentExpenseAccount(state, accountId) {
-      state.currentExpense.accountId = accountId;
+      state.currentExpense.accountId = accountId
     },
     toggleModal(state) {
-      state.openModal = !state.openModal;
-    },
-    updatePastExpenses(state) {
-      expensesInRange(1, 'week')
-        .then((total) => {
-          state.expensesPastWeek = total
-        })
-      expensesInRange(1, 'month')
-        .then((total) => {
-          state.expensesPastMonth = total
-        })
+      state.openModal = !state.openModal
     },
   },
 
   actions: {
     toggleModal({ commit }, unsetExpense) {
       if (unsetExpense) {
-        commit('setNewExpense');
+        commit('setNewExpense')
       }
-      commit('toggleModal');
+      commit('toggleModal')
     },
     createExpense({ commit, dispatch }, expense) {
       commit('createExpense', expense)
@@ -138,15 +128,15 @@ const ExpensesStore = {
     updateExpense({ commit, state }, data) {
       // convert date input to Date type
       if (data.date) {
-        data.date = new Date(data.date);
+        data.date = new Date(data.date)
       }
       // TODO: update account balance
 
-      return db.expenses.update(state.currentExpense.id, data);
+      return db.expenses.update(state.currentExpense.id, data)
     },
     editExpense({ commit }, id) {
-      commit('setCurrentExpense', id);
-      commit('toggleModal');
+      commit('setCurrentExpense', id)
+      commit('toggleModal')
     },
     /**
      * Submit current expense for storage.
@@ -154,7 +144,7 @@ const ExpensesStore = {
     submitExpense({ commit, dispatch, state }) {
       const actionName = (state.currentExpense.id)
         ? 'updateExpense'
-        : 'createExpense';
+        : 'createExpense'
       const data = {
         accountId: state.currentExpense.accountId,
         category: state.currentExpense.category,
@@ -172,8 +162,8 @@ const ExpensesStore = {
             commit('toggleModal')
             commit('setNewExpense')
             state.expenseErrors = {}
-            return id;
-          });
+            return id
+          })
       } else {
         console.error('submitExpense:', errors)
         state.expenseErrors = errors
@@ -183,9 +173,9 @@ const ExpensesStore = {
       // on success, resolves with an undefined result
       return db.expenses.delete(id)
         .then((whatever) => {
-          commit('getExpenses');
-          return whatever;
-        });
+          commit('getExpenses')
+          return whatever
+        })
     },
     deleteAll({ dispatch }) {
       db.expenses
@@ -199,42 +189,6 @@ const ExpensesStore = {
           console.error('expenses/deleteAll:', err)
           throw err
         })
-    },
-
-    updatePastExpenses({ commit }) {
-      commit('updatePastExpenses')
-    },
-
-    /**
-     * Seed random data to the DB.
-     */
-    seedData({ commit, state }, data) {
-      db.expenses
-        .toArray()
-        .then((arr) => {
-          if (arr.length > 0)
-            return undefined;
-
-          const n = 15;
-          let i = 0,
-            j = 0,
-            expense = {};
-          for (i = 0; i < n; ++i) {
-            j = Math.random() * (20 - 1) + 1; // day range
-            expense.description = `Expense ${i}`;
-            expense.price = Math.floor(Math.random() * (100 - 20) + 20);
-            expense.category = 'other';
-            expense.subcategory = 'other_other';
-            if (Math.random() < 0.50) {
-              expense.date = new Date(moment().subtract(j, 'd').toISOString());
-            } else {
-              expense.date = new Date(moment().add(j, 'd').toISOString());
-            }
-
-            db.expenses.add(expense);
-          }
-        })
-        .then(() => commit('getExpenses'));
     },
     importExpense({ commit, dispatch }, exp) {
       db.expenses
@@ -260,11 +214,11 @@ const ExpensesStore = {
   getters: {
     totalExpenses: (state) => {
       if (state.expenses.length === 0)
-        return 0;
+        return 0
 
       return state.expenses
         .map(expense => expense.price)
-        .reduce((total, curr) => total + curr);
+        .reduce((total, curr) => total + curr)
     },
     expensesPastWeek: (state) => {
       return expensesInRange(state.expenses, 1, 'week')
@@ -272,7 +226,7 @@ const ExpensesStore = {
     expensesPastMonth: (state) => {
       return expensesInRange(state.expenses, 1, 'month')
     },
-  }
-};
+  },
+}
 
-export { ExpensesStore };
+export { ExpensesStore }
