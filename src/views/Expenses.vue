@@ -10,9 +10,9 @@
 
 <script>
 import ExpensesChart from '@/components/charts/Expenses.vue';
-import ExpenseFilters from '@/components/ExpenseFilters.vue';
-import ExpenseForm from '@/components/ExpenseForm.vue';
-import ExpenseList from '@/components/ExpenseList.vue';
+import ExpenseFilters from '@/components/expenses/ExpenseFilters.vue';
+import ExpenseForm from '@/components/expenses/ExpenseForm.vue';
+import ExpenseList from '@/components/expenses/ExpenseList.vue';
 
 export default {
   name: 'expenses',

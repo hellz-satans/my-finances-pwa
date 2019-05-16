@@ -7,6 +7,7 @@
     v-if="expensesList.length > 0"
     @next="advanced"
     @previous="decreased"
+    @setPage="setCurrentPage"
   >
     <article slot-scope="{ setPage, nextPage, prevPage, page, pages, hasNextPage, hasPrevPage, nextButtonEvents, prevButtonEvents, nextButtonAttrs, prevButtonAttrs }">
       <h3 class="text-right">
@@ -58,7 +59,10 @@
         <tfoot>
         </tfoot>
       </table>
-      <footer class="ui center aligned pagination menu">
+      <footer
+        class="ui center aligned pagination menu"
+        v-if="pages > 1"
+      >
         <span
           class="item pointer"
           v-on="prevButtonEvents"
@@ -68,7 +72,6 @@
           v-for="(page, index) in pages"
           :key="index"
           @click="setPage(index)"
-          @setPage="currentPage = $ev"
           :class="pagesClasses(page, index)"
         >
           {{ page }}
@@ -108,9 +111,9 @@ export default {
   methods: {
     ... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
 
-    pagesClasses(page, index) {
+    pagesClasses(newPage, index) {
       return {
-        active: this.currentPage === (page - 1),
+        active: this.currentPage === (newPage - 1),
         item: true,
         pointer: true,
       }
@@ -124,6 +127,10 @@ export default {
       this.currentPage = current
     },
 
+    setCurrentPage(current) {
+      this.currentPage = current
+    },
+
     updateItems(activeItems) {
       this.activeItems = activeItems
     },
@@ -133,7 +140,8 @@ export default {
     ... mapState('accounts', [ 'accounts' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
     expensesList() {
-      let list = [],
+      let exp = null,
+        list = [],
         i = 0,
         n = this.amount || this.expenses.length;
 
@@ -143,19 +151,13 @@ export default {
       //
       // TODO: make it so that we take the _last_ n elements
       for (i = 0; i < n && i < this.expenses.length; ++i) {
-        let exp = this.expenses[i]
+        exp = this.expenses[i]
         if (exp.accountId) {
           exp.account = this.accounts.find(el => el.id === exp.accountId)
         }
         list.push(exp);
       }
       list = list.filter(exp => filterExpenses(exp, this.filters))
-
-      if (this.sort) {
-        list.sort((a, b) => moment(b.date) - moment(a.date));
-      } else {
-        list.sort((a, b) => moment(a.date) - moment(b.date));
-      }
 
       return list;
     },
@@ -164,8 +166,16 @@ export default {
     },
   },
   created() {
-    if (this.amount) {
-      this.perPage = this.amount
+    if (this.expensesList.length > 0) {
+      if (this.amount) {
+        this.perPage = (this.amount > this.expensesList.length)
+          ? this.expensesList.length
+          : this.amount
+      } else {
+        this.perPage = (this.perPage > this.expensesList.length)
+          ? this.expensesList.length
+          : this.perPage
+      }
     }
   },
 }

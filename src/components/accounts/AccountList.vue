@@ -32,7 +32,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import AccountForm from '@/components/AccountForm.vue'
+import AccountForm from '@/components/accounts/AccountForm.vue'
 import AccountLabel from '@/components/accounts/AccountLabel.vue'
 
 export default {

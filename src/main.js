@@ -6,8 +6,8 @@ import App from './App.vue'
 import router from './router'
 import store from '@/stores'
 import filters from './filters'
-import './registerServiceWorker'
-import './styles/main.scss'
+import '@/registerServiceWorker'
+import '@/styles/main.scss'
 
 // styles
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -34,14 +34,10 @@ new Vue({
   store,
   filters,
   render: h => h(App),
-  mounted() {
+  beforeMount() {
+    this.$store.commit('expenses/getExpenses');
     this.$store.commit('accounts/getAccounts');
     this.$store.commit('preferences/getPreferences');
     this.$store.dispatch('categories/seedData');
-    if (process.env.NODE_ENV === 'production') {
-      this.$store.commit('expenses/getExpenses');
-    } else {
-      this.$store.dispatch('expenses/seedData'); // this commits expenses/getExpenses
-    }
   },
 }).$mount('#app')

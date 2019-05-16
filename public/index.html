@@ -16,12 +16,5 @@
 
     <section id="app"></section>
     <!-- built files will be auto injected -->
-    <script>
-      if (!navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("sw.js").then(function(reg) {
-          console.debug("Service worker has been registered for scope: " + reg.scope);
-        });
-      }
-    </script>
   </body>
 </html>
