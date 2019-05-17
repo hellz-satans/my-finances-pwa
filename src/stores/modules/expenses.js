@@ -81,10 +81,6 @@ const ExpensesStore = {
         })
     },
     updateCurrentExpenseDescription(state, description) {
-      if (description) {
-        description = description.trim()
-      }
-
       state.currentExpense.description = description
     },
     updateCurrentExpensePrice(state, price) {
@@ -149,7 +145,7 @@ const ExpensesStore = {
         accountId: state.currentExpense.accountId,
         category: state.currentExpense.category,
         date: state.currentExpense.date,
-        description: state.currentExpense.description,
+        description: state.currentExpense.description.trim(),
         price: state.currentExpense.price,
         subcategory: state.currentExpense.subcategory,
       }

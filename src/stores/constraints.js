@@ -24,6 +24,7 @@ const expense = {
     presence: true,
     length: {
       minimum: 1,
+      maximum: 64,
     },
   },
 }
