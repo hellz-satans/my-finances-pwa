@@ -19,6 +19,18 @@ in the cloud.
 
 The **third phase** will be a native android application.
 
+## Deployment
+
+The [Dockerfile](Dockerfile) is published at Docker HUB as
+[juankman94/myfinances](https://cloud.docker.com/u/juankman94/repository/docker/juankman94/myfinances)
+
+```bash
+$ docker run --rm -v $PWD:/app juankman94/myfinances ./deploy
+```
+
+**NOTE**: you probably have to mount your SSH keys as well, so add
+`-v $HOME/.ssh:/root/.ssh`
+
 ## References
 
 * [Heroku: How to make a Progressive Web Application](https://blog.heroku.com/how-to-make-progressive-web-app)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Publish built application to Github Pages
 
 set -e
