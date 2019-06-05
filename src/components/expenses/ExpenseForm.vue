@@ -18,87 +18,106 @@
     />
 
     <sui-modal v-model="expenseModal" size="tiny">
-      <sui-modal-header>Add expense</sui-modal-header>
-
+      <sui-modal-header>Record</sui-modal-header>
       <sui-modal-content scrolling>
         <sui-form name="expense" method="POST">
-          <sui-form-field>
-            <label for="price">Price</label>
-            <sui-input
-              type="number"
-              name="price"
-              min="0.1"
-              step="any"
-              required
-              v-model="price"
-            />
-            <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+          <sui-grid>
+            <sui-grid-row>
+              <sui-grid-column :width="6">
+                <sui-form-field>
+                  <label for="price">Price</label>
+                  <sui-input
+                    type="number"
+                    name="price"
+                    min="0.1"
+                    step="any"
+                    required
+                    v-model="price"
+                  />
+                  <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
 
-          <sui-form-field>
-            <label for="date">Date</label>
-            <input type="datetime-local" v-model="date" />
-            <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+              <sui-grid-column :width="10">
+                <sui-form-field>
+                  <label for="date">Date</label>
+                  <input type="datetime-local" v-model="date" />
+                  <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
+            </sui-grid-row>
 
-          <sui-form-field>
-            <label for="category">Category</label>
-            <sui-dropdown
-              placeholder="Category"
-              fluid
-              selection
-              :options="expenseCategories"
-              v-model="category"
-            />
-            <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+            <sui-grid-row>
+              <sui-grid-column :width="8">
+                <sui-form-field>
+                  <label for="category">Category</label>
+                  <sui-dropdown
+                    placeholder="Category"
+                    fluid
+                    selection
+                    :options="expenseCategories"
+                    v-model="category"
+                  />
+                  <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
 
-          <sui-form-field>
-            <label for="subcategory">Subcategory</label>
-            <sui-dropdown
-              placeholder="Subcategory"
-              fluid
-              selection
-              :options="expenseSubcategories"
-              v-model="subcategory"
-            />
-            <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+              <sui-grid-column :width="8">
+                <sui-form-field>
+                  <label for="subcategory">Subcategory</label>
+                  <sui-dropdown
+                    placeholder="Subcategory"
+                    fluid
+                    selection
+                    :options="expenseSubcategories"
+                    v-model="subcategory"
+                  />
+                  <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
+            </sui-grid-row>
 
-          <sui-form-field>
-            <label for="account">Account</label>
-            <sui-dropdown
-              fluid
-              selection
-              :options="accountsOptions"
-              v-model="account"
-            />
-            <p v-for="(err, i) in expenseErrors.accountId" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+            <sui-grid-row>
+              <sui-grid-column :width="16">
+                <sui-form-field>
+                  <label for="account">Account</label>
+                  <sui-dropdown
+                    fluid
+                    selection
+                    :options="accountsOptions"
+                    v-model="account"
+                  />
+                  <p v-for="(err, i) in expenseErrors.accountId" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
 
-          <sui-form-field>
-            <label for="description">Description</label>
-            <sui-input
-              name="description"
-              minlength="1"
-              pattern=".+"
-              required
-              v-model="description"
-            />
-            <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
+              <sui-grid-column :width="16">
+                <sui-form-field>
+                  <label for="description">Description</label>
+                  <sui-input
+                    name="description"
+                    minlength="1"
+                    pattern=".+"
+                    required
+                    v-model="description"
+                  />
+                  <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
+                    {{ err }}
+                  </p>
+                </sui-form-field>
+              </sui-grid-column>
+            </sui-grid-row>
+          </sui-grid>
         </sui-form>
       </sui-modal-content>
 
