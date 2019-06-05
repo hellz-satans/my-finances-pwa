@@ -169,12 +169,12 @@
 		},
 		{
 			"key": "other",
-			"name": "Other Expenses",
+			"name": "Other",
 			"icon": "dollar",
 			"subcategories": [
 				{
 					"key": "other",
-					"name": "Other Expenses",
+					"name": "Other",
 					"icon": "dollar"
 				}
 			]
