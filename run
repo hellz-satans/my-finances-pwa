@@ -3,11 +3,20 @@
 # To add new npm packages use docker-exec(1), e.g.:
 # docker exec -t ${CONTAINER_NAME} npm install my-new-pkg --save
 
-SCRIPT="run serve"
-# NODE_VERSION="${NODE_VERSION:-10.13}"
-# DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
-DOCKER_IMAGE="juankman94/myfinances"
 CONTAINER_NAME="$(pwd | tr / '\n' | tail -1 | sed 's|[- ]|_|g')"
+NODE_VERSION="${NODE_VERSION:-12.2}"
+DOCKER_COMMAND=docker
+DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
+WD="$PWD"
+SCRIPT="run serve"
+
+# check current environment
+case "$(uname)" in
+	CYGWIN*)
+		DOCKER_COMMAND="winpty docker"
+		WD="$(cygpath -w $PWD)"
+		;;
+esac
 
 if [ -n "$1" ]; then
 	if [ "$1" = "install" ]; then
@@ -17,12 +26,12 @@ if [ -n "$1" ]; then
 	fi
 fi
 
-sudo docker run \
+$DOCKER_COMMAND run \
 	--name ${CONTAINER_NAME} \
 	--rm \
 	-it \
-	-v $PWD:/app \
-	-p 8080:8080 \
+	-w /app \
+	-v "$WD:/app" \
+	-p 8000:8000 \
 	${DOCKER_IMAGE} \
 	npm ${SCRIPT}
-
