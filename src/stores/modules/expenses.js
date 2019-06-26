@@ -186,19 +186,31 @@ const ExpensesStore = {
           throw err
         })
     },
-    importExpense({ commit, dispatch }, exp) {
+    importExpenses({ commit, dispatch }, newData) {
       db.expenses
         .toArray()
         .then((arr) => {
+          arr.forEach((el) => el.date = moment(el.date))
+          return arr
+        })
+        .then((arr) => {
           let exists = false
 
-          exists = arr.some((el) => {
-            return el.id === exp.id && el.date === exp.date
-          })
+          for (let exp of newData) {
+            // convert newData's date to moment instance
+            exp.date = moment(exp.date)
 
-          if (!exists) {
-            dispatch('createExpense', exp)
+            // compare price & moment's dates
+            exists = arr.some((el) => el.price == exp.price && exp.date.isSame(el.date))
+
+            if (!exists) {
+              delete exp.id
+              dispatch('createExpense', exp)
+            }
           }
+        })
+        .then(() => {
+          commit('getExpenses')
         })
         .catch((err) => {
           console.error('expenses/importExpense:', err)

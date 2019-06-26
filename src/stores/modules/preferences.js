@@ -63,21 +63,23 @@ const PreferencesStore = {
 		toggleModal({ commit }, key) {
 			commit('toggleModal', key)
 		},
-		importPreference({ dispatch }, pref) {
+		importPreferences({ dispatch }, newData) {
 			db.preferences
 				.toArray()
 				.then((arr) => {
-					let exists = false
+          let exists = false
 
-					exists = arr.some((el) => {
-						return el.key === pref.key
-					})
+          for (let pref of newData) {
+            exists = arr.some((el) => {
+              return el.key === pref.key
+            })
 
-					if (exists) {
-            dispatch('updatePreference', pref)
-          } else {
-						dispatch('createPreference', pref)
-					}
+            if (exists) {
+              dispatch('updatePreference', pref)
+            } else {
+              dispatch('createPreference', pref)
+            }
+          }
 				})
 				.catch((err) => {
 					console.error('preferences/importPreference:', err)

@@ -118,18 +118,20 @@ const AccountsStore = {
 					throw err
 				})
 		},
-		importAccount({ dispatch }, acc) {
+		importAccounts({ dispatch }, newData) {
 			db.accounts
 				.toArray()
 				.then((arr) => {
-					let exists = false
+          let exists = false
 
-					exists = arr.some((el) => {
-						return el.id === acc.id && el.name === acc.name
-					})
+          for (let acc of newData) {
+            exists = arr.some((el) => {
+              return el.id === acc.id && el.name === acc.name
+            })
 
-					if (!exists) {
-						dispatch('createAccount', acc)
+            if (!exists) {
+              dispatch('createAccount', acc)
+            }
 					}
 				})
 				.catch((err) => {

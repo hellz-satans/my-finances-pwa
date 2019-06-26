@@ -70,19 +70,13 @@ export default new Vuex.Store({
 		 */
 		importData({ dispatch }, data) {
 			if (data.accounts) {
-				for (let i in data.accounts) {
-					dispatch('accounts/importAccount', data.accounts[i])
-				}
+        dispatch('accounts/importAccounts', data.accounts)
 			}
 			if (data.expenses) {
-				for (let i in data.expenses) {
-					dispatch('expenses/importExpense', data.expenses[i])
-				}
+        dispatch('expenses/importExpenses', data.expenses)
 			}
 			if (data.preferences) {
-				for (let i in data.preferences) {
-					dispatch('preferences/importPreference', data.preferences[i])
-				}
+        dispatch('preferences/importPreferences', data.preferences)
 			}
 		},
 	},
