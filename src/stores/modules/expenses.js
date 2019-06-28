@@ -145,7 +145,9 @@ const ExpensesStore = {
         accountId: state.currentExpense.accountId,
         category: state.currentExpense.category,
         date: state.currentExpense.date,
-        description: state.currentExpense.description.trim(),
+        description: ((state.currentExpense.description != null)
+          ? state.currentExpense.description.trim()
+          : null),
         price: state.currentExpense.price,
         subcategory: state.currentExpense.subcategory,
       }
