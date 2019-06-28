@@ -8,7 +8,7 @@
 </style>
 
 <template>
-  <article>
+  <article class="expense-form">
     <sui-button
       class="expense-form-button"
       @click.native="toggleModal(true)"

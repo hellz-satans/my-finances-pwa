@@ -21,10 +21,10 @@ const expense = {
     },
   },
   description: {
-    presence: true,
+    presence: false,
     length: {
       minimum: 1,
-      maximum: 64,
+      maximum: 128,
     },
   },
 }
