@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      chartType: 'histogram',
+      chartType: 'pie',
     }
   },
   methods: {
