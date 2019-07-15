@@ -1,4 +1,4 @@
-var VERSION = '0.0.4';
+var VERSION = '0.0.5';
 
 self.addEventListener("install", function(ev) {
   console.log("install:", ev);
