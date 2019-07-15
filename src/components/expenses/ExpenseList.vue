@@ -3,8 +3,8 @@
     class="expenses-list"
     @change="updateItems"
     :items-per-page="perPage"
-    :items="expensesList"
-    v-if="expensesList.length > 0"
+    :items="expenses"
+    v-if="expenses.length > 0"
     @next="advanced"
     @previous="decreased"
     @setPage="setCurrentPage"
@@ -84,7 +84,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
-import { filterExpenses, expensesSum } from '@/stores/filters';
+import { expensesSum } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
 import AccountLabel from '@/components/accounts/AccountLabel.vue'
 import CategoryLabel from '@/components/categories/CategoryLabel.vue'
@@ -139,44 +139,11 @@ export default {
     ... mapState('expenses', [ 'expenses' ]),
     ... mapState('accounts', [ 'accounts' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
-    expensesList() {
-      let exp = null,
-        list = [],
-        i = 0,
-        n = this.amount || this.expenses.length;
-
-      // if we don't traverse the array manually, Vue reactivity kicks in
-      // and messes with this.expenses, affecting the whole application.
-      // tl;dr: do NOT use splice on this.expenses
-      //
-      // TODO: make it so that we take the _last_ n elements
-      for (i = 0; i < n && i < this.expenses.length; ++i) {
-        exp = this.expenses[i]
-        if (exp.accountId) {
-          exp.account = this.accounts.find(el => el.id === exp.accountId)
-        }
-        list.push(exp);
-      }
-      list = list.filter(exp => filterExpenses(exp, this.filters))
-
-      return list;
-    },
     expensesSum() {
-      return expensesSum(this.expensesList)
+      return expensesSum(this.expenses)
     },
   },
   created() {
-    if (this.expensesList.length > 0) {
-      if (this.amount) {
-        this.perPage = (this.amount > this.expensesList.length)
-          ? this.expensesList.length
-          : this.amount
-      } else {
-        this.perPage = (this.perPage > this.expensesList.length)
-          ? this.expensesList.length
-          : this.perPage
-      }
-    }
   },
 }
 </script>

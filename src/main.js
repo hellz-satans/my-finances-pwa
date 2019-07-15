@@ -38,6 +38,5 @@ new Vue({
     this.$store.commit('expenses/getExpenses');
     this.$store.commit('accounts/getAccounts');
     this.$store.commit('preferences/getPreferences');
-    this.$store.dispatch('categories/seedData');
   },
 }).$mount('#app')

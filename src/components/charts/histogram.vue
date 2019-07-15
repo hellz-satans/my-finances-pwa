@@ -7,7 +7,7 @@
 
 <script>
 import { VeHistogram } from 'v-charts'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -15,13 +15,13 @@ export default {
     VeHistogram,
   },
   props: {
-    records: { type: Array, required: true },
   },
   computed: {
     ... mapGetters('categories', [ 'categoriesKeys' ]),
+    ... mapState('expenses', [ 'expenses' ]),
     chartSettings() {
       return {
-        stack: { price: this.categoriesKeys },
+        stack: { price: this.chartData.columns, },
         dataOrder: { label: 'date', order: 'desc', },
       }
     },
@@ -35,7 +35,7 @@ export default {
       const rows = []
       let idx = -1
 
-      this.records
+      this.expenses
         .reverse()
         .map((el, i, arr) => {
           // format object for echarts API

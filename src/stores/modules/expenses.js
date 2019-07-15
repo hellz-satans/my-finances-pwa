@@ -1,5 +1,5 @@
 import db from '@/db'
-import { expensesInRange } from '@/stores/filters'
+import { expensesInRange, filterExpenses } from '@/stores/filters'
 import { expenseConstraints } from '@/stores/constraints'
 import moment from 'moment'
 import validate from 'validate.js'
@@ -30,7 +30,13 @@ const ExpensesStore = {
     },
     expenseErrors: {},
     expenses: [],
-    expensesFilters: [],
+    expensesFilters: [
+      {
+        field: 'date',
+        op: '>=',
+        value: moment().startOf('month').toDate(),
+      }
+    ],
     openModal: false,
   },
 
@@ -52,8 +58,9 @@ const ExpensesStore = {
             exp.date = moment(exp.date)
           }
           return arr
-        })
-        .then((arr) => {
+        }).then((arr) => {
+          return arr.filter(exp => filterExpenses(exp, state.expensesFilters))
+        }).then((arr) => {
           if (options.sort) {
             // sort by date in decreasing order
             arr.sort((a, b) => b.date - a.date)
@@ -67,6 +74,9 @@ const ExpensesStore = {
           console.error('getExpenses:', err)
           throw err
         })
+    },
+    setExpensesFilters(state, filters) {
+      state.expensesFilters = filters
     },
     setCurrentExpense(state, id) {
       db.expenses.get(id)
@@ -187,6 +197,10 @@ const ExpensesStore = {
           console.error('expenses/deleteAll:', err)
           throw err
         })
+    },
+    setExpensesFilters({ commit }, filters) {
+      commit('setExpensesFilters', filters)
+      commit('getExpenses')
     },
     importExpenses({ commit, dispatch }, newData) {
       db.expenses

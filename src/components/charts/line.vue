@@ -9,6 +9,7 @@
 <script>
 import { VeLine } from 'v-charts'
 import moment from 'moment'
+import { mapState } from 'vuex'
 import { mergeData } from '@/stores/filters'
 
 export default {
@@ -16,9 +17,9 @@ export default {
     VeLine,
   },
   props: {
-    records: { type: Array, required: true },
   },
   computed: {
+    ... mapState('expenses', [ 'expenses' ]),
     chartSettings() {
       return {
         area: true,
@@ -34,7 +35,7 @@ export default {
     chartData() {
       const columns = [ 'date', 'Total expense', ];
 
-      const rows = this.records
+      const rows = this.expenses
         .map((el, i, arr) => {
           return {
             'Total expense': el.price,

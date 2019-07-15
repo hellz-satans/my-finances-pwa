@@ -31,11 +31,11 @@
 
 <template>
   <nav class="expense-filters">
-    <sui-form
+    <div
       name="filters"
       method="GET"
       @submit.prevent="filter"
-      class="expense-filters-form"
+      class="ui form expense-filters-form"
     >
     <sui-grid>
       <sui-grid-row>
@@ -99,12 +99,12 @@
           <sui-form-field>
             <label hidden for="actions">Actions</label>
             <sui-button @click="resetFilters" icon="undo" content="Reset" />
-            <sui-button type="submit" icon="filter" content="Filter" />
+            <sui-button @click="filter" icon="filter" content="Filter" />
           </sui-form-field>
         </sui-grid-column>
         </sui-grid-row>
       </sui-grid>
-    </sui-form>
+    </div>
   </nav>
 </template>
 
@@ -165,13 +165,13 @@ export default {
         })
       }
 
-      this.$emit('setFilters', filters)
+      this.$store.dispatch('expenses/setExpensesFilters', filters)
     },
     resetFilters() {
       this.startDate = this.endDate = this.category = null
       this.comparator = '>='
       this.price = 0
-      this.$emit('setFilters', [])
+      this.$store.dispatch('expenses/setExpensesFilters', [])
     }
   },
   computed: {

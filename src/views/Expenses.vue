@@ -1,10 +1,10 @@
 <template>
-	<div>
-    <expense-filters @setFilters="setFilters($event)"></expense-filters>
-		<expense-form :hide-btn="true"></expense-form>
-    <expenses-chart :filters="expensesFilters"></expenses-chart>
-    <expense-list :filters="expensesFilters"></expense-list>
-	</div>
+  <section class="expenses-view">
+    <expense-filters />
+    <expense-form :hide-btn="true" />
+    <expenses-chart />
+    <expense-list />
+  </section>
 </template>
 
 
@@ -21,16 +21,6 @@ export default {
     ExpenseFilters,
     ExpenseList,
     ExpenseForm,
-  },
-  data() {
-    return {
-      expensesFilters: []
-    }
-  },
-  methods: {
-    setFilters(filters) {
-      this.expensesFilters = filters
-    },
   },
 }
 </script>

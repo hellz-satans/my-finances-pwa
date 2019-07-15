@@ -1,7 +1,8 @@
 <style lang="scss">
 .expenses-chart {
   .expenses-chart-controls {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
     padding: 0 0 1rem;
   }
 }
@@ -9,11 +10,17 @@
 
 <template>
   <article class="expenses-chart">
-    <histogram v-if="chartType === 'histogram'" :records="expensesList" />
-    <line-chart v-if="chartType === 'line'" :records="expensesList" />
-    <pie v-if="chartType === 'pie'" :records="expensesList" />
+    <histogram v-if="chartType === 'histogram'" />
+    <line-chart v-if="chartType === 'line'" />
+    <pie v-if="chartType === 'pie'" />
 
     <footer class="expenses-chart-controls">
+      <sui-button-group>
+        <sui-button type="button" content="week" @click="filter('week')" />
+        <sui-button type="button" content="month" @click="filter('month')" />
+        <sui-button type="button" content="year" @click="filter('year')" />
+      </sui-button-group>
+
       <sui-button-group>
         <sui-button
           :active="chartType === 'histogram'"
@@ -38,7 +45,6 @@
 <script>
 import { mapState } from 'vuex'
 import moment from 'moment'
-import { filterExpenses } from '@/stores/filters';
 import Histogram from '@/components/charts/histogram'
 import LineChart from '@/components/charts/line'
 import Pie from '@/components/charts/pie'
@@ -50,25 +56,32 @@ export default {
     Pie,
   },
   props: {
-    filters: { type: Array, required: false, default: () => { return [] } },
   },
   data() {
     return {
       chartType: 'histogram',
     }
   },
-  computed: {
-    ... mapState('expenses', [ 'expenses' ]),
-    expensesList() {
-      let i = 0,
-        list = []
-
-      for (i = 0; i < this.expenses.length; ++i) {
-        list.push(this.expenses[i])
-      }
-      list = list.filter(exp => filterExpenses(exp, this.filters))
-
-      return list
+  methods: {
+    /**
+     * Set filters for expenses.
+     *
+     * If the optional argument is given, filter expenses in that time lapse,
+     * this will be overrun by the startDate and the endDate
+     *
+     * @param lapse Enumerator[ null, 'week', 'month', 'year' ]
+     */
+    filter(lapse) {
+      this.$store.dispatch(
+        'expenses/setExpensesFilters',
+        [
+          {
+            field: 'date',
+            op: '>=',
+            value: moment().startOf(lapse).toDate(),
+          }
+        ]
+      )
     },
   },
 }

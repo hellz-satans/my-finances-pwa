@@ -7,6 +7,7 @@
 
 <script>
 import { VePie } from 'v-charts'
+import { mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -14,9 +15,9 @@ export default {
     VePie,
   },
   props: {
-    records: { type: Array, required: true },
   },
   computed: {
+    ... mapState('expenses', [ 'expenses' ]),
     chartSettings() {
       return {
         dimension: 'category',
@@ -33,7 +34,7 @@ export default {
       const table = {}
       const rows = []
 
-      this.records
+      this.expenses
         .forEach((el, i, arr) => {
           if (!table[el.category]) {
             table[el.category] = 0
