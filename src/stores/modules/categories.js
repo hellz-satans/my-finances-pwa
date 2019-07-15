@@ -99,7 +99,11 @@ const CategoriesStore = {
 			}
 
 			return list;
-		}
+		},
+
+    categoriesKeys(state) {
+      return state.categories.flatMap(cat => cat.key)
+    },
 	},
 };
 

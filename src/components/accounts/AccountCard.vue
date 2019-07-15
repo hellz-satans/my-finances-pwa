@@ -3,14 +3,12 @@
     <sui-card-content>
       <sui-card-header>
         <account-label :account="account" />
-        <sui-icon class="right
-          floated"
+        <sui-icon class="right floated"
           size="small"
           name="trash"
           @click="deleteAccount(account.id)"
         />
-        <sui-icon class="right
-          floated"
+        <sui-icon class="right floated"
           size="small"
           name="pencil"
           @click="editAccount(account.id)"

@@ -1,19 +1,52 @@
+<style lang="scss">
+.expenses-chart {
+  .expenses-chart-controls {
+    text-align: right;
+    padding: 0 0 1rem;
+  }
+}
+</style>
+
 <template>
-  <ve-line :settings="chartSettings" :extend="chartOptions" :data="chartData"></ve-line>
+  <article class="expenses-chart">
+    <ve-histogram
+      :settings="chartSettings"
+      :data="chartData"
+      v-if="chartType === 'area'"
+    />
+    <ve-pie
+      :settings="chartSettings"
+      :data="chartData"
+      v-if="chartType === 'pie'"
+    />
+
+    <footer class="expenses-chart-controls">
+      <sui-button-group>
+        <sui-button icon="chart area" @click="chartType = 'area'"></sui-button>
+        <sui-button icon="chart pie" @click="chartType = 'pie'"></sui-button>
+      </sui-button-group>
+    </footer>
+  </article>
 </template>
 
 <script>
-import VeLine from 'v-charts/lib/line.common'
-import { mapState } from 'vuex'
+import { VeHistogram, VePie } from 'v-charts'
+import { mapState, mapGetters } from 'vuex'
 import moment from 'moment'
 import { filterExpenses } from '@/stores/filters';
 
 export default {
   components: {
-    VeLine,
+    VeHistogram,
+    VePie,
   },
   props: {
     filters: { type: Array, required: false, default: () => { return [] } },
+  },
+  data() {
+    return {
+      chartType: 'area',
+    }
   },
   methods: {
     /**
@@ -43,6 +76,7 @@ export default {
         dict = {};
       let tmpObj = null;
 
+      // summarize total by pivot (date)
       data.forEach((el, i, arr) => {
         if (!dict[el[pivot]]) {
           dict[el[pivot]] = 0;
@@ -50,6 +84,7 @@ export default {
         dict[el[pivot]] += el[summarizable];
       });
 
+      // push day entry
       for (const key in dict) {
         tmpObj = {};
         tmpObj[pivot] = key;
@@ -62,6 +97,7 @@ export default {
   },
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+    ... mapGetters('categories', [ 'categoriesKeys' ]),
     expensesList() {
       let i = 0,
         list = []
@@ -75,17 +111,11 @@ export default {
     },
     chartSettings() {
       return {
-        area: true,
+        stack: { price: this.categoriesKeys },
+        dataOrder: { label: 'date', order: 'desc', },
       };
     },
-    chartOptions() {
-      return {
-        series: {
-          smooth: false,
-        },
-      };
-    },
-    chartData() {
+    chartDataByDate() {
       const columns = [ 'date', 'Total expense', ];
 
       const rows = this.expensesList
@@ -96,7 +126,54 @@ export default {
           };
         });
 
-      return { columns, rows: this.mergeData(rows, 'date', 'Total expense') };
+      return { columns, rows: this.mergeData(rows, ... columns) };
+    },
+    /**
+     * Display stacked histogram by category
+     *
+     * TODO: move the histogram chart to it's own component that receives
+     * list of records, the same for pie chart. Each component configures itself
+     *
+     * @see https://v-charts.js.org/#/en/histogram
+     */
+    chartData() {
+      const categories = this.categoriesKeys
+      const columns = [ 'date', ... categories ];
+      let rows = []
+      let idx = -1
+
+      this.expensesList
+        .reverse()
+        // format object for echarts API
+        .map((el, i, arr) => {
+          let o = {
+            category: el.category,
+            date: moment(el.date).format('YYYY-MM-DD'),
+            price: el.price,
+          }
+
+          for (let c of categories) {
+            if (el.category == c)
+              o[c] = el.price
+            else
+              o[c] = 0
+          }
+
+          return o
+        }).forEach((el, i) => {
+          idx = rows.findIndex(r => r.date === el.date)
+
+          if (idx === -1) {
+            el.total = el.price
+            rows.push(el)
+          } else {
+            // summarize quantities
+            rows[idx].total += el.price
+            rows[idx][el.category] += el.price
+          }
+        })
+
+      return { columns, rows, };
     },
   },
 }
