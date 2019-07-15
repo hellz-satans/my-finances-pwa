@@ -91,8 +91,55 @@ const expensesSum = (expenses) => {
     .reduce((total, curr) => total + curr)
 }
 
+/**
+ * Summarize data by a given field.
+ *
+ * Suppose you have an array of data like this:
+ *
+ * 	[
+ * 		{ date: '2018-01-01', price: 100 },
+ * 		{ date: '2018-02-02', price: 100 },
+ * 		{ date: '2018-01-01', price: 150 }
+ * 	]
+ *
+ * 	This function returns as summarized array like this:
+ *
+ * 	[
+ * 		{ date: '2018-01-01', price: 250 },
+ * 		{ date: '2018-02-02', price: 100 },
+ * 	]
+ *
+ * @param  data [Object]
+ * @param  key String
+ * @return [Object]
+ */
+const mergeData = (data, pivot, summarizable) => {
+  const result = [],
+    dict = {};
+  let tmpObj = null;
+
+  // summarize total by pivot (date)
+  data.forEach((el, i, arr) => {
+    if (!dict[el[pivot]]) {
+      dict[el[pivot]] = 0;
+    }
+    dict[el[pivot]] += el[summarizable];
+  });
+
+  // push day entry
+  for (const key in dict) {
+    tmpObj = {};
+    tmpObj[pivot] = key;
+    tmpObj[summarizable] = dict[key];
+    result.push(tmpObj)
+  }
+
+  return result;
+}
+
 export {
 	expensesInRange,
 	expensesSum,
 	filterExpenses,
+  mergeData,
 }
