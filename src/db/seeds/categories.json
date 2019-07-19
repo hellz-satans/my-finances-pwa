@@ -2,7 +2,7 @@
 	"categories": [
 		{
 			"key": "food",
-			"name": "Food",
+			"name": "Food & Drinks",
 			"icon": "utensils",
 			"subcategories": [
 				{
@@ -11,24 +11,125 @@
 					"icon": "shopping basket"
 				},
 				{
-					"key": "breakfast",
-					"name": "Breakfast",
+					"key": "restaurant",
+					"name": "Restaurant",
 					"icon": "utensils"
 				},
 				{
-					"key": "meal",
-					"name": "Meal",
+					"key": "fastfood",
+					"name": "Fast Food",
 					"icon": "utensils"
 				},
 				{
-					"key": "dinner",
-					"name": "Dinner",
-					"icon": "utensils"
+					"key": "coffee",
+					"name": "Coffee",
+					"icon": "coffee"
+				},
+				{
+					"key": "bar",
+					"name": "Bar",
+					"icon": "beer"
+				},
+				{
+					"key": "petfood",
+					"name": "Pet Food",
+					"icon": "firefox"
 				},
 				{
 					"key": "other",
 					"name": "Other",
 					"icon": "cart"
+				}
+			]
+		},
+		{
+			"key": "shopping",
+			"name": "Shopping",
+			"icon": "tags",
+			"subcategories": [
+				{
+					"key": "gifts",
+					"name": "Gifts",
+					"icon": "gift"
+				},
+				{
+					"key": "clothes",
+					"name": "Clothes",
+					"icon": "cart"
+				},
+				{
+					"key": "books",
+					"name": "Books",
+					"icon": "book"
+				},
+				{
+					"key": "other",
+					"name": "Other",
+					"icon": "tag"
+				}
+			]
+		},
+		{
+			"key": "health",
+			"name": "Health & Beauty",
+			"icon": "heartbeat",
+			"subcategories": [
+				{
+					"key": "hospital",
+					"name": "Hospital",
+					"icon": "stethoscope"
+				},
+				{
+					"key": "dentist",
+					"name": "Dentist",
+					"icon": "user md"
+				},
+				{
+					"key": "medicines",
+					"name": "Medicines",
+					"icon": "pills"
+				},
+				{
+					"key": "gym",
+					"name": "Gym",
+					"icon": "balance scale"
+				},
+				{
+					"key": "haircut",
+					"name": "Haircut",
+					"icon": "cut"
+				}
+			]
+		},
+		{
+			"key": "hobbies",
+			"name": "Hobbies",
+			"icon": "firefox",
+			"subcategories": [
+				{
+					"key": "movies",
+					"name": "Movies",
+					"icon": "tv"
+				},
+				{
+					"key": "nature",
+					"name": "Nature",
+					"icon": "leaf"
+				},
+				{
+					"key": "museums",
+					"name": "Museums",
+					"icon": "university"
+				},
+				{
+					"key": "vacations",
+					"name": "Vacations",
+					"icon": "map outline"
+				},
+				{
+					"key": "sports",
+					"name": "Sports",
+					"icon": "futbol outline"
 				}
 			]
 		},
@@ -139,6 +240,11 @@
 					"icon": "cloud"
 				},
 				{
+					"key": "software",
+					"name": "Software",
+					"icon": "keyboard"
+				},
+				{
 					"key": "other",
 					"name": "Other",
 					"icon": "save"
@@ -159,6 +265,11 @@
 					"key": "streaming",
 					"name": "Streaming",
 					"icon": "tv"
+				},
+				{
+					"key": "donations",
+					"name": "Donations",
+					"icon": "heart"
 				},
 				{
 					"key": "other",

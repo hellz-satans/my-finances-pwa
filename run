@@ -4,8 +4,8 @@
 # docker exec -t ${CONTAINER_NAME} npm install my-new-pkg --save
 
 CONTAINER_NAME="$(pwd | tr / '\n' | tail -1 | sed 's|[- ]|_|g')"
-NODE_VERSION="${NODE_VERSION:-12.2}"
-DOCKER_COMMAND=docker
+NODE_VERSION="${NODE_VERSION:-10.13}"
+DOCKER_COMMAND="docker"
 DOCKER_IMAGE="node:${NODE_VERSION}-alpine"
 WD="$PWD"
 SCRIPT="run serve"
