@@ -109,7 +109,7 @@
 				{
 					"key": "movies",
 					"name": "Movies",
-					"icon": "tv"
+					"icon": "film"
 				},
 				{
 					"key": "nature",
@@ -125,6 +125,11 @@
 					"key": "vacations",
 					"name": "Vacations",
 					"icon": "map outline"
+				},
+				{
+					"key": "concerts",
+					"name": "Concerts",
+					"icon": "music"
 				},
 				{
 					"key": "sports",
@@ -171,6 +176,11 @@
 					"icon": "home"
 				},
 				{
+					"key": "rent",
+					"name": "Rent",
+					"icon": "home"
+				},
+				{
 					"key": "other",
 					"name": "Other",
 					"icon": "dollar"
@@ -184,7 +194,7 @@
 			"subcategories": [
 				{
 					"key": "taxi",
-					"name": "Taxi Services",
+					"name": "Taxi",
 					"icon": "taxi"
 				},
 				{
@@ -196,16 +206,6 @@
 					"key": "flights",
 					"name": "Flights",
 					"icon": "plane"
-				},
-				{
-					"key": "trains",
-					"name": "Trains",
-					"icon": "train"
-				},
-				{
-					"key": "bus",
-					"name": "Bus",
-					"icon": "bus"
 				},
 				{
 					"key": "other",
@@ -221,7 +221,7 @@
 			"subcategories": [
 				{
 					"key": "hosting",
-					"name": "Cloud Hosting",
+					"name": "Hosting",
 					"icon": "hdd"
 				},
 				{
@@ -236,7 +236,7 @@
 				},
 				{
 					"key": "streaming",
-					"name": "Streaming Services",
+					"name": "Streaming",
 					"icon": "cloud"
 				},
 				{
