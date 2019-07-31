@@ -72,17 +72,30 @@ export default {
      * @param lapse Enumerator[ null, 'week', 'month', 'year' ]
      */
     filter(lapse) {
-      this.$store.dispatch(
-        'expenses/setExpensesFilters',
-        [
-          {
-            field: 'date',
-            op: '>=',
-            value: moment().startOf(lapse).toDate(),
-          }
-        ]
-      )
+      const newFilters = []
+      const lapseFilter = {
+        field: 'date',
+        op: '>=',
+        value: moment().startOf(lapse).toDate(),
+      }
+
+      this.expensesFilters.forEach((el) => {
+        if (el.field === 'date') {
+          newFilters.push(lapseFilter)
+        } else {
+          newFilters.push(el)
+        }
+      })
+
+      if (!newFilters.some(el => el.field === 'date')) {
+        newFilters.push(lapseFilter)
+      }
+
+      this.$store.dispatch('expenses/setExpensesFilters', newFilters)
     },
+  },
+  computed: {
+    ... mapState('expenses', [ 'expensesFilters' ]),
   },
 }
 </script>
