@@ -12,7 +12,8 @@ function newExpense() {
     tags: [],
     category: 'other',
     subcategory: 'other_other',
-    accountId: null,
+    accountId: 1,
+    sign: -1,
   }
 }
 
@@ -27,6 +28,8 @@ const ExpensesStore = {
       tags: [],
       category: 'other',
       subcategory: 'other_other',
+      accountId: 1,
+      sign: -1,
     },
     expenseErrors: {},
     expenses: [],
@@ -108,6 +111,13 @@ const ExpensesStore = {
     updateCurrentExpenseAccount(state, accountId) {
       state.currentExpense.accountId = accountId
     },
+    updateCurrentExpenseSign(state, sign) {
+      if (sign === 1 || sign === -1) {
+        state.currentExpense.sign = sign
+      } else {
+        state.currentExpense.sign = -1
+      }
+    },
     toggleModal(state) {
       state.openModal = !state.openModal
     },
@@ -158,7 +168,7 @@ const ExpensesStore = {
         description: ((state.currentExpense.description != null)
           ? state.currentExpense.description.trim()
           : null),
-        price: state.currentExpense.price,
+        price: state.currentExpense.price * state.currentExpense.sign,
         subcategory: state.currentExpense.subcategory,
       }
       const errors = validate(data, expenseConstraints)

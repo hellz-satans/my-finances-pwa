@@ -1,9 +1,23 @@
 <style lang="scss">
-  .expense-form-button {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 999;
+  .expense-form {
+    &-button {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 999;
+    }
+    .sign {
+      margin-top: 1.25rem;
+      cursor: pointer;
+      font-size: 2rem;
+      font-weight: 600;
+      position: absolute;
+      top: 0.25rem;
+      left: 1.45rem;
+
+      &.positive { color: green; }
+      &.negative { color: red; left: 1.75rem; }
+    }
   }
 </style>
 
@@ -23,6 +37,13 @@
         <sui-form name="expense" method="POST">
           <sui-grid>
             <sui-grid-row>
+              <sui-grid-column :width="2">
+                <span
+                  :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
+                  @click="sign = sign * -1"
+                >{{ (sign > 0) ? '+' : '-' }}</span>
+              </sui-grid-column>
+
               <sui-grid-column :width="6">
                 <sui-form-field>
                   <label for="price">Price</label>
@@ -40,7 +61,7 @@
                 </sui-form-field>
               </sui-grid-column>
 
-              <sui-grid-column :width="10">
+              <sui-grid-column :width="8">
                 <sui-form-field>
                   <label for="date">Date</label>
                   <input type="datetime-local" v-model="date" />
@@ -143,7 +164,7 @@ export default {
         .catch((err) => {
           console.error('expenseForm:', err, err.stack)
         })
-    }
+    },
   },
   computed: {
     ... mapGetters('accounts', [ 'accountsOptions', ]),
@@ -159,6 +180,10 @@ export default {
         if (c.key.startsWith(this.category)) {
           list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon })
         }
+      }
+
+      if (list.length > 0) {
+        this.subcategory = list[0].value
       }
 
       return list
@@ -190,6 +215,10 @@ export default {
     account: {
       get() { return this.$store.state.expenses.currentExpense.accountId },
       set(v) { this.$store.commit('expenses/updateCurrentExpenseAccount', v) },
+    },
+    sign: {
+      get() { return this.$store.state.expenses.currentExpense.sign },
+      set(v) { this.$store.commit('expenses/updateCurrentExpenseSign', v) },
     },
 
     expenseModal: {
