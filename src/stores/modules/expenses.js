@@ -168,7 +168,10 @@ const ExpensesStore = {
         description: ((state.currentExpense.description != null)
           ? state.currentExpense.description.trim()
           : null),
-        price: state.currentExpense.price * state.currentExpense.sign,
+        // TODO: uncomment this when we've updated the previous expenses
+        // records and the charts 'n' stuff has been preared for this
+        // price: state.currentExpense.price * state.currentExpense.sign,
+        price: state.currentExpense.price,
         subcategory: state.currentExpense.subcategory,
       }
       const errors = validate(data, expenseConstraints)

@@ -110,12 +110,7 @@
               <sui-grid-column :width="16">
                 <sui-form-field>
                   <label for="account">Account</label>
-                  <sui-dropdown
-                    fluid
-                    selection
-                    :options="accountsOptions"
-                    v-model="account"
-                  />
+                  <accounts-options :account="account" @input="account = $event" />
                   <p v-for="(err, i) in expenseErrors.accountId" :key="i" class="red text">
                     {{ err }}
                   </p>
@@ -152,9 +147,13 @@
 
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
+import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
 
 export default {
   name: 'ExpenseForm',
+  components: {
+    AccountsOptions,
+  },
   props: ['hideBtn'],
   methods: {
     ... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
@@ -167,7 +166,6 @@ export default {
     },
   },
   computed: {
-    ... mapGetters('accounts', [ 'accountsOptions', ]),
     ... mapGetters('categories', [ 'expenseCategories' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapState('expenses', [ 'currentExpense', 'expenseErrors', 'openModal' ]),
