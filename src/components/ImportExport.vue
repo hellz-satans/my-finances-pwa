@@ -1,5 +1,5 @@
 <template>
-	<sui-card-group class="import-export" :items-per-row="3" stackable>
+	<sui-card-group class="import-export" :items-per-row="2" stackable>
 		<sui-card>
 			<sui-card-content>
 				<sui-card-header>Import</sui-card-header>
@@ -48,6 +48,26 @@
 
 		<sui-card>
 			<sui-card-content>
+				<sui-card-header>Seed</sui-card-header>
+				<sui-card-description>
+					<p>
+            Seed test data to see how it works
+					</p>
+				</sui-card-description>
+			</sui-card-content>
+			<sui-button
+				type="button"
+				color="yellow"
+				@click.prevent.stop="seedData"
+				attached="bottom"
+			>
+				<sui-icon name="cogs" />
+				Seed
+			</sui-button>
+		</sui-card>
+
+		<sui-card>
+			<sui-card-content>
 				<sui-card-header>Destroy</sui-card-header>
 				<sui-card-description>
 					<p>
@@ -74,7 +94,7 @@ import { mapActions } from 'vuex'
 
 export default {
 	methods: {
-		... mapActions([ 'deleteData', 'exportData', 'importData' ]),
+		... mapActions([ 'deleteData', 'exportData', 'importData', 'seedData' ]),
 		handleFile() {
 			if (this.$refs.importFile.files.length > 0) {
 				this.readData()

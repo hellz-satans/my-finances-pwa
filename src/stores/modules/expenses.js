@@ -246,6 +246,30 @@ const ExpensesStore = {
           throw err
         })
     },
+    seedData({ commit, state }) {
+      db.categories
+        .toArray()
+        .then(arr => arr.filter(c => c.isSubcategory))
+        .then((categories) => {
+          const n = 15
+          let i = 0,
+            expense = {},
+            cat = null
+
+          for (i = 1; i <= n; ++i) {
+            cat = categories[Math.floor(Math.random() * (categories.length))]
+            expense = {
+              description: `Example expense #${i}`,
+              price: Math.floor(Math.random() * (100 - 20) + 20),
+              category: cat.key.split('_')[0],
+              subcategory: cat.key,
+              date: new Date(moment().subtract(i, 'd').toISOString()),
+            }
+            db.expenses.add(expense)
+          }
+          commit('getExpenses')
+        })
+    },
   },
 
   getters: {

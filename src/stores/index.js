@@ -77,6 +77,16 @@ export default new Vuex.Store({
         dispatch('preferences/importPreferences', data.preferences)
 			}
 		},
+
+    /**
+     * Seed data to DB.
+     *
+     * Each store should handle its seed data operation.
+     */
+    seedData({ dispatch }) {
+      dispatch('expenses/seedData')
+      dispatch('accounts/seedData')
+    },
 	},
 
 	getters: {

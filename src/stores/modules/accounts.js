@@ -139,6 +139,21 @@ const AccountsStore = {
 					throw err
 				})
 		},
+    seedData({ commit, state }) {
+      const n = 2
+      let i = 0,
+        account = {}
+
+      for (i = 1; i <= n; ++i) {
+        account = {
+          name: `Account #${i}`,
+          balance: i * 100,
+          color: `#${i*2}${i*4+1}${i*2+3}`,
+        }
+        db.accounts.add(account)
+      }
+      commit('getAccounts')
+    },
 	},
 
 	getters: {
