@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from '@/stores/modules'
 import { downloadJsonUsingBrowser } from '@/download'
+import { exportDB } from '@/db/export'
 
 Vue.use(Vuex)
 
@@ -53,13 +54,10 @@ export default new Vuex.Store({
 		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 		 */
 		exportData({ state }) {
-			const data = {
-				accounts: state.accounts.accounts,
-				expenses: state.expenses.expenses,
-				preferences: state.preferences.preferences,
-			};
-
-			downloadJsonUsingBrowser('my_finances.json', data)
+      exportDB()
+        .then((data) => {
+          downloadJsonUsingBrowser('my_finances.json', data)
+        })
 		},
 
 		/**
