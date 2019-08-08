@@ -30,7 +30,7 @@
               <b>{{ e.price | currency }}</b>
             </td>
             <td>
-              <account-label v-if="e.account" :account="e.account" />
+              <account-label v-if="e.accountId" :account-id="e.accountId" />
             </td>
             <td>{{ e.description }}</td>
             <td>
@@ -137,7 +137,6 @@ export default {
   },
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
-    ... mapState('accounts', [ 'accounts' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
     expensesSum() {
       return expensesSum(this.expenses)
