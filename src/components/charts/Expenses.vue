@@ -60,6 +60,11 @@ export default {
   data() {
     return {
       chartType: 'pie',
+      onlyNegative: {
+        histogram: false,
+        line: true,
+        pie: true,
+      },
     }
   },
   methods: {
@@ -77,25 +82,38 @@ export default {
         field: 'date',
         op: '>=',
         value: moment().startOf(lapse).toDate(),
+        name: 'lapse',
       }
+      // override black listed filters
+      const blackList = [
+        'onlyNegative',
+      ]
 
-      this.expensesFilters.forEach((el) => {
+      this.filters.forEach((el) => {
         if (el.field === 'date') {
-          newFilters.push(lapseFilter)
-        } else {
+          if (!newFilters.some(e => e.name === 'lapse')) {
+            newFilters.push(lapseFilter)
+          }
+        } else if (blackList.indexOf(el.name) === -1) {
           newFilters.push(el)
         }
       })
 
-      if (!newFilters.some(el => el.field === 'date')) {
+      // insert lapse filter if the date filter was not set
+      if (!newFilters.some(el => el.field === 'lapse')) {
         newFilters.push(lapseFilter)
       }
 
-      this.$store.dispatch('expenses/setExpensesFilters', newFilters)
+      // insert only-negative filter if set for the chart type
+      if (this.onlyNegative[this.chartType]) {
+        newFilters.push({ field: 'price', op: '<', value: 0, name: 'onlyNegative' })
+      }
+
+      this.$store.dispatch('expenses/setFilters', newFilters)
     },
   },
   computed: {
-    ... mapState('expenses', [ 'expensesFilters' ]),
+    ... mapState('expenses', [ 'filters' ]),
   },
 }
 </script>

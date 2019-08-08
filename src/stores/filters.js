@@ -3,8 +3,15 @@ import moment from 'moment'
 /**
  * Filter the expense with the given filters criteria
  *
+ * @enum OPERATORS ['<','<=','>','>=','==','===']
+ *
+ * @option filter field String Expense field to be filtered
+ * @option filter op OPERATORS Operator used for filter
+ * @option filter value Value used to compare using operator
+ * @option filter name Optional filter name used for filtering
+ *
  * @param expense Object
- * @param filters [{ field: String, op: ['<','<=','>','>=','==','==='], value: var }]
+ * @param filters [filter]
  */
 const filterExpenses = (expense, filters) => {
   let f = null, // current filter
@@ -47,9 +54,14 @@ const filterExpenses = (expense, filters) => {
 /**
  * Calculate total expenses in the specified range.
  *
+ * @option decreasing Boolean Flag indicating that the list is in decreasing
+ *         order
+ * @option onlyNegative Boolean Only get records with a price less than 0
+ *
  * @param n Number
  * @param unit String Any moment.js compatible unit
- * @return Promise
+ * @param options Object
+ * @return Number
  */
 const expensesInRange = (expenses, n = 1, unit = 'week', options = {}) => {
 	const endDate = moment().endOf('day')
@@ -71,6 +83,12 @@ const expensesInRange = (expenses, n = 1, unit = 'week', options = {}) => {
   }
 
 	return list
+    .filter((exp) => {
+      if (!options.onlyNegative)
+        return true
+      else
+        return exp.price < 0
+    })
 		.map(expense => expense.price)
 		.reduce((total, curr) => total + curr)
 }

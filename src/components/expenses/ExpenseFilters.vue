@@ -165,13 +165,13 @@ export default {
         })
       }
 
-      this.$store.dispatch('expenses/setExpensesFilters', filters)
+      this.$store.dispatch('expenses/setFilters', filters)
     },
     resetFilters() {
       this.startDate = this.endDate = this.category = null
       this.comparator = '>='
       this.price = 0
-      this.$store.dispatch('expenses/setExpensesFilters', [])
+      this.$store.dispatch('expenses/setFilters', [])
     }
   },
   computed: {

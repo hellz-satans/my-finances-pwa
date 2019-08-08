@@ -92,9 +92,6 @@ import CategoryLabel from '@/components/categories/CategoryLabel.vue'
 export default {
   name: 'ExpenseList',
   props: {
-    amount: { type: Number, required: false, default: null },
-    sort: { type: Number, required: false, default: 1 },
-    filters: { type: Array, required: false, default: () => { return [] } },
   },
   components: {
     AccountLabel,

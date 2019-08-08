@@ -76,4 +76,12 @@ db.version(5).upgrade((transaction) => {
     })
 })
 
+db.version(6).upgrade((transaction) => {
+  return transaction.expenses
+    .toCollection()
+    .modify((exp) => {
+      exp.price = exp.price * -1
+    })
+})
+
 export default db;

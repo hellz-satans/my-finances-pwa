@@ -33,12 +33,14 @@ const ExpensesStore = {
     },
     expenseErrors: {},
     expenses: [],
-    expensesFilters: [
+    filters: [
       {
         field: 'date',
         op: '>=',
         value: moment().startOf('month').toDate(),
-      }
+        name: 'lapse',
+      },
+      { field: 'price', op: '<', value: 0, name: 'onlyNegative', },
     ],
     openModal: false,
   },
@@ -52,7 +54,7 @@ const ExpensesStore = {
       state.currentExpense = newExpense()
     },
     getExpenses(state, options = {}) {
-      options.sort = options.sort || 1
+      options.decreasing = options.decreasing || true
 
       db.expenses.toArray()
         .then((arr) => {
@@ -62,9 +64,9 @@ const ExpensesStore = {
           }
           return arr
         }).then((arr) => {
-          return arr.filter(exp => filterExpenses(exp, state.expensesFilters))
+          return arr.filter(exp => filterExpenses(exp, state.filters))
         }).then((arr) => {
-          if (options.sort) {
+          if (options.decreasing) {
             // sort by date in decreasing order
             arr.sort((a, b) => b.date - a.date)
           } else {
@@ -78,13 +80,14 @@ const ExpensesStore = {
           throw err
         })
     },
-    setExpensesFilters(state, filters) {
-      state.expensesFilters = filters
+    setFilters(state, newFilters) {
+      state.filters = newFilters
     },
     setCurrentExpense(state, id) {
       db.expenses.get(id)
         .then((expense) => {
           expense.date = moment(expense.date).format()
+          expense.sign = (expense.price < 0) ? -1 : 1
           state.currentExpense = expense
           return id
         })
@@ -168,9 +171,7 @@ const ExpensesStore = {
         description: ((state.currentExpense.description != null)
           ? state.currentExpense.description.trim()
           : null),
-        // TODO: uncomment this when we've updated the previous expenses
-        // records and the charts 'n' stuff has been preared for this
-        // price: state.currentExpense.price * state.currentExpense.sign,
+        price: state.currentExpense.price * state.currentExpense.sign,
         price: state.currentExpense.price,
         subcategory: state.currentExpense.subcategory,
       }
@@ -211,9 +212,9 @@ const ExpensesStore = {
           throw err
         })
     },
-    setExpensesFilters({ commit }, filters) {
-      commit('setExpensesFilters', filters)
-      commit('getExpenses')
+    setFilters({ commit }, filters) {
+      commit('setFilters', filters)
+      window.setTimeout(() => { commit('getExpenses') }, 5)
     },
     importExpenses({ commit, dispatch }, newData) {
       db.expenses
@@ -278,14 +279,15 @@ const ExpensesStore = {
         return 0
 
       return state.expenses
+        .filter(expense => expense.price < 0)
         .map(expense => expense.price)
         .reduce((total, curr) => total + curr)
     },
     expensesPastWeek: (state) => {
-      return expensesInRange(state.expenses, 1, 'week')
+      return expensesInRange(state.expenses, 1, 'week', { onlyNegative: true })
     },
     expensesPastMonth: (state) => {
-      return expensesInRange(state.expenses, 1, 'month')
+      return expensesInRange(state.expenses, 1, 'month', { onlyNegative: true })
     },
   },
 }
