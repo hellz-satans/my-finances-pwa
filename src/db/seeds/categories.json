@@ -279,6 +279,38 @@
 			]
 		},
 		{
+			"key": "income",
+			"name": "Income",
+			"icon": "dollar",
+			"subcategories": [
+				{
+					"key": "income",
+					"name": "Wage, Invoices",
+					"icon": "dollar"
+				},
+				{
+					"key": "investments",
+					"name": "Interests, Dividends",
+					"icon": "chart line"
+				},
+				{
+					"key": "presents",
+					"name": "Gifts",
+					"icon": "birthday cake"
+				},
+				{
+					"key": "rental",
+					"name": "Rental Income",
+					"icon": "building"
+				},
+				{
+					"key": "sales",
+					"name": "Sales",
+					"icon": "handshake outline"
+				}
+			]
+		},
+		{
 			"key": "other",
 			"name": "Other",
 			"icon": "dollar",
