@@ -172,7 +172,6 @@ const ExpensesStore = {
           ? state.currentExpense.description.trim()
           : null),
         price: state.currentExpense.price * state.currentExpense.sign,
-        price: state.currentExpense.price,
         subcategory: state.currentExpense.subcategory,
       }
       const errors = validate(data, expenseConstraints)

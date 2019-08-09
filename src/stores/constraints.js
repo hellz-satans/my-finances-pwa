@@ -1,9 +1,7 @@
 const expense = {
   price: {
     presence: true,
-    numericality: {
-      greaterThan: 0,
-    },
+    numericality: true,
   },
   date: {
     presence: true,
