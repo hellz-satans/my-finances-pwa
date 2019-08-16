@@ -88,6 +88,7 @@ const ExpensesStore = {
         .then((expense) => {
           expense.date = moment(expense.date).format()
           expense.sign = (expense.price < 0) ? -1 : 1
+          expense.price = Math.abs(expense.price)
           state.currentExpense = expense
           return id
         })
@@ -141,7 +142,7 @@ const ExpensesStore = {
           id: expense.accountId,
           amount: expense.price,
         }
-        dispatch('accounts/deduct', deduct, { root: true })
+        dispatch('accounts/add', deduct, { root: true })
       }
     },
     updateExpense({ commit, state }, data) {

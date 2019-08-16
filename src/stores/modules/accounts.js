@@ -83,11 +83,11 @@ const AccountsStore = {
 		updateAccount({ commit, state }, data) {
 			return db.accounts.update(state.currentAccount.id, data);
 		},
-    deduct({ commit }, data) {
+    add({ commit }, data) {
       return db.accounts.get(data.id)
         .then((account) => {
           const fields = {
-            balance: account.balance - data.amount,
+            balance: account.balance + data.amount,
           }
 
           return db.accounts.update(account.id, fields)
@@ -95,6 +95,9 @@ const AccountsStore = {
         .then((id) => {
           commit('getAccounts')
           return id
+        })
+        .catch((err) => {
+          console.error('accounts/add:', err)
         })
     },
 		deleteAccount({ commit }, id) {
