@@ -2,11 +2,11 @@
   <span class="category-label">
     <sui-icon :name="getIcon(category.subcategory, true)" />
     <span class="text-small">
-      {{ getName(category.category) }},
+      {{ getName(category.subcategory, true) }},
     </span>
     <br>
     <span class="text-smaller">
-      {{ getName(category.subcategory, true) }}
+      {{ getName(category.category) }}
     </span>
   </span>
 </template>
