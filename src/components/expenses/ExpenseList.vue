@@ -30,7 +30,7 @@
               <b>{{ e.price | currency }}</b>
             </td>
             <td>
-              <account-label v-if="e.accountId" :account-id="e.accountId" />
+              <account-label v-if="e.account" :account-key="e.account" />
             </td>
             <td>{{ e.description }}</td>
             <td>

@@ -76,6 +76,9 @@ db.version(5).upgrade((transaction) => {
     })
 })
 
+/**
+ * Add sign to prices
+ */
 db.version(6).upgrade((transaction) => {
   return transaction.expenses
     .toCollection()
@@ -83,5 +86,34 @@ db.version(6).upgrade((transaction) => {
       exp.price = exp.price * -1
     })
 })
+
+/**
+ * Add `key` to accounts and use it as primary key.
+ *
+ * Numerical IDs were a mistake. After the account is deleted, the expenses
+ * records are left without a discernible account.
+ */
+db.version(7).stores({
+  accounts: '++id,&key,name,balance',
+}).upgrade(async (trans) => {
+  let accountsMap = {}
+
+	await trans.accounts
+		.toCollection()
+		.modify((acc) => {
+      let k = acc.name.toLowerCase()
+      accountsMap[acc.id] = k
+      acc.key = k
+		});
+
+  return trans.expenses
+    .toCollection()
+    .modify((exp) => {
+      if (accountsMap[exp.accountId]) {
+        exp.account = accountsMap[exp.accountId]
+      }
+    })
+});
+
 
 export default db;

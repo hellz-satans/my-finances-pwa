@@ -1,5 +1,5 @@
 <template>
-  <span class="account-label" :style="accountStyle">
+  <span class="account-label" :style="accountStyle" v-if="innerAccount">
     {{ innerAccount.name }}
   </span>
 </template>
@@ -10,16 +10,16 @@ import { mapState } from 'vuex'
 export default {
   props: {
     account: { type: Object, required: false, default: null },
-    accountId: { type: Number, required: false, default: null }
+    accountKey: { type: String, required: false, default: null }
   },
   data() {
     return {
       // local copy of account so we can have an `account` prop
-      innerAccount: {},
+      innerAccount: null,
     }
   },
   computed: {
-    ... mapState('accounts', [ 'accounts' ]),
+    ... mapState('accounts', [ 'cache' ]),
     accountStyle() {
       const color = this.innerAccount ? this.innerAccount.color : 'transparent'
       const styles = {
@@ -38,8 +38,8 @@ export default {
   mounted() {
     if (this.account) {
       this.innerAccount = this.account
-    } else if (this.accountId) {
-      this.innerAccount = this.accounts.find(acc => acc.id === this.accountId)
+    } else if (this.accountKey) {
+      this.innerAccount = this.cache[this.accountKey]
     }
   },
 }

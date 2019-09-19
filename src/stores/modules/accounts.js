@@ -9,6 +9,7 @@ const AccountsStore = {
 		},
 		openModal: false,
 		accounts: [],
+    cache: {},
 	},
 
 	mutations: {
@@ -18,6 +19,11 @@ const AccountsStore = {
 		getAccounts(state) {
 			db.accounts.toArray()
 				.then(arr => state.accounts = arr)
+        .then(() => {
+          state.accounts.forEach((acc, i) => {
+            state.cache[acc.key] = acc
+          })
+        })
 				.catch((err) => {
 					console.error('getAccounts:', err);
 					throw err;
@@ -61,6 +67,9 @@ const AccountsStore = {
 			commit('toggleModal');
 		},
 		createAccount({ commit }, account) {
+      if (!account.key && account.name) {
+        account.key = account.name.toLowerCase()
+      }
 			commit('createAccount', account)
 		},
 		editAccount({ commit }, id) {
