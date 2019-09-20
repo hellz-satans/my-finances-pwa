@@ -1,8 +1,8 @@
 <template>
-  <sui-card>
-    <sui-card-content>
-      <sui-card-header>
-        <account-label :account="account" />
+  <article class="account-card" :style="accountStyle">
+    <header class="account-card--header">
+      <span class="account-card__name">{{ account.name }}</span>
+      <span class="account-card__actions">
         <sui-icon class="right floated"
           size="small"
           name="trash"
@@ -13,28 +13,72 @@
           name="pencil"
           @click="editAccount(account.id)"
         />
-      </sui-card-header>
+      </span>
+    </header>
 
-      <sui-container text-align="center">
-        <h2>{{ account.balance | currency }}</h2>
-      </sui-container>
-    </sui-card-content>
-  </sui-card>
+    <h3 class="account-card__balance">{{ account.balance | currency }}</h3>
+  </article>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import AccountLabel from '@/components/accounts/AccountLabel.vue'
 
 export default {
   props: {
     account: { required: true, type: Object },
   },
-  components: {
-    AccountLabel,
+  computed: {
+    accountStyle() {
+      const backgroundColor = this.account ? this.account.color : 'transparent'
+      const color = this.account ? '#eee' : 'inherit'
+      const styles = {
+        'background-color': backgroundColor,
+        'color': color,
+      }
+      let str = ''
+
+      for (const k in styles) {
+        str += `${k}: ${styles[k]};`
+      }
+
+      return str
+    },
   },
   methods: {
     ... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
   },
 }
 </script>
+
+<style lang="scss">
+.account-card {
+  font-size: 18px;
+  line-height: 22px;
+  padding: 0.5em 1em;
+  margin: 0.4em 0;
+  border-radius: 6px;
+
+  &--header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 1.1em; // em, not rem
+  }
+
+  &__actions {
+    .icon:not(:last-child) {
+      margin-right: 0.75em;
+    }
+  }
+
+  &__balance {
+    font-size: 1.25em;
+    text-align: center;
+    margin-top: 0.5em;
+  }
+}
+</style>

@@ -112,6 +112,7 @@ db.version(7).stores({
       if (accountsMap[exp.accountId]) {
         exp.account = accountsMap[exp.accountId]
       }
+      delete exp.accountId
     })
 });
 

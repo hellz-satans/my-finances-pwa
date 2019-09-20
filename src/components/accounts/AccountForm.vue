@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<article class="account-form">
 		<sui-button @click.native="toggleModal(true)">Add account</sui-button>
 
 		<sui-modal v-model="accountModal" size="tiny">
@@ -43,8 +43,7 @@
 				<sui-button positive @click="submitAccount">Save</sui-button>
 			</sui-modal-actions>
 		</sui-modal>
-	</div>
-	
+	</article>
 </template>
 
 <script>
