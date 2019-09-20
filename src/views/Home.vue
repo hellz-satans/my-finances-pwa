@@ -4,6 +4,7 @@
     <account-list />
     <expense-form style="float: right; margin-bottom: 1em" />
     <expenses-chart />
+    <expense-filters />
     <expense-list :amount="7" />
   </section>
 </template>
@@ -14,6 +15,7 @@ import AccountList from '@/components/accounts/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
 import ExpenseList from '@/components/expenses/ExpenseList.vue';
 import ExpensesChart from '@/components/charts/Expenses.vue';
+import ExpenseFilters from '@/components/expenses/ExpenseFilters.vue';
 import ExpenseForm from '@/components/expenses/ExpenseForm.vue';
 
 export default {
@@ -23,6 +25,7 @@ export default {
     BalanceSummary,
     ExpenseList,
     ExpensesChart,
+    ExpenseFilters,
     ExpenseForm,
   },
 }

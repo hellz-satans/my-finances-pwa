@@ -16,11 +16,6 @@ export default new Router({
       component: Home
     },
     {
-      path: '/expenses',
-      name: 'expenses',
-      component: Expenses
-    },
-    {
       path: '/import-export',
       name: 'data',
       component: ImportExport
