@@ -111,7 +111,7 @@
                 <sui-form-field>
                   <label for="account">Account</label>
                   <accounts-options :account="account" @input="account = $event" />
-                  <p v-for="(err, i) in expenseErrors.accountId" :key="i" class="red text">
+                  <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
                     {{ err }}
                   </p>
                 </sui-form-field>
@@ -180,7 +180,7 @@ export default {
         }
       }
 
-      if (list.length > 0) {
+      if (list.length > 0 && !this.subcategory) {
         this.subcategory = list[0].value
       }
 
@@ -211,7 +211,7 @@ export default {
       set(v) { this.$store.commit('expenses/updateCurrentExpenseDate', v) },
     },
     account: {
-      get() { return this.$store.state.expenses.currentExpense.accountId },
+      get() { return this.$store.state.expenses.currentExpense.account },
       set(v) { this.$store.commit('expenses/updateCurrentExpenseAccount', v) },
     },
     sign: {

@@ -12,7 +12,7 @@ function newExpense() {
     tags: [],
     category: 'other',
     subcategory: 'other_other',
-    accountId: 1,
+    account: 'cash',
     sign: -1,
   }
 }
@@ -28,7 +28,7 @@ const ExpensesStore = {
       tags: [],
       category: 'other',
       subcategory: 'other_other',
-      accountId: 1,
+      account: 'cash',
       sign: -1,
     },
     expenseErrors: {},
@@ -112,8 +112,8 @@ const ExpensesStore = {
     updateCurrentExpenseDate(state, date) {
       state.currentExpense.date = date
     },
-    updateCurrentExpenseAccount(state, accountId) {
-      state.currentExpense.accountId = accountId
+    updateCurrentExpenseAccount(state, account) {
+      state.currentExpense.account = account
     },
     updateCurrentExpenseSign(state, sign) {
       if (sign === 1 || sign === -1) {
@@ -137,9 +137,9 @@ const ExpensesStore = {
     createExpense({ commit, dispatch }, expense) {
       commit('createExpense', expense)
 
-      if (expense.accountId) {
+      if (expense.account) {
         const deduct = {
-          id: expense.accountId,
+          id: expense.account,
           amount: expense.price,
         }
         dispatch('accounts/add', deduct, { root: true })
@@ -166,7 +166,7 @@ const ExpensesStore = {
         ? 'updateExpense'
         : 'createExpense'
       const data = {
-        accountId: state.currentExpense.accountId,
+        account: state.currentExpense.account,
         category: state.currentExpense.category,
         date: state.currentExpense.date,
         description: ((state.currentExpense.description != null)

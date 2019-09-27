@@ -12,7 +12,7 @@
       type="button"
       v-for="acc in accounts"
       :key="acc.id"
-      @click="$emit('input', acc.id)"
+      @click="$emit('input', acc.key)"
       :style="accountButtonStyles(acc)"
     >
       {{ acc.name }}
@@ -26,7 +26,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'AccountsOptions',
   props: {
-    account: { type: Number, required: false, default: null },
+    account: { type: String, required: false, default: null },
   },
   methods: {
     accountButtonStyles(acc) {
@@ -35,7 +35,7 @@ export default {
         'color': 'white'
       }
 
-      if (this.account === acc.id) {
+      if (this.account === acc.key) {
         styles['transform'] = 'scale(1.1)'
         styles['margin-left'] = styles['margin-right'] = '0.75rem'
         styles['box-shadow'] = `0 0 0.5rem ${acc.color}`
