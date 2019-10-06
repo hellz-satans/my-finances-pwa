@@ -180,7 +180,7 @@ export default {
         }
       }
 
-      if (list.length > 0 && this.subcategory != 'other_other') {
+      if (list.length > 0 && this.subcategory == 'other_other') {
         this.subcategory = list[0].value
       }
 
