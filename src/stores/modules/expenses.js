@@ -260,7 +260,7 @@ const ExpensesStore = {
             cat = categories[Math.floor(Math.random() * (categories.length))]
             let expense = {
               description: `Example expense #${i}`,
-              price: Math.floor(Math.random() * (100 - 20) + 20),
+              price: Math.floor(Math.random() * (100 - 20) + 20) * -1,
               category: cat.key.split('_')[0],
               subcategory: cat.key,
               date: new Date(moment().subtract(i, 'd').toISOString()),

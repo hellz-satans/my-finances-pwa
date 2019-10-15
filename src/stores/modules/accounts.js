@@ -158,6 +158,7 @@ const AccountsStore = {
 
       for (i = 1; i <= n; ++i) {
         account = {
+          key: `account${i}`,
           name: `Account #${i}`,
           balance: i * 100,
           color: `#${i*2}${i*4+1}${i*2+3}`,
