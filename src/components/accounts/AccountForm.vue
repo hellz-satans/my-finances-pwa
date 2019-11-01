@@ -14,7 +14,7 @@
 							v-model="name"
 							placeholder="Name"
 							minlength="1"
-							pattern="[\w\+\-=]+(\s+[\w\+\-=]+)*"
+              pattern=".+"
 							required
 						/>
 					</sui-form-field>

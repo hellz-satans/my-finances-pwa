@@ -93,7 +93,7 @@ const AccountsStore = {
 			return db.accounts.update(state.currentAccount.id, data);
 		},
     add({ commit }, data) {
-      return db.accounts.get(data.id)
+      return db.accounts.get({ key: data.key })
         .then((account) => {
           const fields = {
             balance: account.balance + data.amount,

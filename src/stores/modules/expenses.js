@@ -139,7 +139,7 @@ const ExpensesStore = {
 
       if (expense.account) {
         const deduct = {
-          id: expense.account,
+          key: expense.account,
           amount: expense.price,
         }
         dispatch('accounts/add', deduct, { root: true })
