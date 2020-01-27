@@ -2,10 +2,11 @@
   <section class="home-view">
     <balance-summary />
     <account-list />
-    <expense-form style="float: right; margin-bottom: 1em" />
+    <expense-form />
     <expenses-chart />
     <expense-filters />
     <expense-list :amount="7" />
+    <transfer-form />
   </section>
 </template>
 
@@ -17,6 +18,7 @@ import ExpenseList from '@/components/expenses/ExpenseList.vue';
 import ExpensesChart from '@/components/charts/Expenses.vue';
 import ExpenseFilters from '@/components/expenses/ExpenseFilters.vue';
 import ExpenseForm from '@/components/expenses/ExpenseForm.vue';
+import TransferForm from '@/components/accounts/TransferForm'
 
 export default {
   name: 'home',
@@ -27,6 +29,7 @@ export default {
     ExpensesChart,
     ExpenseFilters,
     ExpenseForm,
+    TransferForm,
   },
 }
 </script>

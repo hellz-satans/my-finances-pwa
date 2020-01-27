@@ -8,6 +8,7 @@ const AccountsStore = {
 			color: '#1fbc9c',
 		},
 		openModal: false,
+    transferModal: false,
 		accounts: [],
     cache: {},
 	},
@@ -16,6 +17,7 @@ const AccountsStore = {
 		createAccount(state, account) {
 			db.accounts.add(account);
 		},
+
 		getAccounts(state) {
 			db.accounts.toArray()
 				.then(arr => state.accounts = arr)
@@ -29,6 +31,7 @@ const AccountsStore = {
 					throw err;
 				});
 		},
+
 		setCurrentAccount(state, id) {
 			db.accounts.get(id)
 				.then((account) => {
@@ -40,23 +43,18 @@ const AccountsStore = {
 					throw err;
 				});
 		},
+
 		unsetCurrentAccount(state) {
 			if (state.currentAccount.id) {
 				state.currentAccount = {};
 			}
 		},
-		updateCurrentAccountName(state, name) {
-			state.currentAccount.name = name;
-		},
-		updateCurrentAccountBalance(state, balance) {
-			state.currentAccount.balance = Number(balance);
-		},
-		updateCurrentAccountColor(state, color) {
-			state.currentAccount.color = color;
-		},
-		toggleModal(state) {
-			state.openModal = !state.openModal;
-		},
+
+		updateCurrentAccountName(state, name) { state.currentAccount.name = name; },
+		updateCurrentAccountBalance(state, balance) { state.currentAccount.balance = Number(balance); },
+		updateCurrentAccountColor(state, color) { state.currentAccount.color = color; },
+		toggleModal(state) { state.openModal = !state.openModal; },
+    toggleTransferModal(state) { state.transferModal = !state.transferModal },
 	},
 
 	actions: {
@@ -66,16 +64,21 @@ const AccountsStore = {
 			}
 			commit('toggleModal');
 		},
+
+		toggleTransferModal({ commit }) { commit('toggleTransferModal') },
+
 		createAccount({ commit }, account) {
       if (!account.key && account.name) {
         account.key = account.name.toLowerCase()
       }
 			commit('createAccount', account)
 		},
+
 		editAccount({ commit }, id) {
 			commit('setCurrentAccount', id);
 			commit('toggleModal');
 		},
+
 		submitAccount({ commit, dispatch, state }, data) {
 			const actionName = (state.currentAccount.id)
 				? 'updateAccount'
@@ -89,16 +92,25 @@ const AccountsStore = {
 					return id;
 				});
 		},
+
 		updateAccount({ commit, state }, data) {
 			return db.accounts.update(state.currentAccount.id, data);
 		},
+
+    /**
+     * Add (or deduct, if given a negative amount) credits from account.
+     *
+     * @option data {Number} amount If negative, deduct amount from balance
+     * @option data {String} key Account key
+     * @param {Object} data
+     */
     add({ commit }, data) {
       return db.accounts.get({ key: data.key })
         .then((account) => {
           const fields = {
-            balance: account.balance + data.amount,
+            // be paranoid about data types 'cuz JS
+            balance: Number(account.balance + data.amount),
           }
-
           return db.accounts.update(account.id, fields)
         })
         .then((id) => {
@@ -109,6 +121,33 @@ const AccountsStore = {
           console.error('accounts/add:', err)
         })
     },
+
+    /**
+     * Transfer amount from one account to another
+     *
+     * @option data {Number} amount
+     * @option data {String} from Account key
+     * @option data {String} to Account key
+     * @param {Object} data
+     */
+    transfer({ commit, dispatch, state }, data) {
+      if (state.cache[data.from] && state.cache[data.to]) {
+        let amount = Number(data.amount)
+
+        dispatch('add', {
+          amount: (amount * -1),
+          key: state.cache[data.from].key,
+        }).then((fromId) => {
+          return dispatch('add', {
+            amount: amount,
+            key: state.cache[data.to].key,
+          })
+        }).then((toId) => {
+					commit('toggleTransferModal');
+        })
+      }
+    },
+
 		deleteAccount({ commit }, id) {
 			// on success, resolves with an undefined result
 			return db.accounts.delete(id)
@@ -117,6 +156,7 @@ const AccountsStore = {
 					return whatever;
 				});
 		},
+
 		deleteAll({ dispatch }) {
 			db.accounts
 				.toArray()
@@ -130,6 +170,7 @@ const AccountsStore = {
 					throw err
 				})
 		},
+
 		importAccounts({ dispatch }, newData) {
 			db.accounts
 				.toArray()
@@ -151,6 +192,7 @@ const AccountsStore = {
 					throw err
 				})
 		},
+
     seedData({ commit, state }) {
       const n = 2
       let i = 0,
@@ -178,6 +220,7 @@ const AccountsStore = {
 				.map(acc => acc.balance)
 				.reduce((total, curr) => total + curr);
 		},
+
     /**
      * Return SUI-compatible options for dropdown component.
      *

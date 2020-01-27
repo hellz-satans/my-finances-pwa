@@ -10,7 +10,7 @@
     <sui-button
       size="tiny"
       type="button"
-      v-for="acc in accounts"
+      v-for="acc in filteredAccounts"
       :key="acc.id"
       @click="$emit('input', acc.key)"
       :style="accountButtonStyles(acc)"
@@ -25,9 +25,12 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'AccountsOptions',
+
   props: {
     account: { type: String, required: false, default: null },
+    exclude: { type: Array, required: false, default: () => [], },
   },
+
   methods: {
     accountButtonStyles(acc) {
       const styles = {
@@ -44,8 +47,13 @@ export default {
       return styles
     },
   },
+
   computed: {
     ... mapState('accounts', [ 'accounts', ]),
+
+    filteredAccounts() {
+      return this.accounts.filter(el => this.exclude.indexOf(el.key) === -1)
+    }
   },
 }
 </script>
