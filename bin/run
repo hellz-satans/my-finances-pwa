@@ -4,7 +4,7 @@
 # docker exec -t ${CONTAINER_NAME} npm install my-new-pkg --save
 
 CONTAINER_NAME="$(pwd | tr / '\n' | tail -1 | sed 's|[- ]|_|g')"
-DOCKER_COMMAND="docker"
+DOCKER_COMMAND="${DOCKER_COMMAND:-docker}"
 DOCKER_IMAGE="juankman94/myfinances"
 WD="$PWD"
 SCRIPT="run serve"
