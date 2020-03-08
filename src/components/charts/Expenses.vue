@@ -1,18 +1,12 @@
-<style lang="scss">
-.expenses-chart {
-  .expenses-chart-controls {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 0 1rem;
-  }
-}
-</style>
-
 <template>
   <article class="expenses-chart">
     <histogram v-if="chartType === 'histogram'" />
     <line-chart v-if="chartType === 'line'" />
     <pie v-if="chartType === 'pie'" />
+
+    <h3 class="text-center" v-if="expenses.length === 0">
+      Nothing to show here. Try changing the filters!
+    </h3>
 
     <footer class="expenses-chart-controls">
       <sui-button-group>
@@ -55,8 +49,10 @@ export default {
     LineChart,
     Pie,
   },
+
   props: {
   },
+
   data() {
     return {
       chartType: 'pie',
@@ -67,6 +63,7 @@ export default {
       },
     }
   },
+
   methods: {
     /**
      * Set filters for expenses.
@@ -112,8 +109,19 @@ export default {
       this.$store.dispatch('expenses/setFilters', newFilters)
     },
   },
+
   computed: {
-    ... mapState('expenses', [ 'filters' ]),
+    ... mapState('expenses', [ 'expenses', 'filters', ]),
   },
 }
 </script>
+
+<style lang="scss">
+.expenses-chart {
+  .expenses-chart-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 1rem;
+  }
+}
+</style>

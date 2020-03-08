@@ -13,7 +13,8 @@
       <h3 class="text-right">
         Sum of listed expenses: <strong>{{ expensesSum | currency }}</strong>
       </h3>
-      <table class="ui table">
+
+      <table class="ui table" v-if="entries.length > 0">
         <thead>
           <tr>
             <th scope="col">Amount</th>
@@ -25,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="e in activeItems" :key="e.id">
+          <tr v-for="e in entries" :key="e.id">
             <td>
               <b>{{ e.price | currency }}</b>
             </td>
@@ -59,6 +60,7 @@
         <tfoot>
         </tfoot>
       </table>
+
       <footer
         class="ui center aligned pagination menu"
         v-if="pages > 1"
@@ -80,6 +82,10 @@
       </footer>
     </article>
   </paginatron>
+
+  <h2 class="text-center" v-else>
+    Move along, nothing to show here. Try changing the filters!
+  </h2>
 </template>
 
 <script>
@@ -100,7 +106,7 @@ export default {
   },
   data() {
     return {
-      activeItems: [],
+      entries: [],
       currentPage: 0,
       perPage: 20,
     }
@@ -120,7 +126,7 @@ export default {
       this.currentPage = current
     },
 
-    advanced({ activeItems, prev, current }) {
+    advanced({ entries, prev, current }) {
       this.currentPage = current
     },
 
@@ -128,17 +134,19 @@ export default {
       this.currentPage = current
     },
 
-    updateItems(activeItems) {
-      this.activeItems = activeItems
+    updateItems(entries) {
+      this.entries = entries
     },
   },
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
+
     expensesSum() {
       return expensesSum(this.expenses)
     },
   },
+
   created() {
   },
 }

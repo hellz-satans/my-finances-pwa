@@ -14,16 +14,20 @@ export default {
   components: {
     VePie,
   },
+
   props: {
   },
+
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+
     chartSettings() {
       return {
         dimension: 'category',
         metrics: 'total',
       }
     },
+
     /**
      * Display pie chart by category
      *

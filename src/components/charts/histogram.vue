@@ -14,17 +14,21 @@ export default {
   components: {
     VeHistogram,
   },
+
   props: {
   },
+
   computed: {
     ... mapGetters('categories', [ 'categoriesKeys' ]),
     ... mapState('expenses', [ 'expenses' ]),
+
     chartSettings() {
       return {
         stack: { price: this.chartData.columns, },
         dataOrder: { label: 'date', order: 'desc', },
       }
     },
+
     /**
      * Display stacked histogram by category
      *

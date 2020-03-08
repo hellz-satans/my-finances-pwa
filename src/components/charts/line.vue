@@ -16,15 +16,19 @@ export default {
   components: {
     VeLine,
   },
+
   props: {
   },
+
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+
     chartSettings() {
       return {
         area: true,
       }
     },
+
     chartOptions() {
       return {
         series: {
@@ -32,6 +36,7 @@ export default {
         }
       }
     },
+
     chartData() {
       const columns = [ 'date', 'Total expense', ];
 
