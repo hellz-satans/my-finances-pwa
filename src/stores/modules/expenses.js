@@ -21,7 +21,7 @@ const ExpensesStore = {
   namespaced: true,
 
   state: {
-    currentExpense: {
+    expense: {
       description: null,
       price: 0,
       date: moment().format(),
@@ -40,7 +40,7 @@ const ExpensesStore = {
         value: moment().startOf('month').toDate(),
         name: 'lapse',
       },
-      { field: 'price', op: '<', value: 0, name: 'onlyNegative', },
+      // { field: 'price', op: '<', value: 0, name: 'onlyNegative', },
     ],
     openModal: false,
   },
@@ -50,9 +50,11 @@ const ExpensesStore = {
       expense.date = new Date(expense.date)
       return db.expenses.add(expense)
     },
+
     setNewExpense(state) {
-      state.currentExpense = newExpense()
+      state.expense = newExpense()
     },
+
     getExpenses(state, options = {}) {
       options.decreasing = options.decreasing || true
 
@@ -80,16 +82,18 @@ const ExpensesStore = {
           throw err
         })
     },
+
     setFilters(state, newFilters) {
       state.filters = newFilters
     },
-    setCurrentExpense(state, id) {
+
+    setExpense(state, id) {
       db.expenses.get(id)
         .then((expense) => {
           expense.date = moment(expense.date).format()
           expense.sign = (expense.price < 0) ? -1 : 1
           expense.price = Math.abs(expense.price)
-          state.currentExpense = expense
+          state.expense = expense
           return id
         })
         .catch((err) => {
@@ -97,31 +101,39 @@ const ExpensesStore = {
           throw err
         })
     },
-    updateCurrentExpenseDescription(state, description) {
-      state.currentExpense.description = description
+
+    updateExpenseDescription(state, description) {
+      state.expense.description = description
     },
-    updateCurrentExpensePrice(state, price) {
-      state.currentExpense.price = Number(price)
+
+    updateExpensePrice(state, price) {
+      state.expense.price = Number(price)
     },
-    updateCurrentExpenseCategory(state, category) {
-      state.currentExpense.category = category
+
+    updateExpenseCategory(state, category) {
+      state.expense.category = category
     },
-    updateCurrentExpenseSubcategory(state, subcategory) {
-      state.currentExpense.subcategory = subcategory
+
+    updateExpenseSubcategory(state, subcategory) {
+      state.expense.subcategory = subcategory
     },
-    updateCurrentExpenseDate(state, date) {
-      state.currentExpense.date = date
+
+    updateExpenseDate(state, date) {
+      state.expense.date = date
     },
-    updateCurrentExpenseAccount(state, account) {
-      state.currentExpense.account = account
+
+    updateExpenseAccount(state, account) {
+      state.expense.account = account
     },
-    updateCurrentExpenseSign(state, sign) {
+
+    updateExpenseSign(state, sign) {
       if (sign === 1 || sign === -1) {
-        state.currentExpense.sign = sign
+        state.expense.sign = sign
       } else {
-        state.currentExpense.sign = -1
+        state.expense.sign = -1
       }
     },
+
     toggleModal(state) {
       state.openModal = !state.openModal
     },
@@ -134,6 +146,7 @@ const ExpensesStore = {
       }
       commit('toggleModal')
     },
+
     createExpense({ commit, dispatch }, expense) {
       commit('createExpense', expense)
 
@@ -145,6 +158,7 @@ const ExpensesStore = {
         dispatch('accounts/add', deduct, { root: true })
       }
     },
+
     updateExpense({ commit, state }, data) {
       // convert date input to Date type
       if (data.date) {
@@ -152,28 +166,30 @@ const ExpensesStore = {
       }
       // TODO: update account balance
 
-      return db.expenses.update(state.currentExpense.id, data)
+      return db.expenses.update(state.expense.id, data)
     },
+
     editExpense({ commit }, id) {
-      commit('setCurrentExpense', id)
+      commit('setExpense', id)
       commit('toggleModal')
     },
+
     /**
-     * Submit current expense for storage.
+     * Submit expense expense for storage.
      */
     submitExpense({ commit, dispatch, state }) {
-      const actionName = (state.currentExpense.id)
+      const actionName = (state.expense.id)
         ? 'updateExpense'
         : 'createExpense'
       const data = {
-        account: state.currentExpense.account,
-        category: state.currentExpense.category,
-        date: state.currentExpense.date,
-        description: ((state.currentExpense.description != null)
-          ? state.currentExpense.description.trim()
+        account: state.expense.account,
+        category: state.expense.category,
+        date: state.expense.date,
+        description: ((state.expense.description != null)
+          ? state.expense.description.trim()
           : null),
-        price: state.currentExpense.price * state.currentExpense.sign,
-        subcategory: state.currentExpense.subcategory,
+        price: state.expense.price * state.expense.sign,
+        subcategory: state.expense.subcategory,
       }
       const errors = validate(data, expenseConstraints)
 
@@ -191,6 +207,7 @@ const ExpensesStore = {
         state.expenseErrors = errors
       }
     },
+
     deleteExpense({ commit }, id) {
       // on success, resolves with an undefined result
       return db.expenses.delete(id)
@@ -199,6 +216,7 @@ const ExpensesStore = {
           return whatever
         })
     },
+
     deleteAll({ dispatch }) {
       db.expenses
         .toArray()
@@ -212,10 +230,12 @@ const ExpensesStore = {
           throw err
         })
     },
+
     setFilters({ commit }, filters) {
       commit('setFilters', filters)
       window.setTimeout(() => { commit('getExpenses') }, 5)
     },
+
     importExpenses({ commit, dispatch }, newData) {
       db.expenses
         .toArray()
@@ -247,6 +267,7 @@ const ExpensesStore = {
           throw err
         })
     },
+
     seedData({ commit, state }) {
       db.categories
         .toArray()

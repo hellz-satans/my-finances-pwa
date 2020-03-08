@@ -1,82 +1,80 @@
 <template>
-  <nav class="expense-filters">
-    <sui-accordion exclusive>
-      <sui-accordion-title>
-        <sui-icon name="dropdown" />
-        <strong>Filters</strong>: {{ filtersSummary }}
-      </sui-accordion-title>
-      <sui-accordion-content class="ui form expense-filters-form">
-        <sui-grid>
-          <sui-grid-row>
-            <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-              <sui-form-field>
-                <label class="hidden" hidden for="startDate">Start date</label>
-                <input type="date" v-model="startDate" placeholder="Start date" />
-              </sui-form-field>
-            </sui-grid-column>
+  <sui-accordion exclusive class="expense-filters">
+    <sui-accordion-title>
+      <sui-icon name="dropdown" />
+      <strong>Filters</strong>: {{ filtersSummary }}
+    </sui-accordion-title>
+    <sui-accordion-content class="ui form expense-filters-form">
+      <sui-grid>
+        <sui-grid-row>
+          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+            <sui-form-field>
+              <label class="hidden" hidden for="startDate">Start date</label>
+              <input type="date" v-model="startDate" placeholder="Start date" />
+            </sui-form-field>
+          </sui-grid-column>
 
-            <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-              <sui-form-field>
-                <label for="date">End date</label>
-                <input type="date" v-model="endDate" placeholder="End date" />
-              </sui-form-field>
-            </sui-grid-column>
+          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+            <sui-form-field>
+              <label for="date">End date</label>
+              <input type="date" v-model="endDate" placeholder="End date" />
+            </sui-form-field>
+          </sui-grid-column>
 
-            <sui-grid-column :mobile="8" :tablet="6" :computer="6">
-              <fieldset>
-                <legend>Price</legend>
-                <label for="comparator">
-                  <span hidden>Price Comparator</span>
-                  <sui-dropdown
-                    v-model="comparator"
-                    :options="comparatorOptions"
-                    placeholder="Price Comparator"
-                  />
-                </label>
-
-                <label for="price">
-                  <span hidden>Price</span>
-                  <input
-                    id="price"
-                    name="price"
-                    placeholder="Unit price"
-                    type="number"
-                    step="any"
-                    v-model="price"
-                  />
-                </label>
-              </fieldset>
-            </sui-grid-column>
-
-            <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-              <sui-form-field>
-                <label for="category">Category</label>
+          <sui-grid-column :mobile="8" :tablet="6" :computer="6">
+            <fieldset>
+              <legend>Price</legend>
+              <label for="comparator">
+                <span hidden>Price Comparator</span>
                 <sui-dropdown
-                  placeholder="Category"
-                  fluid
-                  selection
-                  :options="expenseCategories"
-                  v-model="category"
+                  v-model="comparator"
+                  :options="comparatorOptions"
+                  placeholder="Price Comparator"
                 />
-              </sui-form-field>
-            </sui-grid-column>
-          </sui-grid-row>
+              </label>
 
-          <sui-grid-row>
-            <sui-grid-column></sui-grid-column>
-            <sui-grid-column align="right" floated="right" :mobile="12">
-              <sui-form-field>
-                <label hidden for="actions">Actions</label>
-                <sui-button @click="resetFilters" icon="undo" content="Reset" />
-                <sui-button @click="filter" icon="filter" content="Filter" />
-              </sui-form-field>
-            </sui-grid-column>
-          </sui-grid-row>
-        </sui-grid>
-        </div>
-      </sui-accordion-content>
-    </sui-accordion>
-  </nav>
+              <label for="price">
+                <span hidden>Price</span>
+                <input
+                  id="price"
+                  name="price"
+                  placeholder="Unit price"
+                  type="number"
+                  step="any"
+                  v-model="price"
+                />
+              </label>
+            </fieldset>
+          </sui-grid-column>
+
+          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
+            <sui-form-field>
+              <label for="category">Category</label>
+              <sui-dropdown
+                placeholder="Category"
+                fluid
+                selection
+                :options="expenseCategories"
+                v-model="category"
+              />
+            </sui-form-field>
+          </sui-grid-column>
+        </sui-grid-row>
+
+        <sui-grid-row>
+          <sui-grid-column></sui-grid-column>
+          <sui-grid-column align="right" floated="right" :mobile="12">
+            <sui-form-field>
+              <label hidden for="actions">Actions</label>
+              <sui-button @click="resetFilters" icon="undo" content="Reset" />
+              <sui-button @click="filter" icon="filter" content="Filter" />
+            </sui-form-field>
+          </sui-grid-column>
+        </sui-grid-row>
+      </sui-grid>
+      </div>
+    </sui-accordion-content>
+  </sui-accordion>
 </template>
 
 <script>
@@ -85,8 +83,10 @@ import moment from 'moment'
 
 export default {
   name: 'ExpenseFilters',
+
   props: {
   },
+
   data() {
     return {
       startDate: null,
@@ -100,6 +100,7 @@ export default {
       ]
     };
   },
+
   methods: {
     filter() {
       const filters = [];
@@ -138,6 +139,7 @@ export default {
 
       this.$store.dispatch('expenses/setFilters', filters)
     },
+
     resetFilters() {
       this.startDate = this.endDate = this.category = null
       this.comparator = '>='
@@ -145,9 +147,11 @@ export default {
       this.$store.dispatch('expenses/setFilters', [])
     }
   },
+
   computed: {
     ... mapGetters('categories', [ 'expenseCategories' ]),
     ... mapState('expenses', [ 'filters' ]),
+
     filtersSummary() {
       let filtersStr = []
       let str = null

@@ -86,6 +86,10 @@ export default {
         'onlyNegative',
       ]
 
+      if (!newFilters.some(el => el.field === 'lapse')) {
+        newFilters.push(lapseFilter)
+      }
+
       this.filters.forEach((el) => {
         if (el.field === 'date') {
           if (!newFilters.some(e => e.name === 'lapse')) {
@@ -95,11 +99,6 @@ export default {
           newFilters.push(el)
         }
       })
-
-      // insert lapse filter if the date filter was not set
-      if (!newFilters.some(el => el.field === 'lapse')) {
-        newFilters.push(lapseFilter)
-      }
 
       // insert only-negative filter if set for the chart type
       if (this.onlyNegative[this.chartType]) {

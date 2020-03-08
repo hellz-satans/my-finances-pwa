@@ -1,26 +1,3 @@
-<style lang="scss">
-  .expense-form {
-    &-button {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      z-index: 999;
-    }
-    .sign {
-      margin-top: 1.25rem;
-      cursor: pointer;
-      font-size: 2rem;
-      font-weight: 600;
-      position: absolute;
-      top: 0.25rem;
-      left: 1.45rem;
-
-      &.positive { color: green; }
-      &.negative { color: red; left: 1.75rem; }
-    }
-  }
-</style>
-
 <template>
   <article class="expense-form">
     <sui-button
@@ -47,14 +24,10 @@
               <sui-grid-column :width="6">
                 <sui-form-field>
                   <label for="price">Price</label>
-                  <sui-input
-                    type="number"
-                    name="price"
-                    min="0.1"
-                    step="any"
-                    required
-                    v-model="price"
-                  />
+                  <money
+                    v-model.number="price"
+                    v-bind="moneyConf"
+                  ></money>
                   <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
                     {{ err }}
                   </p>
@@ -148,16 +121,33 @@
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
+import { Money } from 'v-money'
 
 export default {
   name: 'ExpenseForm',
+
   components: {
     AccountsOptions,
+    Money,
   },
-  props: ['hideBtn'],
+
+  props: {
+    'hideBtn': { required: false, default: false, },
+  },
+
+  data() {
+    return {
+      moneyConf: {
+        prefix: '$',
+        precision: 2,
+        masked: false,
+      },
+    }
+  },
+
   methods: {
-    ... mapMutations('expenses', [ 'unsetCurrentExpense' ]),
     ... mapActions('expenses', [ 'toggleModal' ]),
+
     submitExpense() {
       this.$store.dispatch('expenses/submitExpense')
         .catch((err) => {
@@ -165,10 +155,12 @@ export default {
         })
     },
   },
+
   computed: {
     ... mapGetters('categories', [ 'expenseCategories' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
-    ... mapState('expenses', [ 'currentExpense', 'expenseErrors', 'openModal' ]),
+    ... mapState('expenses', [ 'expense', 'expenseErrors', 'openModal' ]),
+
     expenseSubcategories() {
       const list = []
       let c = null
@@ -186,37 +178,45 @@ export default {
 
       return list
     },
+
     action() {
-      return this.currentExpense.id ? 'Update' : 'Save'
+      return this.expense.id ? 'Update' : 'Save'
     },
+
     description: {
-      get() { return this.$store.state.expenses.currentExpense.description },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseDescription', v) },
+      get() { return this.$store.state.expenses.expense.description },
+      set(v) { this.$store.commit('expenses/updateExpenseDescription', v) },
     },
+
     price: {
-      get() { return this.$store.state.expenses.currentExpense.price },
-      set(v) { this.$store.commit('expenses/updateCurrentExpensePrice', v) },
+      get() { return this.$store.state.expenses.expense.price },
+      set(v) { this.$store.commit('expenses/updateExpensePrice', v) },
     },
+
     category: {
-      get() { return this.$store.state.expenses.currentExpense.category },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseCategory', v) },
+      get() { return this.$store.state.expenses.expense.category },
+      set(v) { this.$store.commit('expenses/updateExpenseCategory', v) },
     },
+
     subcategory: {
-      get() { return this.$store.state.expenses.currentExpense.subcategory },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseSubcategory', v) },
+      get() { return this.$store.state.expenses.expense.subcategory },
+      set(v) { this.$store.commit('expenses/updateExpenseSubcategory', v) },
     },
+
     date: {
       // TODO: fix warning when setting the input[type=date] with this
-      get() { return this.$store.state.expenses.currentExpense.date },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseDate', v) },
+      get() { return this.$store.state.expenses.expense.date },
+      set(v) { this.$store.commit('expenses/updateExpenseDate', v) },
     },
+
     account: {
-      get() { return this.$store.state.expenses.currentExpense.account },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseAccount', v) },
+      get() { return this.$store.state.expenses.expense.account },
+      set(v) { this.$store.commit('expenses/updateExpenseAccount', v) },
     },
+
     sign: {
-      get() { return this.$store.state.expenses.currentExpense.sign },
-      set(v) { this.$store.commit('expenses/updateCurrentExpenseSign', v) },
+      get() { return this.$store.state.expenses.expense.sign },
+      set(v) { this.$store.commit('expenses/updateExpenseSign', v) },
     },
 
     expenseModal: {
@@ -226,3 +226,26 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.expense-form {
+  &-button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 999;
+  }
+  .sign {
+    margin-top: 1.25rem;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+    position: absolute;
+    top: 0.25rem;
+    left: 1.45rem;
+
+    &.positive { color: green; }
+    &.negative { color: red; left: 1.75rem; }
+  }
+}
+</style>
