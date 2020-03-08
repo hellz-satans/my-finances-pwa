@@ -1,4 +1,5 @@
 <template>
+
   <paginatron
     class="expenses-list"
     @change="updateItems"
@@ -39,7 +40,7 @@
                 :category="{ category: e.category, subcategory: e.subcategory }"
               />
             </td>
-            <td :title="e.date | format">{{ e.date | ago }}</td>
+            <td><date-label :date="e.date" /></td>
             <td>
               <sui-button size="mini" animated="vertical" @click="deleteExpense(e.id)">
                 <sui-button-content visible>
@@ -94,6 +95,7 @@ import { expensesSum } from '@/stores/filters';
 import Paginatron from 'vue-paginatron'
 import AccountLabel from '@/components/accounts/AccountLabel.vue'
 import CategoryLabel from '@/components/categories/CategoryLabel.vue'
+import DateLabel from '@/components/DateLabel'
 
 export default {
   name: 'ExpenseList',
@@ -102,6 +104,7 @@ export default {
   components: {
     AccountLabel,
     CategoryLabel,
+    DateLabel,
     Paginatron,
   },
   data() {
