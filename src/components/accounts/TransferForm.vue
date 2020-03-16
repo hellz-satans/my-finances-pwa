@@ -22,18 +22,15 @@
 		<sui-modal v-model="transferModal" size="tiny">
 			<sui-modal-header>Transfer</sui-modal-header>
 
-			<sui-modal-content>
+			<sui-modal-content scrolling>
         <sui-form name="transfer" @submit.stop.prevent="doTransfer">
           <sui-form-field>
             <label for="price">Amount</label>
-            <sui-input
-              type="number"
+            <money-input
               name="amount"
-              min="1"
-              step="any"
-              required
-              v-model="amount"
-            />
+              v-model.lazy="amount"
+              :value="amount"
+            ></money-input>
           </sui-form-field>
 
           <sui-form-field>
@@ -74,10 +71,12 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions'
+import MoneyInput from '@/components/MoneyInput'
 
 export default {
   components: {
     AccountsOptions,
+    MoneyInput,
   },
 
   data() {

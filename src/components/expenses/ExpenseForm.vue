@@ -24,10 +24,8 @@
               <sui-grid-column :width="6">
                 <sui-form-field>
                   <label for="price">Price</label>
-                  <money
-                    v-model.number="price"
-                    v-bind="moneyConf"
-                  ></money>
+                  <money-input v-model.lazy="price" :value="price">
+                  </money-input>
                   <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
                     {{ err }}
                   </p>
@@ -121,28 +119,18 @@
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
-import { Money } from 'v-money'
+import MoneyInput from '@/components/MoneyInput'
 
 export default {
   name: 'ExpenseForm',
 
   components: {
     AccountsOptions,
-    Money,
+    MoneyInput,
   },
 
   props: {
     'hideBtn': { required: false, default: false, },
-  },
-
-  data() {
-    return {
-      moneyConf: {
-        prefix: '$',
-        precision: 2,
-        masked: false,
-      },
-    }
   },
 
   methods: {
