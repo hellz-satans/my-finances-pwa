@@ -6,7 +6,7 @@
         <sui-icon class="right floated"
           size="small"
           name="trash"
-          @click="deleteAccount(account.id)"
+          @click="deleteAccountProxy(account.id)"
         />
         <sui-icon class="right floated"
           size="small"
@@ -46,6 +46,12 @@ export default {
   },
   methods: {
     ... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
+
+    deleteAccountProxy(id) {
+      if (window.confirm('Are you sure?')) {
+        this.deleteAccount(id)
+      }
+    },
   },
 }
 </script>
