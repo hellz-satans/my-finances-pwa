@@ -1,4 +1,4 @@
-var VERSION = '0.1.0';
+var VERSION = '0.1.1';
 
 self.addEventListener("install", function(ev) {
   ev.waitUntil(preLoad());
@@ -6,7 +6,11 @@ self.addEventListener("install", function(ev) {
 
 var preLoad = function() {
   return caches.open(VERSION).then(function(cache) {
-    return cache.addAll([ "/my-finances-pwa/", "/my-finances-pwa/offline.html" ]);
+    return cache.addAll([
+      "/my-finances-pwa/",
+      "/my-finances-pwa/sw.js",
+      "/my-finances-pwa/offline.html",
+    ]);
   });
 };
 
