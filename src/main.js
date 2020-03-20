@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 import store from '@/stores'
 import filters from './filters'
-import '@/registerServiceWorker'
+//import '@/registerServiceWorker'
 import '@/styles/main.scss'
 
 // styles
