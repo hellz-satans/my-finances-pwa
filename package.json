@@ -1,5 +1,5 @@
 {
-  "name": "TEST",
+  "name": "my-finances-pwa",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "dexie": "^2.0.4",
     "echarts": "^4.2.0-rc.2",
     "moment": "^2.22.2",
-    "register-service-worker": "^1.0.0",
+    "register-service-worker": "^1.6.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.7.0",
     "tar": ">=4.4.2",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-plugin-pwa": "^3.1.2",
+    "@vue/cli-plugin-pwa": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "acorn": ">=6.4.1",
     "lodash.template": ">=4.5.0",
