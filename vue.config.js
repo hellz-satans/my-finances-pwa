@@ -1,5 +1,8 @@
 module.exports = {
-	publicPath: '',
+  publicPath: '',
+
+  productionSourceMap: false,
+
   devServer: {
     port: 8000,
   },

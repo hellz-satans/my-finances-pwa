@@ -31,6 +31,8 @@ $DOCKER_COMMAND run \
 	-it \
 	-w /app \
 	-v "$WD:/app" \
+	-v "$WD/conf:/etc/nginx/conf.d" \
+	-p 8080:8080 \
 	-p 8000:8000 \
 	${DOCKER_IMAGE} \
 	npm ${SCRIPT}

@@ -1,6 +1,7 @@
 FROM node:10.13-alpine
 
 RUN apk add --no-cache \
+      nginx \
       git \
       git-subtree \
       openssh \
@@ -16,6 +17,8 @@ EXPOSE 8080
 VOLUME [ "${APP_PATH}" ]
 
 WORKDIR $APP_PATH
+
+ADD ./conf/pwa_nginx.conf /etc/nginx/conf.d
 
 ADD ./public/ $APP_PATH/public/
 ADD ./src/ $APP_PATH/src/
