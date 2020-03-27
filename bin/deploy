@@ -13,11 +13,11 @@ npm run build
 
 # push to newly createg gh-pages branch
 git checkout -b gh-pages
-sed -i 's|/dist|#/dist|' .gitignore
+sed -i 's|dist/|#dist/|' .gitignore
 git add dist/
 git commit -m 'Build'
-git subtree push --prefix dist/ origin gh-pages
+git subtree push --prefix dist/my-finances-pwa origin gh-pages
 
 # switch back to master
-sed -i 's|#/dist|/dist|' .gitignore
+sed -i 's|#dist/|dist/|' .gitignore
 git checkout master
