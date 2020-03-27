@@ -55,6 +55,19 @@ const AccountsStore = {
 		updateCurrentAccountColor(state, color) { state.currentAccount.color = color; },
 		toggleModal(state) { state.openModal = !state.openModal; },
     toggleTransferModal(state) { state.transferModal = !state.transferModal },
+
+    toggleIncludeAccount(state, id) {
+      db.accounts.get(id)
+        .then((acc) => {
+          return db.accounts.update(acc.id, {
+            includeInSummary: !acc.includeInSummary,
+          });
+        })
+        .catch((err) => {
+          console.warn('account not found:', id);
+          throw err;
+        });
+    },
 	},
 
 	actions: {
@@ -78,6 +91,12 @@ const AccountsStore = {
 			commit('setCurrentAccount', id);
 			commit('toggleModal');
 		},
+
+    toggleIncludeAccount({ commit }, id) {
+      commit('toggleIncludeAccount', id);
+      // give it time to update the record
+      window.setTimeout((ev) => { commit('getAccounts'); }, 180);
+    },
 
 		submitAccount({ commit, dispatch, state }, data) {
 			const actionName = (state.currentAccount.id)
@@ -212,14 +231,15 @@ const AccountsStore = {
 	},
 
 	getters: {
-		totalBalance: (state) => {
-			if (state.accounts.length === 0)
-				return 0;
+    totalBalance: (state) => {
+      if (state.accounts.length === 0)
+        return 0;
 
-			return state.accounts
-				.map(acc => acc.balance)
-				.reduce((total, curr) => total + curr);
-		},
+      return state.accounts
+        .filter(acc => acc.includeInSummary)
+        .map(acc => acc.balance)
+        .reduce((total, curr) => total + curr);
+    },
 
     /**
      * Return SUI-compatible options for dropdown component.

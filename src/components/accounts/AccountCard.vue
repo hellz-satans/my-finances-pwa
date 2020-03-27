@@ -17,6 +17,17 @@
     </header>
 
     <h3 class="account-card__balance">{{ account.balance | currency }}</h3>
+
+    <footer class="text-smaller text-right">
+      <span class="pointer" @click="toggleIncludeAccount(account.id)">
+        <sui-icon
+          class="right floated"
+          size="small"
+          :name="(account.includeInSummary ? 'check' : '') + ' square outline'"
+        />
+        Include in summary?
+      </span>
+    </footer>
   </article>
 </template>
 
@@ -27,6 +38,7 @@ export default {
   props: {
     account: { required: true, type: Object },
   },
+
   computed: {
     accountStyle() {
       const backgroundColor = this.account ? this.account.color : 'transparent'
@@ -44,8 +56,13 @@ export default {
       return str
     },
   },
+
   methods: {
-    ... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
+    ... mapActions('accounts', [
+      'editAccount',
+      'deleteAccount',
+      'toggleIncludeAccount',
+    ]),
 
     deleteAccountProxy(id) {
       if (window.confirm('Are you sure?')) {
@@ -85,6 +102,7 @@ export default {
     font-size: 1.25em;
     text-align: center;
     margin-top: 0.5em;
+    margin-bottom: 0;
   }
 }
 </style>
