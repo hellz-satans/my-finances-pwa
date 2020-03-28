@@ -6,28 +6,25 @@ import { VERSION } from '@/config/application_properties'
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
-      console.log(
-        'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB'
-      )
+      console.log('[Service Worker] ready...')
     },
     registered () {
-      console.log('Service worker has been registered.')
+      console.log('[Service Worker] registered...')
     },
     cached () {
-      console.log('Content has been cached for offline use.')
+      console.log('[Service Worker] cached for offline use...')
     },
     updatefound () {
-      console.log(`New content found, new version is ${VERSION}.`)
+      console.log(`[Service Worker] New content found, new version is ${VERSION}.`)
     },
     updated () {
-      console.log(`Please refresh to donwload version ${VERSION}.`)
+      console.log(`[Service Worker] Please refresh to donwload version ${VERSION}.`)
     },
     offline () {
-      console.log('No internet connection found. App is running in offline mode.')
+      console.log('[Service Worker] App is running in offline mode.')
     },
     error (error) {
-      console.error('Error during service worker registration:', error)
+      console.error('[Service Worker] Error during service worker registration:', error)
     }
   })
 }

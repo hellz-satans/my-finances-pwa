@@ -238,7 +238,7 @@ const AccountsStore = {
       return state.accounts
         .filter(acc => acc.includeInSummary)
         .map(acc => acc.balance)
-        .reduce((total, curr) => total + curr);
+        .reduce((total, curr) => total + curr, 0);
     },
 
     /**
