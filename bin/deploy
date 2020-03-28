@@ -2,6 +2,7 @@
 # Publish built application to Github Pages
 
 set -e
+DIST_PATH="dist/my-finances-pwa"
 
 # delete gh-pages branches if the exist
 git branch -D gh-pages || true
@@ -13,11 +14,11 @@ npm run build
 
 # push to newly createg gh-pages branch
 git checkout -b gh-pages
-sed -i 's|dist/|#dist/|' .gitignore
-git add dist/
+sed -i "s|${DIST_PATH}|#${DIST_PATH}|" .gitignore
+git add "${DIST_PATH}"
 git commit -m 'Build'
-git subtree push --prefix dist/my-finances-pwa origin gh-pages
+git subtree push --prefix "${DIST_PATH}" origin gh-pages
 
 # switch back to master
-sed -i 's|#dist/|dist/|' .gitignore
+sed -i "s|#${DIST_PATH}|${DIST_PATH}|" .gitignore
 git checkout master
