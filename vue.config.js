@@ -9,8 +9,8 @@ module.exports = {
     short_name: "MyFin",
     start_url: "index.html",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#0c141f",
+    backgroundColor: "#000000",
+    themeColor: "#0c141f",
     iconPaths: {
       favicon32: "img/icons/favicon-32x32.png",
       favicon16: "img/icons/favicon-16x16.png",
