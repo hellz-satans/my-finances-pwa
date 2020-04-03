@@ -99,21 +99,24 @@ import DateLabel from '@/components/DateLabel'
 
 export default {
   name: 'ExpenseList',
+
   props: {
   },
+
   components: {
     AccountLabel,
     CategoryLabel,
     DateLabel,
     Paginatron,
   },
+
   data() {
     return {
       entries: [],
       currentPage: 0,
-      perPage: 20,
     }
   },
+
   methods: {
     ... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
 
@@ -141,12 +144,19 @@ export default {
       this.entries = entries
     },
   },
+
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
 
     expensesSum() {
       return expensesSum(this.expenses)
+    },
+
+    perPage() {
+      if (this.expenses.length < 20)
+        return this.expenses.length
+      return 20
     },
   },
 
