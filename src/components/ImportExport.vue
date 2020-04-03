@@ -33,16 +33,37 @@
 						<li>Accounts</li>
 						<li>Expenses</li>
 					</ul>
+
+          <details>
+            <summary>
+              If you're having trouble exporting as <code>.json</code>, export
+              the data as a <code>.txt</code> file, it will still be in JSON
+              format, just diferent extension.
+            </summary>
+            <p>
+              Some mobile browsers will not let you download <code>.json</code>
+              files for security reasons.
+            </p>
+          </details>
 				</sui-card-description>
 			</sui-card-content>
 			<sui-button
 				type="button"
 				color="teal"
-				@click.prevent.stop="exportData"
+				@click.prevent.stop="exportData()"
 				attached="bottom"
 			>
 				<sui-icon name="download" />
-				Download
+        As .json
+			</sui-button>
+			<sui-button
+				type="button"
+				color="teal"
+				@click.prevent.stop="exportData('txt')"
+				attached="bottom"
+			>
+				<sui-icon name="download" />
+				As .txt
 			</sui-button>
 		</sui-card>
 

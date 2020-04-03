@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from '@/stores/modules'
-import { downloadJsonUsingBrowser } from '@/download'
+import { downloadJsonUsingBrowser } from '@/services/downloads'
 import { exportDB } from '@/db/export'
 
 Vue.use(Vuex)
@@ -53,10 +53,10 @@ export default new Vuex.Store({
 		 * First encode data and then cipher it, see
 		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 		 */
-		exportData({ state }) {
+		exportData({ state }, ext = 'json') {
       exportDB()
         .then((data) => {
-          downloadJsonUsingBrowser('my_finances.json', data)
+          downloadJsonUsingBrowser(`my_finances.${ext}`, data)
         })
 		},
 
