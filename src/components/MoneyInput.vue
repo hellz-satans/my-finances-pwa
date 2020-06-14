@@ -1,5 +1,6 @@
 <template>
   <money
+    class="money-input"
     v-bind="moneyConf"
     @input="$emit('input', $event)"
     :value="value"

@@ -42,14 +42,24 @@
             </td>
             <td><date-label :date="e.date" /></td>
             <td>
-              <sui-button size="mini" animated="vertical" @click="deleteExpense(e.id)">
+              <sui-button
+                class="delete-expense-button"
+                size="mini"
+                animated="vertical"
+                @click="deleteExpense(e.id)"
+              >
                 <sui-button-content visible>
                   <sui-icon name="trash" />
                 </sui-button-content>
                 <sui-button-content hidden>Delete</sui-button-content>
               </sui-button>
 
-              <sui-button size="mini" animated="vertical" @click="editExpense(e.id)">
+              <sui-button
+                class="edit-expense-button"
+                size="mini"
+                animated="vertical"
+                @click="editExpense(e.id)"
+              >
                 <sui-button-content visible>
                   <sui-icon name="pencil" />
                 </sui-button-content>

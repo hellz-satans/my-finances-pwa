@@ -110,7 +110,11 @@
 
       <sui-modal-actions>
         <sui-button @click="toggleModal">Close</sui-button>
-        <sui-button positive @click="submitExpense">{{ action }}</sui-button>
+        <sui-button
+          class="expense-form-submit"
+          positive
+          @click="submitExpense"
+        >{{ action }}</sui-button>
       </sui-modal-actions>
     </sui-modal>
   </article>

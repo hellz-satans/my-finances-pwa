@@ -4,19 +4,21 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+	"test":  "nightwatch test --headless"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/vue-fontawesome": "^0.1.2",
+    "core-js": "^3.6.5",
     "dexie": "^2.0.4",
     "echarts": "^4.2.0-rc.2",
     "moment": "^2.22.2",
     "register-service-worker": "^1.6.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.7.0",
-    "tar": ">=4.4.2",
+    "tar": "^6.0.2",
     "v-charts": "^1.19.0",
     "v-money": "^0.8.1",
     "validate.js": "^0.12.0",
@@ -27,17 +29,18 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-plugin-pwa": "^4.2.3",
-    "@vue/cli-service": "^4.2.3",
+    "@vue/cli-plugin-babel": "^4.4.4",
+    "@vue/cli-plugin-pwa": "^4.4.4",
+    "@vue/cli-service": "^4.4.4",
     "acorn": ">=6.4.1",
     "lodash.template": ">=4.5.0",
     "minimist": ">=1.2.2",
-    "node-sass": "^4.13.1",
+    "nightwatch": "^1.3.6",
+    "node-sass": "^4.14.1",
     "sass-loader": "^7.3.1",
     "serialize-javascript": ">=2.1.1",
     "vue-template-compiler": "^2.5.17",
-    "webpack-dev-server": ">=3.1.11"
+    "webpack-dev-server": "^3.11.0"
   },
   "postcss": {
     "plugins": {
