@@ -8,7 +8,7 @@
       positive
     />
 
-    <sui-modal v-model="expenseModal" size="tiny">
+    <sui-modal class="expense-form-modal" v-model="expenseModal" size="tiny">
       <sui-modal-header>Record</sui-modal-header>
       <sui-modal-content scrolling>
         <sui-form name="expense" method="POST">

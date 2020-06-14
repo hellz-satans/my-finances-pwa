@@ -5,7 +5,7 @@
     <expense-form />
     <expenses-chart />
     <expense-filters />
-    <expense-list :amount="7" />
+    <expense-list />
     <transfer-form />
   </section>
 </template>

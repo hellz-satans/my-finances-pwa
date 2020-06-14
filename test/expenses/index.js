@@ -9,10 +9,11 @@ module.exports = {
       .url(DEFAULT_URL)
       .waitForElementVisible('.expense-form')
       .click('.expense-form-button')
-      .assert.visible('.expense-form .money-input')
+      .waitForElementVisible('.expense-form .expense-form-modal')
       .setValue('.expense-form .money-input', `${price}`)
       .setValue('.expense-form input[name=description]', description)
       .click('.expense-form .expense-form-submit')
+      .waitForElementNotVisible('.expense-form-modal')
       .assert.visible('.expenses-list')
       .assert.visible('.expenses-list table tbody tr td')
       .assert.containsText('.expenses-list table tbody', price)
@@ -28,6 +29,7 @@ module.exports = {
       .setValue('.expense-form .money-input', '')
       .setValue('.expense-form .money-input', `${secondPrice}`)
       .click('.expense-form .expense-form-submit')
+      .waitForElementNotVisible('.expense-form-modal')
       .assert.containsText('.expenses-list table tbody', secondPrice)
       .assert.containsText('.expenses-list table tbody', description)
   },
@@ -35,7 +37,7 @@ module.exports = {
   '3) expense can be deleted': function(browser) {
     browser
       .click('.expenses-list table tbody .delete-expense-button')
-      .assert.not.containsText('.expenses-list table tbody', secondPrice)
-      .assert.not.containsText('.expenses-list table tbody', description)
+      .assert.not.containsText('.expenses-list', secondPrice)
+      .assert.not.containsText('.expenses-list', description)
   },
 }

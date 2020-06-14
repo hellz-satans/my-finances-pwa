@@ -1,7 +1,6 @@
 <template>
-
+<section class="expenses-list">
   <paginatron
-    class="expenses-list"
     @change="updateItems"
     :items-per-page="perPage"
     :items="expenses"
@@ -97,6 +96,7 @@
   <h2 class="text-center" v-else>
     Move along, nothing to show here. Try changing the filters!
   </h2>
+</section>
 </template>
 
 <script>
