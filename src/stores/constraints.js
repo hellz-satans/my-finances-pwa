@@ -1,7 +1,20 @@
+import validate from 'validate.js'
+
+validate.validators.notZero = function(value, options, key, attributes) {
+  let err = null;
+
+  if (value === 0) {
+    err = 'cannot be zero'
+  }
+
+  return err;
+}
+
 const expense = {
   price: {
     presence: true,
     numericality: true,
+    notZero: true,
   },
   date: {
     presence: true,

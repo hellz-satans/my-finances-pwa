@@ -44,26 +44,21 @@
               <sui-button
                 class="delete-expense-button"
                 size="mini"
-                animated="vertical"
                 @click="deleteExpense(e.id)"
               >
-                <sui-button-content visible>
-                  <sui-icon name="trash" />
-                </sui-button-content>
-                <sui-button-content hidden>Delete</sui-button-content>
+                &nbsp;
+                <sui-icon name="trash" />
               </sui-button>
 
-              <sui-button
-                class="edit-expense-button"
-                size="mini"
-                animated="vertical"
-                @click="editExpense(e.id)"
-              >
-                <sui-button-content visible>
+              <router-link :to="'/expense/' + e.id">
+                <sui-button
+                  class="edit-expense-button"
+                  size="mini"
+                >
+                  &nbsp;
                   <sui-icon name="pencil" />
-                </sui-button-content>
-                <sui-button-content hidden>Edit</sui-button-content>
-              </sui-button>
+                </sui-button>
+              </router-link>
             </td>
           </tr>
         </tbody>

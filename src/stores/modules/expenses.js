@@ -21,16 +21,6 @@ const ExpensesStore = {
   namespaced: true,
 
   state: {
-    expense: {
-      description: null,
-      price: 0,
-      date: moment().format(),
-      tags: [],
-      category: 'other',
-      subcategory: 'other_other',
-      account: 'cash',
-      sign: -1,
-    },
     expenseErrors: {},
     expenses: [],
     filters: [
@@ -42,17 +32,12 @@ const ExpensesStore = {
       },
       // { field: 'price', op: '<', value: 0, name: 'onlyNegative', },
     ],
-    openModal: false,
   },
 
   mutations: {
     createExpense(state, expense) {
       expense.date = new Date(expense.date)
       return db.expenses.add(expense)
-    },
-
-    setNewExpense(state) {
-      state.expense = newExpense()
     },
 
     getExpenses(state, options = {}) {
@@ -86,67 +71,9 @@ const ExpensesStore = {
     setFilters(state, newFilters) {
       state.filters = newFilters
     },
-
-    setExpense(state, id) {
-      db.expenses.get(id)
-        .then((expense) => {
-          expense.date = moment(expense.date).format()
-          expense.sign = (expense.price < 0) ? -1 : 1
-          expense.price = Math.abs(expense.price)
-          state.expense = expense
-          return id
-        })
-        .catch((err) => {
-          console.warn('expense not found:', id)
-          throw err
-        })
-    },
-
-    updateExpenseDescription(state, description) {
-      state.expense.description = description
-    },
-
-    updateExpensePrice(state, price) {
-      state.expense.price = Number(price)
-    },
-
-    updateExpenseCategory(state, category) {
-      state.expense.category = category
-    },
-
-    updateExpenseSubcategory(state, subcategory) {
-      state.expense.subcategory = subcategory
-    },
-
-    updateExpenseDate(state, date) {
-      state.expense.date = date
-    },
-
-    updateExpenseAccount(state, account) {
-      state.expense.account = account
-    },
-
-    updateExpenseSign(state, sign) {
-      if (sign === 1 || sign === -1) {
-        state.expense.sign = sign
-      } else {
-        state.expense.sign = -1
-      }
-    },
-
-    toggleModal(state) {
-      state.openModal = !state.openModal
-    },
   },
 
   actions: {
-    toggleModal({ commit }, unsetExpense) {
-      if (unsetExpense) {
-        commit('setNewExpense')
-      }
-      commit('toggleModal')
-    },
-
     createExpense({ commit, dispatch }, expense) {
       commit('createExpense', expense)
 
@@ -157,6 +84,12 @@ const ExpensesStore = {
         }
         dispatch('accounts/add', deduct, { root: true })
       }
+
+      // 1 does NOT mean it was successful, as the mutation
+      // `createExpense` might have failed. We cannot know.
+      // We should probably move the `db` call here and then commit the
+      // `getExpenses` mutation
+      return 1
     },
 
     updateExpense({ commit, state }, data) {
@@ -164,47 +97,44 @@ const ExpensesStore = {
       if (data.date) {
         data.date = new Date(data.date)
       }
-      // TODO: update account balance
 
-      return db.expenses.update(state.expense.id, data)
-    },
-
-    editExpense({ commit }, id) {
-      commit('setExpense', id)
-      commit('toggleModal')
+      return db.expenses.update(data.id, data)
     },
 
     /**
      * Submit expense expense for storage.
      */
-    submitExpense({ commit, dispatch, state }) {
-      const actionName = (state.expense.id)
+    submitExpense({ commit, dispatch, state }, input) {
+      const actionName = (input.id)
         ? 'updateExpense'
         : 'createExpense'
       const data = {
-        account: state.expense.account,
-        category: state.expense.category,
-        date: state.expense.date,
-        description: ((state.expense.description != null)
-          ? state.expense.description.trim()
+        account: input.account,
+        category: input.category,
+        date: input.date,
+        description: ((input.description != null)
+          ? input.description.trim()
           : null),
-        price: state.expense.price * state.expense.sign,
-        subcategory: state.expense.subcategory,
+        price: input.price * input.sign,
+        subcategory: input.subcategory,
+      }
+
+      if (input.id) {
+        data.id = Number(input.id) // make sure we use the correct data type for id
       }
       const errors = validate(data, expenseConstraints)
 
       if (!errors) {
         return dispatch(actionName, data)
-          .then((id) => {
+          .then((resp) => {
             commit('getExpenses')
-            commit('toggleModal')
-            commit('setNewExpense')
             state.expenseErrors = {}
-            return id
+            return true
           })
       } else {
         console.error('submitExpense:', errors)
         state.expenseErrors = errors
+        return false
       }
     },
 

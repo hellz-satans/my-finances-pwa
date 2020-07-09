@@ -1,129 +1,120 @@
 <template>
-  <article class="expense-form">
-    <sui-button
-      class="expense-form-button"
-      @click.native="toggleModal(true)"
-      circular
-      icon="plus"
-      positive
-    />
+  <sui-form
+    name="expense"
+    class="expense-form"
+    @submit.stop.prevent="submitExpense"
+  >
+    <sui-grid>
+      <sui-grid-row>
+        <sui-grid-column :width="2">
+          <span
+            :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
+            @click="sign = sign * -1"
+          >{{ (sign > 0) ? '+' : '-' }}</span>
+        </sui-grid-column>
 
-    <sui-modal class="expense-form-modal" v-model="expenseModal" size="tiny">
-      <sui-modal-header>Record</sui-modal-header>
-      <sui-modal-content scrolling>
-        <sui-form name="expense" method="POST">
-          <sui-grid>
-            <sui-grid-row>
-              <sui-grid-column :width="2">
-                <span
-                  :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
-                  @click="sign = sign * -1"
-                >{{ (sign > 0) ? '+' : '-' }}</span>
-              </sui-grid-column>
+        <sui-grid-column :width="6">
+          <sui-form-field>
+            <label for="price">Price</label>
+            <money-input v-model.lazy="price" :value="price">
+            </money-input>
+            <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
 
-              <sui-grid-column :width="6">
-                <sui-form-field>
-                  <label for="price">Price</label>
-                  <money-input v-model.lazy="price" :value="price">
-                  </money-input>
-                  <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
+        <sui-grid-column :width="8">
+          <sui-form-field>
+            <label for="date">Date</label>
+            <input type="datetime-local" v-model="date" />
+            <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
+      </sui-grid-row>
 
-              <sui-grid-column :width="8">
-                <sui-form-field>
-                  <label for="date">Date</label>
-                  <input type="datetime-local" v-model="date" />
-                  <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
-            </sui-grid-row>
+      <sui-grid-row>
+        <sui-grid-column :width="8">
+          <sui-form-field>
+            <label for="category">Category</label>
+            <sui-dropdown
+              placeholder="Category"
+              fluid
+              selection
+              :options="expenseCategories"
+              v-model="category"
+            />
+            <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
 
-            <sui-grid-row>
-              <sui-grid-column :width="8">
-                <sui-form-field>
-                  <label for="category">Category</label>
-                  <sui-dropdown
-                    placeholder="Category"
-                    fluid
-                    selection
-                    :options="expenseCategories"
-                    v-model="category"
-                  />
-                  <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
+        <sui-grid-column :width="8">
+          <sui-form-field>
+            <label for="subcategory">Subcategory</label>
+            <sui-dropdown
+              placeholder="Subcategory"
+              fluid
+              selection
+              :options="expenseSubcategories"
+              v-model="subcategory"
+            />
+            <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
+      </sui-grid-row>
 
-              <sui-grid-column :width="8">
-                <sui-form-field>
-                  <label for="subcategory">Subcategory</label>
-                  <sui-dropdown
-                    placeholder="Subcategory"
-                    fluid
-                    selection
-                    :options="expenseSubcategories"
-                    v-model="subcategory"
-                  />
-                  <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
-            </sui-grid-row>
+      <sui-grid-row>
+        <sui-grid-column :width="16">
+          <sui-form-field>
+            <label for="account">Account</label>
+            <accounts-options :account="account" @input="account = $event" />
+            <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
 
-            <sui-grid-row>
-              <sui-grid-column :width="16">
-                <sui-form-field>
-                  <label for="account">Account</label>
-                  <accounts-options :account="account" @input="account = $event" />
-                  <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
+        <sui-grid-column :width="16">
+          <sui-form-field>
+            <label for="description">Description</label>
+            <sui-input
+              name="description"
+              minlength="1"
+              pattern=".+"
+              v-model="description"
+            />
+            <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
+              {{ err }}
+            </p>
+          </sui-form-field>
+        </sui-grid-column>
+      </sui-grid-row>
+    </sui-grid>
 
-              <sui-grid-column :width="16">
-                <sui-form-field>
-                  <label for="description">Description</label>
-                  <sui-input
-                    name="description"
-                    minlength="1"
-                    pattern=".+"
-                    required
-                    v-model="description"
-                  />
-                  <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
-                    {{ err }}
-                  </p>
-                </sui-form-field>
-              </sui-grid-column>
-            </sui-grid-row>
-          </sui-grid>
-        </sui-form>
-      </sui-modal-content>
-
-      <sui-modal-actions>
-        <sui-button @click="toggleModal">Close</sui-button>
-        <sui-button
-          class="expense-form-submit"
-          positive
-          @click="submitExpense"
-        >{{ action }}</sui-button>
-      </sui-modal-actions>
-    </sui-modal>
-  </article>
+    <footer class="text-right mt-1">
+      <router-link to="/">
+        <sui-button>Cancel</sui-button>
+      </router-link>
+      <sui-button
+        type="submit"
+        class="expense-form-submit"
+        positive
+      >{{ action }}</sui-button>
+    </footer>
+  </sui-form>
 </template>
 
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
 import MoneyInput from '@/components/MoneyInput'
+import moment from 'moment'
 
 export default {
   name: 'ExpenseForm',
@@ -133,25 +124,36 @@ export default {
     MoneyInput,
   },
 
-  props: {
-    'hideBtn': { required: false, default: false, },
-  },
-
-  methods: {
-    ... mapActions('expenses', [ 'toggleModal' ]),
-
-    submitExpense() {
-      this.$store.dispatch('expenses/submitExpense')
-        .catch((err) => {
-          console.error('expenseForm:', err, err.stack)
-        })
-    },
+  data() {
+    return {
+      description: null,
+      price: 0,
+      date: moment().format(),
+      category: 'other',
+      subcategory: 'other_other',
+      account: 'cash',
+      sign: -1,
+    }
   },
 
   computed: {
     ... mapGetters('categories', [ 'expenseCategories' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
-    ... mapState('expenses', [ 'expense', 'expenseErrors', 'openModal' ]),
+    ... mapState('expenses', [ 'expenses', 'expenseErrors', ]),
+
+    expenseId() {
+      let id = null
+
+      try {
+        id = this.$route.params.expense_id
+
+        if (id == 'new')
+          id = null
+      } catch (ex) {
+      }
+
+      return id
+    },
 
     expenseSubcategories() {
       const list = []
@@ -172,61 +174,63 @@ export default {
     },
 
     action() {
-      return this.expense.id ? 'Update' : 'Save'
+      return this.id ? 'Update' : 'Save'
+    },
+  },
+
+  methods: {
+    submitExpense() {
+      const data = {
+        id: this.expenseId,
+        description: this.description,
+        price: this.price,
+        date: this.date,
+        category: this.category,
+        subcategory: this.subcategory,
+        account: this.account,
+        sign: this.sign,
+      }
+
+      this.$store.dispatch('expenses/submitExpense', data)
+        .then((success) => {
+          if (success) {
+            this.$router.push('/')
+          } else {
+            console.error('something went wrong')
+          }
+        })
+        .catch((err) => {
+          console.error('expenseForm:', err, err.stack)
+        })
     },
 
-    description: {
-      get() { return this.$store.state.expenses.expense.description },
-      set(v) { this.$store.commit('expenses/updateExpenseDescription', v) },
-    },
+    loadForm(id) {
+      let exp = this.expenses.find(e => e.id == id); // comparing Number with String
 
-    price: {
-      get() { return this.$store.state.expenses.expense.price },
-      set(v) { this.$store.commit('expenses/updateExpensePrice', v) },
+      if (exp) {
+        this.description = exp.description;
+        this.price = Math.abs(exp.price);
+        this.date = exp.date;
+        this.category = exp.category;
+        this.subcategory = exp.subcategory;
+        this.account = exp.account;
+        this.sign = (exp.price < 0) ? -1 : 1;
+      }
     },
+  },
 
-    category: {
-      get() { return this.$store.state.expenses.expense.category },
-      set(v) { this.$store.commit('expenses/updateExpenseCategory', v) },
-    },
+  mounted() {
+    let id = this.$route.params.expense_id
 
-    subcategory: {
-      get() { return this.$store.state.expenses.expense.subcategory },
-      set(v) { this.$store.commit('expenses/updateExpenseSubcategory', v) },
-    },
-
-    date: {
-      // TODO: fix warning when setting the input[type=date] with this
-      get() { return this.$store.state.expenses.expense.date },
-      set(v) { this.$store.commit('expenses/updateExpenseDate', v) },
-    },
-
-    account: {
-      get() { return this.$store.state.expenses.expense.account },
-      set(v) { this.$store.commit('expenses/updateExpenseAccount', v) },
-    },
-
-    sign: {
-      get() { return this.$store.state.expenses.expense.sign },
-      set(v) { this.$store.commit('expenses/updateExpenseSign', v) },
-    },
-
-    expenseModal: {
-      get() { return this.$store.state.expenses.openModal },
-      set(v) { this.$store.commit('expenses/toggleModal') },
-    },
-  }
+    if (id && id != 'new') {
+      this.loadForm(id)
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 .expense-form {
-  &-button {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 999;
-  }
   .sign {
     margin-top: 1.25rem;
     cursor: pointer;

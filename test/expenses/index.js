@@ -7,13 +7,11 @@ module.exports = {
   '1) an expense can be registered': function(browser) {
     browser
       .url(DEFAULT_URL)
-      .waitForElementVisible('.expense-form')
+      .waitForElementVisible('.expense-form-button')
       .click('.expense-form-button')
-      .waitForElementVisible('.expense-form .expense-form-modal')
       .setValue('.expense-form .money-input', `${price}`)
       .setValue('.expense-form input[name=description]', description)
       .click('.expense-form .expense-form-submit')
-      .waitForElementNotVisible('.expense-form-modal')
       .assert.visible('.expenses-list')
       .assert.visible('.expenses-list table tbody tr td')
       .assert.containsText('.expenses-list table tbody', price)
@@ -25,11 +23,11 @@ module.exports = {
     browser
       .assert.visible('.expenses-list')
       .click('.expenses-list table tbody .edit-expense-button')
-      .assert.visible('.expense-form .money-input')
+      .assert.visible('.expense-form')
+      .assert.domPropertyContains('.expense-form input[name=description]', 'value', description)
       .setValue('.expense-form .money-input', '')
       .setValue('.expense-form .money-input', `${secondPrice}`)
       .click('.expense-form .expense-form-submit')
-      .waitForElementNotVisible('.expense-form-modal')
       .assert.containsText('.expenses-list table tbody', secondPrice)
       .assert.containsText('.expenses-list table tbody', description)
   },

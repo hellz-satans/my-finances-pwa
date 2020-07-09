@@ -84,8 +84,8 @@ export default new Vuex.Store({
      * Each store should handle its seed data operation.
      */
     seedData({ dispatch }) {
-      dispatch('expenses/seedData')
       dispatch('accounts/seedData')
+      dispatch('expenses/seedData')
     },
 	},
 

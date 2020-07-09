@@ -6,14 +6,13 @@ import App from './App.vue'
 import router from './router'
 import store from '@/stores'
 import filters from './filters'
-//import '@/registerServiceWorker'
+import '@/registerServiceWorker'
 import '@/styles/main.scss'
 
 // styles
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import './registerServiceWorker'
 
 // setup libraries
 library.add(fas)

@@ -126,6 +126,10 @@ const AccountsStore = {
     add({ commit }, data) {
       return db.accounts.get({ key: data.key })
         .then((account) => {
+          if (!account) {
+            throw `Account not found: ${data.key}`;
+          }
+
           const fields = {
             // be paranoid about data types 'cuz JS
             balance: Number(account.balance + data.amount),
@@ -226,6 +230,13 @@ const AccountsStore = {
         }
         db.accounts.add(account)
       }
+
+      db.accounts.add({
+        key: 'cash',
+        name: 'Cash',
+        balance: i * 100,
+        color: '#00dd00',
+      })
       commit('getAccounts')
     },
 	},

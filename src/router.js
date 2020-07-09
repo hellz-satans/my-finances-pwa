@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import About from '@/views/About'
 import Home from './views/Home.vue'
 import ImportExport from '@/components/ImportExport.vue'
+import ExpenseForm from '@/components/expenses/ExpenseForm'
 import Expenses from './views/Expenses.vue'
 
 Vue.use(Router)
@@ -10,6 +11,12 @@ Vue.use(Router)
 export default new Router({
   linkActiveClass: "active",
   routes: [
+    {
+      path: '/expense/:expense_id',
+      name: 'expense-form',
+      component: ExpenseForm,
+      hide: true,
+    },
     {
       path: '/',
       name: 'home',

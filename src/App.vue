@@ -8,6 +8,7 @@
         :to="route.path"
         :exact="route.exact"
         v-text="route.name"
+        v-if="! route.hide"
         style="text-transform: uppercase"
       ></router-link>
     </sui-menu>
@@ -18,23 +19,30 @@
 
     <hr>
 
-    <footer class="text-center">
+    <footer class="text-center mt-1 mb-1">
       <p>
-        My Finances PWA <strong>v{{ VERSION }}</strong>
+        {{ NAME }} <strong>v{{ VERSION }}</strong>
       </p>
     </footer>
   </sui-container>
 </template>
 
 <script>
-import { VERSION } from '@/config/application_properties'
+import { NAME, VERSION } from '@/config/application_properties'
 
 export default {
   data() {
     return {
       routes: this.$router.options.routes,
+      NAME: NAME,
       VERSION: VERSION,
     }
   },
 }
 </script>
+
+<style scoped lang="scss">
+.ui.menu {
+  justify-content: space-between;
+}
+</style>

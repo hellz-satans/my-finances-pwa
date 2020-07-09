@@ -1,3 +1,4 @@
 module.exports = {
-  VERSION: '0.1.4',
+  NAME: 'My Finances',
+  VERSION: '0.2.0',
 }
