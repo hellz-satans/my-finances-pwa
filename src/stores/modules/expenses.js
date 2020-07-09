@@ -185,7 +185,9 @@ const ExpensesStore = {
 
             if (!exists) {
               delete exp.id
-              dispatch('createExpense', exp)
+              // dispatch will trigger an event for the account, so we trigger
+              // the mutation instead
+              commit('createExpense', exp)
             }
           }
         })
