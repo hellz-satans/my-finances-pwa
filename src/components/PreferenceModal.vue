@@ -42,32 +42,34 @@ export default {
 	props: {
 		preferenceKey: { type: String, required: true },
 	},
+
+  data() {
+    return {
+			value: null
+    }
+  },
+
 	methods: {
 		... mapActions('preferences', [
 			'toggleModal',
 			'createPreference',
 			'updatePreference',
 		]),
+
 		submitPreference() {
-			if (this.preferences.some(el => el.key === this.preferenceKey)) {
-				this.updatePreference({ key: this.preferenceKey, value: this.value })
-			} else {
-				this.createPreference({ key: this.preferenceKey, value: this.value })
-			}
+      this.createPreference({ key: this.preferenceKey, value: this.value })
 		},
 	},
+
 	computed: {
 		... mapState('preferences', [ 'preferences' ]),
+
 		preferenceModal: {
 			get() { return this.$store.state.preferences.modals[this.preferenceKey] },
 			set(v) { this.$store.commit('preferences/toggleModal', this.preferenceKey) },
 		},
 	},
-  data() {
-    return {
-			value: null
-    }
-  },
+
 	created() {
 		const pref = this.preferences[this.preferenceKey]
 
@@ -77,4 +79,3 @@ export default {
 	},
 }
 </script>
-
