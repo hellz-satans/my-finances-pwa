@@ -6,7 +6,7 @@
         <sui-icon class="right floated"
           size="small"
           name="trash"
-          @click="deleteAccountProxy(account.id)"
+          @click="deleteAccountProxy(account)"
         />
         <sui-icon class="right floated"
           size="small"
@@ -64,9 +64,9 @@ export default {
       'toggleIncludeAccount',
     ]),
 
-    deleteAccountProxy(id) {
+    deleteAccountProxy(account) {
       if (window.confirm('Are you sure?')) {
-        this.deleteAccount(id)
+        this.deleteAccount(account)
       }
     },
   },

@@ -1,5 +1,13 @@
 import db from '@/db';
 
+const SKIP_DEFAULT_ACCOUNT = 'SKIP_DEFAULT_ACCOUNT'
+const DEFAULT_ACCOUNT = {
+  key: 'cash',
+  name: 'Cash',
+  balance: 0,
+  color: '#2ecc70',
+}
+
 const AccountsStore = {
 	state: {
 		currentAccount: {
@@ -17,6 +25,10 @@ const AccountsStore = {
 		createAccount(state, account) {
 			db.accounts.add(account);
 		},
+
+    addAccount(state, account) {
+      state.accounts.push(account)
+    },
 
 		getAccounts(state) {
 			db.accounts.toArray()
@@ -171,9 +183,16 @@ const AccountsStore = {
       }
     },
 
-		deleteAccount({ commit }, id) {
-			// on success, resolves with an undefined result
-			return db.accounts.delete(id)
+		deleteAccount({ commit, dispatch }, account) {
+      if (account.key == DEFAULT_ACCOUNT.key) {
+        dispatch('preferences/createPreference', {
+          key: SKIP_DEFAULT_ACCOUNT,
+          value: true,
+        },
+        { root: true })
+      }
+
+			return db.accounts.delete(account.id)
 				.then((whatever) => {
 					commit('getAccounts');
 					return whatever;
@@ -185,7 +204,7 @@ const AccountsStore = {
 				.toArray()
 				.then((arr) => {
 					for (let i in arr) {
-						dispatch('deleteAccount', arr[i].id)
+						dispatch('deleteAccount', arr[i])
 					}
 				})
 				.catch((err) => {
@@ -215,6 +234,36 @@ const AccountsStore = {
 					throw err
 				})
 		},
+
+    /**
+     * Default account.
+     */
+    createCashAccount({ commit }) {
+      // make sure the preferences table exists
+      if (db.preferences) {
+        db.preferences
+          .where('key').equals(SKIP_DEFAULT_ACCOUNT)
+          .toArray()
+          .then((arr) => {
+            return arr.length === 0 || !arr[0].value
+          })
+          .then((shouldCreate) => {
+            if (shouldCreate) {
+              return db.accounts
+                .where('key').equals(DEFAULT_ACCOUNT.key)
+                .toArray()
+            }
+          })
+          .then((arr) => {
+            if (arr && arr.length === 0) {
+              db.accounts.add(DEFAULT_ACCOUNT)
+                .then((id) => {
+                  commit('addAccount', DEFAULT_ACCOUNT)
+                })
+            }
+          })
+      }
+    },
 
     seedData({ commit, state }) {
       const n = 2

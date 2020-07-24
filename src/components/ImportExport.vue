@@ -9,7 +9,7 @@
 						ref="importFile"
 						name="importFile"
 						type="file"
-						accept="application/json"
+						accept="*"
 						@change="handleFile"
 					/>
 				</sui-card-description>
@@ -122,6 +122,7 @@ export default {
 			}
 		},
 
+    // TODO: make sure it's (at least) a text file and contains a JSON
 		readData() {
 			if (this.$refs.importFile.files.length > 0) {
 				const reader = new FileReader()

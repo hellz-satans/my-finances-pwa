@@ -7,7 +7,7 @@ const requiredFields = [
 
 const PreferencesStore = {
 	state: {
-		preferences: [],
+		preferences: {},
 		modals: {
 			// TODO: remove this -- if not hard-coded, reactiveness doesn't trigger
 			goal: false,
@@ -18,27 +18,36 @@ const PreferencesStore = {
 		getPreferences(state) {
 			db.preferences
 				.toArray()
-				.then(arr => state.preferences = arr)
+				.then(arr => {
+          for (let el of arr) {
+            for (let k in el) {
+              state.preferences[k] = el
+            }
+          }
+        })
 				.catch((err) => {
 					console.error('preferences/getPreferences:', err)
 					throw err
 				})
 		},
+
 		createPreference(state, data) {
 			db.preferences.add(data)
 			state.modals[data.key] = !state.modals[data.key]
 		},
+
 		updatePreference(state, data) {
 			db.preferences.update(data.key, data)
 			state.modals[data.key] = !state.modals[data.key]
 		},
+
 		toggleModal(state, key) {
 			state.modals[key] = !state.modals[key]
 		},
 	},
 
 	actions: {
-		createPreference({ commit }, data) {
+		createPreference({ commit, state }, data) {
 			for (const k of requiredFields) {
 				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
 					console.error('preferences/createPreference: missing', k, data)
@@ -46,9 +55,15 @@ const PreferencesStore = {
 				}
 			}
 
-			commit('createPreference', data)
+      // preference already exists
+      if (state.preferences[data.key]) {
+        commit('updatePreference', data)
+      } else {
+        commit('createPreference', data)
+      }
 			commit('getPreferences')
 		},
+
 		updatePreference({ commit }, data) {
 			for (const k of requiredFields) {
 				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
@@ -60,9 +75,11 @@ const PreferencesStore = {
 			commit('updatePreference', data)
 			commit('getPreferences')
 		},
+
 		toggleModal({ commit }, key) {
 			commit('toggleModal', key)
 		},
+
 		importPreferences({ dispatch }, newData) {
 			db.preferences
 				.toArray()
@@ -90,7 +107,7 @@ const PreferencesStore = {
 
 	getters: {
 		goal(state) {
-			const goalPreference = state.preferences.find(el => el.key === 'goal')
+			const goalPreference = state.preferences['goal']
 
 			if (goalPreference) {
 				return goalPreference.value

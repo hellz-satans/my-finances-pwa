@@ -69,7 +69,7 @@ export default {
     }
   },
 	created() {
-		const pref = this.preferences.find(el => el.key === this.preferenceKey)
+		const pref = this.preferences[this.preferenceKey]
 
 		if (pref) {
 			this.value = pref.value
