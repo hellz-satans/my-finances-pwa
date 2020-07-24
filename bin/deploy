@@ -9,7 +9,6 @@ BRANCH="${1:-master}"
 git branch -D gh-pages || true
 git push origin --delete gh-pages || true
 
-# build on master
 git checkout "$BRANCH"
 npm run build
 
@@ -20,6 +19,6 @@ git add "${DIST_PATH}"
 git commit -m "Build $BRANCH"
 git subtree push --prefix "${DIST_PATH}" origin gh-pages
 
-# switch back to master
+# switch back to initial branch
 sed -i "s|#${DIST_PATH}|${DIST_PATH}|" .gitignore
-git checkout master
+git checkout "$BRANCH"
