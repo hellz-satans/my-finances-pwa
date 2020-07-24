@@ -1,5 +1,5 @@
 <template>
-  <article class="account-list">
+  <section class="account-list">
     <account-card
       v-for="acc in accounts"
       :key="acc.id"
@@ -7,7 +7,7 @@
     />
 
     <account-form />
-	</article>
+  </section>
 </template>
 
 <script>
@@ -32,25 +32,24 @@ export default {
 <style lang="scss">
 .account-list {
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-  align-content: space-around;
+  flex-flow: row nowrap;
+  overflow-x: scroll;
+  max-height: 8rem;
+  min-width: 100%;
 
   .account-card {
     flex: 1 0;
+    min-width: 250px;
+    margin: 0.5em;
   }
 
   .account-form {
-    flex: 0 1;
     padding: 1rem 0;
-    align-self: center;
   }
 }
 
 @media (min-width: 500px) {
   .account-list {
-    flex-flow: row wrap;
-
     .account-card {
       min-width: 180px;
       margin: 0.5rem;
