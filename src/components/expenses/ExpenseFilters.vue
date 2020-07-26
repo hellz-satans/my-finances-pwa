@@ -35,13 +35,11 @@
 
               <label for="price">
                 <span hidden>Price</span>
-                <input
+                <money-input
                   id="price"
                   name="price"
-                  placeholder="Unit price"
-                  type="number"
-                  step="any"
-                  v-model="price"
+                  v-model.lazy="price"
+                  :value="price"
                 />
               </label>
             </fieldset>
@@ -80,9 +78,14 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import moment from 'moment'
+import MoneyInput from '@/components/MoneyInput'
 
 export default {
   name: 'ExpenseFilters',
+
+  components: {
+    MoneyInput,
+  },
 
   props: {
   },

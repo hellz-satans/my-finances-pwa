@@ -34,7 +34,7 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   overflow-x: scroll;
-  max-height: 8rem;
+  max-height: 9rem;
   min-width: 100%;
 
   .account-card {

@@ -27,7 +27,7 @@
         <sui-grid-column :width="8">
           <sui-form-field>
             <label for="date">Date</label>
-            <input type="datetime-local" v-model="date" />
+            <date-picker v-model="date" type="datetime" />
             <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
               {{ err }}
             </p>
@@ -85,8 +85,6 @@
             <label for="description">Description</label>
             <sui-input
               name="description"
-              minlength="1"
-              pattern=".+"
               v-model="description"
             />
             <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
@@ -98,9 +96,6 @@
     </sui-grid>
 
     <footer class="text-right mt-1">
-      <router-link to="/">
-        <sui-button>Cancel</sui-button>
-      </router-link>
       <sui-button
         type="submit"
         class="expense-form-submit"
@@ -113,14 +108,15 @@
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
+import DatePicker from 'vue2-datepicker'
 import MoneyInput from '@/components/MoneyInput'
-import moment from 'moment'
 
 export default {
   name: 'ExpenseForm',
 
   components: {
     AccountsOptions,
+    DatePicker,
     MoneyInput,
   },
 
@@ -128,7 +124,7 @@ export default {
     return {
       description: null,
       price: 0,
-      date: moment().format(),
+      date: new Date(),
       category: 'other',
       subcategory: 'other_other',
       account: 'cash',
@@ -242,6 +238,11 @@ export default {
 
     &.positive { color: green; }
     &.negative { color: red; left: 1.75rem; }
+  }
+
+  // overrides
+  .mx-datepicker {
+    max-width: 100%;
   }
 }
 </style>
