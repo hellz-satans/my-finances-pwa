@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-	"test":  "nightwatch test --headless"
+    "test": "nightwatch test --headless"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
@@ -13,13 +13,11 @@
     "@fortawesome/vue-fontawesome": "^0.1.2",
     "core-js": "^3.6.5",
     "dexie": "^2.0.4",
-    "echarts": "^4.2.0-rc.2",
     "moment": "^2.22.2",
     "register-service-worker": "^1.6.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.7.0",
     "tar": "^6.0.2",
-    "v-charts": "^1.19.0",
     "v-money": "^0.8.1",
     "validate.js": "^0.12.0",
     "vue": "^2.5.17",

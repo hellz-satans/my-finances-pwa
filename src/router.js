@@ -4,7 +4,6 @@ import About from '@/views/About'
 import Home from './views/Home.vue'
 import ImportExport from '@/components/ImportExport.vue'
 import ExpenseForm from '@/components/expenses/ExpenseForm'
-import Expenses from './views/Expenses.vue'
 
 Vue.use(Router)
 

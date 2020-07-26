@@ -2,7 +2,6 @@
   <section class="home-view">
     <balance-summary />
     <account-list />
-    <expenses-chart />
     <expense-filters />
     <expense-list />
     <transfer-form />
@@ -24,7 +23,6 @@
 import AccountList from '@/components/accounts/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
 import ExpenseList from '@/components/expenses/ExpenseList.vue';
-import ExpensesChart from '@/components/charts/Expenses.vue';
 import ExpenseFilters from '@/components/expenses/ExpenseFilters.vue';
 import TransferForm from '@/components/accounts/TransferForm'
 
@@ -34,7 +32,6 @@ export default {
     AccountList,
     BalanceSummary,
     ExpenseList,
-    ExpensesChart,
     ExpenseFilters,
     TransferForm,
   },
