@@ -5,6 +5,8 @@ import Home from './views/Home.vue'
 import ImportExport from '@/components/ImportExport.vue'
 import AccountForm from '@/components/accounts/AccountForm'
 import ExpenseForm from '@/components/expenses/ExpenseForm'
+import CategoryIndex from '@/components/categories/CategoryIndex'
+import CategoryForm from '@/components/categories/CategoryForm'
 
 Vue.use(Router)
 
@@ -32,6 +34,17 @@ export default new Router({
       component: Home
     },
 
+    {
+      path: '/categories',
+      name: 'categories',
+      component: CategoryIndex,
+    },
+    {
+      path: '/category/:category_id',
+      name: 'category-form',
+      component: CategoryForm,
+      hide: true,
+    },
     {
       path: '/import-export',
       name: 'data',

@@ -1,0 +1,29 @@
+.card-item {
+  padding: 0.5em 1em;
+  margin: 0.4em 0;
+  border-radius: 6px;
+  display: flex;
+  flex-flow: column nowrap;
+
+  &__header {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    a .icon { color: #eee; }
+  }
+
+  &__body {
+    flex-grow: 2;
+  }
+
+  &__footer {
+    flex-grow: 1;
+  }
+
+  &__actions {
+    .icon:not(:last-child) {
+      margin-right: 0.75em;
+    }
+  }
+}

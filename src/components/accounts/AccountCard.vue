@@ -1,8 +1,8 @@
 <template>
-  <article class="account-card" :style="accountStyle">
-    <header class="account-card--header">
-      <span class="account-card__name">{{ account.name }}</span>
-      <span class="account-card__actions">
+  <article class="account-card card-item" :style="accountStyle">
+    <header class="card-item__header">
+      <span class="card-item__name">{{ account.name }}</span>
+      <span class="card-item__actions">
         <sui-icon class="right floated"
           size="small"
           name="trash"
@@ -19,9 +19,11 @@
       </span>
     </header>
 
-    <h3 class="account-card__balance">{{ account.balance | currency }}</h3>
+    <section class="card-item__body">
+      <h3 class="balance">{{ account.balance | currency }}</h3>
+    </section>
 
-    <footer class="text-smaller text-right">
+    <footer class="card-item__footer text-smaller text-right">
       <span class="pointer" @click="toggleIncludeAccount(account.id)">
         <sui-icon
           class="right floated"
@@ -80,30 +82,15 @@ export default {
 .account-card {
   font-size: 18px;
   line-height: 22px;
-  padding: 0.5em 1em;
-  margin: 0.4em 0;
-  border-radius: 6px;
 
-  &--header {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
-    a .icon { color: #eee; }
-  }
-
-  &__name {
-    font-weight: 600;
-    font-size: 1.1em; // em, not rem
-  }
-
-  &__actions {
-    .icon:not(:last-child) {
-      margin-right: 0.75em;
+  .card-item {
+    &__name {
+      font-size: 1.1em;
+      font-weight: 600;
     }
   }
 
-  &__balance {
+  .balance {
     font-size: 1.25em;
     text-align: center;
     margin-top: 0.5em;
