@@ -23,6 +23,22 @@ function currency (value) {
     return '$' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
+function stringKeyFilter (value) {
+  let str = "",
+    c = null,
+    i = 0;
+
+  value = value.toLowerCase();
+  for (i = 0; i < str.length; ++i) {
+    c = str.charAt(i);
+    if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
+      str += c;
+    }
+  }
+
+  return str;
+}
+
 export default {
 	ago: ago,
 	utcToLocal: utcToLocal,
