@@ -6,54 +6,89 @@
   >
     <h3>Pick a category:</h3>
 
-    <div class="row categories">
-      <category-card
-        v-for="cat in categories"
-        :key="cat.id"
-        :category="cat"
-        :class="{ active: (category == cat && !newCategoryName) }"
-        @click.native="newCategoryName = '' ; category = cat"
-      />
-    </div>
+    <section class="category-options">
+      <sui-form-field>
+        <label>Category</label>
+        <sui-dropdown
+          placeholder="Pick or create one"
+          selection
+          v-model="selectedCategory"
+          :options="categoryOptions"
+        />
+      </sui-form-field>
 
-    <div class="row mt-2">
-      <h3>Or create one:</h3>
+      <sui-form-field>
+        <label>Subcategory</label>
+        <sui-dropdown
+          placeholder="Edit category or Add/Edit subcategory"
+          selection
+          v-model="selectedSubcategory"
+          :options="subcategoryOptions"
+        />
+      </sui-form-field>
+    </section>
 
-      <div class="new-category"">
+    <section class="category-preview card-item">
+      <header class="text-right">
+        <sui-icon
+          class="pointer"
+          name="eye dropper"
+          @click.native="openSwatchModal"
+        />
+      </header>
+
+      <div class="cat">
+        <div class="icon-container">
+          <sui-icon
+            @click.native.stop.prevent="openIconModal"
+            :name="category.icon"
+          />
+        </div>
         <input
-          type="text"
-          class="category-name"
-          placeholder="Category name"
-          v-model="newCategoryName"
+          v-model="category.name"
         />
       </div>
-    </div>
+      <div class="subcat">
+        <input
+          v-model="category.subcategory"
+        />
+        <div class="icon-container">
+          <sui-icon
+            @click.native.stop.prevent="openIconModal"
+            :name="category.subicon"
+          />
+        </div>
+      </div>
+    </section>
 
-    <footer class="actions text-right mt-1">
+    <footer class="actions text-right">
       <sui-button
         type="submit"
-        class="category-form-submit"
         positive
-        :disabled="!isValid"
-      >
-        {{ action }}
-      </sui-button>
+      >{{ action }}</sui-button>
     </footer>
 
     <section>
       <h2>TODO</h2>
-
       <ul>
-        <li>Add color picker (modal with swatch) to category item</li>
-        <li>Transition to Subcategory creation</li>
+        <li>Add color swatch modal</li>
+        <li>Add (sub)icon modal</li>
+        <li>Add <code>"Delete (sub)category"</code> button</li>
       </ul>
     </section>
   </sui-form>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import CategoryCard from '@/components/categories/CategoryCard.vue'
+
+const OPTION_NEW= {
+  key: '__new__',
+  text: 'Add new one',
+  value: '__new__',
+  icon: 'plus',
+};
 
 export default {
 
@@ -65,19 +100,40 @@ export default {
     return {
       category: {
         color: null,
-        subcategory: null,
+        icon: 'dollar',
+        key: null,
+        name: 'comida',
+        subcategory: 'desayuno',
+        subicon: 'dollar',
       },
-      newCategoryName: '',
+      selectedCategory: null,
+      selectedSubcategory: null,
     }
   },
 
   computed: {
     ... mapState('categories', [ 'categories', 'subcategories' ]),
+    ... mapGetters('categories', {
+      rootCategoryOptions: 'categoryOptions',
+      rootSubcategoryOptions: 'subcategoryOptions',
+    }),
 
     action() {
-      return `${this.newCategoryName}` != ""
-        ? 'Create & Proceed'
-        : 'Proceed'
+      return (this.selectedCategory == OPTION_NEW.key || this.selectedSubcategory == OPTION_NEW.key)
+        ? 'Create'
+        : 'Update';
+    },
+
+    categoryOptions() {
+      return this.rootCategoryOptions.concat([ OPTION_NEW, ])
+    },
+
+    subcategoryOptions() {
+      if (!this.selectedCategory)
+        return [];
+
+      return this.rootSubcategoryOptions(this.selectedCategory)
+        .concat([ OPTION_NEW, ])
     },
 
     isValid() {
@@ -86,55 +142,91 @@ export default {
   },
 
   methods: {
-    selectCategory(cat) {
-      console.debug('Clicked!', cat);
-    },
-
     submitCategory() {
       if (!this.isValid) {
         return false;
       }
       console.debug('TODO: redirect to subcategory form');
     },
+
+    openIconModal() {
+      console.debug('opening icon modal...');
+    },
+
+    openSwatchModal() {
+      console.debug('opening swatch modal...');
+    },
+  },
+
+  watch: {
+    selectedCategory(newVal, oldVal) {
+      let c = this.categories.find(el => el.key == newVal);
+
+      if (c) {
+        if (c.color) {
+          this.category.color = c.color;
+        }
+        this.category.name = c.name;
+        this.category.icon = c.icon;
+        this.category.key = c.key;
+      }
+      this.selectedSubcategory = null;
+    },
+
+    selectedSubcategory(newVal, oldVal) {
+      let s = this.subcategories.find(el => el.key == newVal);
+
+      if (s) {
+        if (s.color) {
+          this.category.color = s.color;
+        }
+        this.category.subcategory = s.name;
+        this.category.subicon = s.icon;
+        this.category.key = s.key;
+      }
+    }
   },
 }
 </script>
 
 <style lang="scss">
 .category-form {
-  .categories {
+  .category-preview {
     display: flex;
-    flex-flow: row nowrap;
-    overflow-x: scroll;
-    min-width: 100%;
-    padding: 0.25em 0 1em;
+    flex-flow: column nowrap;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 10px #aaa;
+    margin: 2em 0;
+    padding-top: 1em;
+    padding-bottom: 2em;
 
-    .category-card {
-      flex: 1 0;
-      min-width: 40%;
-      height: 4em;
-      margin: auto 0.5em;
-      cursor: pointer;
-      text-align: center;
+    .cat, .subcat {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: baseline;
+      justify-content: space-evenly;
+      margin: 0.5em 0.25em;
 
-      &.active {
-        height: 5em;
-        box-shadow: 0 4px 12px #666;
+      .icon-container {
+        text-align: center;
+        flex-grow: 1;
+        cursor: pointer;
+        border: solid 1px #ccc;
+        border-radius: 6px;
+        max-width: 3em;
       }
     }
-  }
 
-  .new-category {
-    max-width: 90%;
-    margin: 0 auto;
-
-    input.category-name {
+    input {
+      flex-grow: 2;
       border: none !important;
       border-radius: 0 !important;
-      border-bottom: 2px solid #888 !important;
+      border-bottom: 2px solid #ccc !important;
+      max-width: 65%;
+      padding: 0 1em !important;
 
       &::placeholder {
-        color: #444;
+        color: #aaa;
       }
     }
   }

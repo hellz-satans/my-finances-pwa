@@ -52,7 +52,7 @@
                 placeholder="Category"
                 fluid
                 selection
-                :options="expenseCategories"
+                :options="categoryOptions"
                 v-model="category"
               />
             </sui-form-field>
@@ -152,7 +152,7 @@ export default {
   },
 
   computed: {
-    ... mapGetters('categories', [ 'expenseCategories' ]),
+    ... mapGetters('categories', [ 'categoryOptions' ]),
     ... mapState('expenses', [ 'filters' ]),
 
     filtersSummary() {

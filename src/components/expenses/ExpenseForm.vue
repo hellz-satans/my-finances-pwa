@@ -36,7 +36,7 @@
               placeholder="Category"
               fluid
               selection
-              :options="expenseCategories"
+              :options="categoryOptions"
               v-model="category"
             />
             <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
@@ -126,7 +126,7 @@ export default {
   },
 
   computed: {
-    ... mapGetters('categories', [ 'expenseCategories' ]),
+    ... mapGetters('categories', [ 'categoryOptions' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapState('expenses', [ 'expenses', 'expenseErrors', ]),
 

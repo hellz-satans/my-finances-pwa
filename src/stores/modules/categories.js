@@ -89,7 +89,7 @@ const CategoriesStore = {
 		 *
 		 * @return [Object]
 		 */
-		expenseCategories(state) {
+		categoryOptions(state) {
 			const list = [];
 			let c = null;
 
@@ -100,6 +100,33 @@ const CategoriesStore = {
 
 			return list;
 		},
+
+    /**
+     * Semantic-UI-dropdown compatible options.
+     *
+     * <sui-dropdown multiple fluid selection> requires that the provided
+     * options have the format:
+     *
+     * ```
+     * 	{ key: '', text: '', value: '' }
+     * ```
+     *
+     * @return [Object]
+     */
+    subcategoryOptions: (state) => (category) => {
+      const list = [];
+      let c = null,
+        i = 0;
+
+      for (i in state.subcategories) {
+        c = state.subcategories[i];
+        if (c.key.startsWith(category)) {
+          list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
+        }
+      }
+
+      return list;
+    },
 
     categoriesKeys(state) {
       return state.categories.flatMap(cat => cat.key)
