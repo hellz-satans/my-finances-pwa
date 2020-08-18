@@ -13,7 +13,6 @@ function newExpense() {
     category: 'other',
     subcategory: 'other_other',
     account: 'cash',
-    sign: -1,
   }
 }
 
@@ -115,7 +114,7 @@ const ExpensesStore = {
         description: ((input.description != null)
           ? input.description.trim()
           : null),
-        price: input.price * input.sign,
+        price: input.price,
         subcategory: input.subcategory,
       }
 

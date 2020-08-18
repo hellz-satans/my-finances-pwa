@@ -6,14 +6,7 @@
   >
     <sui-grid>
       <sui-grid-row>
-        <sui-grid-column :width="2">
-          <span
-            :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
-            @click="sign = sign * -1"
-          >{{ (sign > 0) ? '+' : '-' }}</span>
-        </sui-grid-column>
-
-        <sui-grid-column :width="6">
+        <sui-grid-column :width="8">
           <sui-form-field>
             <label for="price">Price</label>
             <money-input v-model.lazy="price" :value="price">
@@ -128,7 +121,6 @@ export default {
       category: 'other',
       subcategory: 'other_other',
       account: 'cash',
-      sign: -1,
     }
   },
 
@@ -184,7 +176,6 @@ export default {
         category: this.category,
         subcategory: this.subcategory,
         account: this.account,
-        sign: this.sign,
       }
 
       this.$store.dispatch('expenses/submitExpense', data)
@@ -205,12 +196,11 @@ export default {
 
       if (exp) {
         this.description = exp.description;
-        this.price = Math.abs(exp.price);
+        this.price = exp.price;
         this.date = exp.date;
         this.category = exp.category;
         this.subcategory = exp.subcategory;
         this.account = exp.account;
-        this.sign = (exp.price < 0) ? -1 : 1;
       }
     },
   },
@@ -227,19 +217,6 @@ export default {
 
 <style lang="scss">
 .expense-form {
-  .sign {
-    margin-top: 1.25rem;
-    cursor: pointer;
-    font-size: 2rem;
-    font-weight: 600;
-    position: absolute;
-    top: 0.25rem;
-    left: 1.45rem;
-
-    &.positive { color: green; }
-    &.negative { color: red; left: 1.75rem; }
-  }
-
   // overrides
   .mx-datepicker {
     max-width: 100%;
