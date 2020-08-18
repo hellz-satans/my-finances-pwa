@@ -8,7 +8,12 @@
       <sui-modal-header>Pick a color</sui-modal-header>
 
       <sui-modal-content scrolling>
-        <v-swatches @input="$emit('input', $event) ; $emit('close')" inline />
+        <v-swatches
+          @input="$emit('input', $event) ; $emit('close')"
+          inline
+          shapes="circles"
+          :swatches="colorList"
+        />
       </sui-modal-content>
 
       <sui-modal-actions class="text-right">
@@ -22,6 +27,7 @@
 
 <script>
 import VSwatches from 'vue-swatches';
+import COLORS    from '@/config/colors';
 
 export default {
   components: {
@@ -30,6 +36,10 @@ export default {
 
   props: {
     isOpen: { type: Boolean, required: true, },
+  },
+
+  computed: {
+    colorList() { return COLORS; },
   },
 }
 </script>

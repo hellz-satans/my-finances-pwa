@@ -4,8 +4,6 @@
     class="category-form"
     @submit.stop.prevent="submitCategory"
   >
-    <h3>Pick a category:</h3>
-
     <section class="category-options">
       <sui-form-field>
         <label>Category</label>
@@ -38,7 +36,7 @@
         />
       </header>
 
-      <div class="cat">
+      <div class="icon-cat-subcat">
         <icon-picker-modal
           @input="category.icon = $event"
           @open="iconModal = true"
@@ -46,21 +44,20 @@
           :icon="category.icon"
           :is-open="iconModal"
         />
-        <input
-          v-model="category.name"
-        />
-      </div>
-      <div class="subcat">
-        <input
-          v-model="category.subcategory"
-        />
-        <icon-picker-modal
-          @input="category.subicon = $event"
-          @open="subiconModal = true"
-          @close="subiconModal = false"
-          :icon="category.subicon"
-          :is-open="subiconModal"
-        />
+
+        <div class="cat">
+          <input
+            v-model="category.name"
+            placeholder="Category"
+          />
+        </div>
+
+        <div class="subcat">
+          <input
+            v-model="category.subcategory"
+            placeholder="Subcategory"
+          />
+        </div>
       </div>
     </section>
 
@@ -105,15 +102,13 @@ export default {
   data() {
     return {
       category: {
-        color: '#8E43AD',
+        color: '#455A64',
         icon: 'dollar',
         key: null,
         name: null,
         subcategory: null,
-        subicon: 'dollar',
       },
       iconModal: false,
-      subiconModal: false,
       colorModal: false,
       selectedCategory: null,
       selectedSubcategory: null,
@@ -155,7 +150,7 @@ export default {
 
       const styles = {
         'background-color': this.category.color,
-        'box-shadow': `0 0.5em 1em ${this.category.color}`,
+        'box-shadow': `0 0.5em 1em 6px ${this.category.color}`,
       }
 
       return styles
@@ -194,7 +189,7 @@ export default {
           this.category.color = s.color;
         }
         this.category.subcategory = s.name;
-        this.category.subicon = s.icon;
+        this.category.icon = s.icon;
         this.category.key = s.key;
       }
     }
@@ -216,11 +211,33 @@ export default {
       color: #eee;
     }
 
+    .icon-cat-subcat {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "icon category"
+        "icon subcategory";
+    }
+
+    .cat         { grid-area: category; }
+    .subcat      { grid-area: subcategory; }
+
+    .icon-picker {
+      grid-area: icon;
+      width: 80%;
+      margin: 10% 0 0 10%;
+      height: 70%;
+
+      .toggler {
+        border-width: 2px;
+        height: 100%;
+        padding-top: 30%;
+        font-size: 2em;
+      }
+    }
+
     .cat, .subcat {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: baseline;
-      justify-content: space-evenly;
       margin: 0.5em 0.25em;
     }
 
@@ -231,11 +248,10 @@ export default {
       border: none !important;
       border-radius: 2px !important;
       border-bottom: 2px solid #ccc !important;
-      max-width: 65%;
       padding: 0.5em 1em !important;
 
       &::placeholder {
-        color: #aaa;
+        color: #fff;
       }
     }
   }
