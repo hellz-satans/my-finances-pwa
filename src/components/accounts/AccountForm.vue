@@ -31,7 +31,7 @@
 
     <sui-form-field>
       <label for="account_color">Color</label>
-      <swatches v-model="color" inline />
+      <v-swatches v-model="color" inline />
     </sui-form-field>
 
     <footer class="actions text-right">
@@ -46,12 +46,12 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import MoneyInput from '@/components/MoneyInput'
-import Swatches from 'vue-swatches'
+import VSwatches from 'vue-swatches'
 
 export default {
   components: {
     MoneyInput,
-    Swatches,
+    VSwatches,
   },
 
   data() {

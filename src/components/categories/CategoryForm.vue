@@ -28,22 +28,24 @@
       </sui-form-field>
     </section>
 
-    <section class="category-preview card-item">
+    <section :style="previewStyle" class="category-preview card-item">
       <header class="text-right">
-        <sui-icon
-          class="pointer"
-          name="eye dropper"
-          @click.native="openSwatchModal"
+        <color-picker-modal
+          @open="colorModal = true"
+          @close="colorModal = false"
+          v-model="category.color"
+          :is-open="colorModal"
         />
       </header>
 
       <div class="cat">
-        <div class="icon-container">
-          <sui-icon
-            @click.native.stop.prevent="openIconModal"
-            :name="category.icon"
-          />
-        </div>
+        <icon-picker-modal
+          @input="category.icon = $event"
+          @open="iconModal = true"
+          @close="iconModal = false"
+          :icon="category.icon"
+          :is-open="iconModal"
+        />
         <input
           v-model="category.name"
         />
@@ -52,12 +54,13 @@
         <input
           v-model="category.subcategory"
         />
-        <div class="icon-container">
-          <sui-icon
-            @click.native.stop.prevent="openIconModal"
-            :name="category.subicon"
-          />
-        </div>
+        <icon-picker-modal
+          @input="category.subicon = $event"
+          @open="subiconModal = true"
+          @close="subiconModal = false"
+          :icon="category.subicon"
+          :is-open="subiconModal"
+        />
       </div>
     </section>
 
@@ -71,8 +74,9 @@
     <section>
       <h2>TODO</h2>
       <ul>
-        <li>Add color swatch modal</li>
-        <li>Add (sub)icon modal</li>
+        <li class="strike">Add color swatch modal</li>
+        <li class="strike">Add (sub)icon modal</li>
+        <li>Use custom swatch colors</li>
         <li>Add <code>"Delete (sub)category"</code> button</li>
       </ul>
     </section>
@@ -81,7 +85,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import CategoryCard from '@/components/categories/CategoryCard.vue'
+import ColorPickerModal from '@/components/ColorPickerModal.vue'
+import IconPickerModal from '@/components/IconPickerModal.vue'
 
 const OPTION_NEW= {
   key: '__new__',
@@ -93,19 +98,23 @@ const OPTION_NEW= {
 export default {
 
   components: {
-    CategoryCard,
+    ColorPickerModal,
+    IconPickerModal,
   },
 
   data() {
     return {
       category: {
-        color: null,
+        color: '#8E43AD',
         icon: 'dollar',
         key: null,
-        name: 'comida',
-        subcategory: 'desayuno',
+        name: null,
+        subcategory: null,
         subicon: 'dollar',
       },
+      iconModal: false,
+      subiconModal: false,
+      colorModal: false,
       selectedCategory: null,
       selectedSubcategory: null,
     }
@@ -139,6 +148,18 @@ export default {
     isValid() {
       return this.newCategoryName != '' || this.category.key != null;
     },
+
+    previewStyle() {
+      if (!this.category.color)
+        return null;
+
+      const styles = {
+        'background-color': this.category.color,
+        'box-shadow': `0 0.5em 1em ${this.category.color}`,
+      }
+
+      return styles
+    },
   },
 
   methods: {
@@ -147,14 +168,6 @@ export default {
         return false;
       }
       console.debug('TODO: redirect to subcategory form');
-    },
-
-    openIconModal() {
-      console.debug('opening icon modal...');
-    },
-
-    openSwatchModal() {
-      console.debug('opening swatch modal...');
     },
   },
 
@@ -194,11 +207,14 @@ export default {
   .category-preview {
     display: flex;
     flex-flow: column nowrap;
-    border: 1px solid #ccc;
-    box-shadow: 0 5px 10px #aaa;
+    border: 2px solid #ccc;
     margin: 2em 0;
     padding-top: 1em;
     padding-bottom: 2em;
+
+    .toggler {
+      color: #eee;
+    }
 
     .cat, .subcat {
       display: flex;
@@ -206,24 +222,17 @@ export default {
       align-items: baseline;
       justify-content: space-evenly;
       margin: 0.5em 0.25em;
-
-      .icon-container {
-        text-align: center;
-        flex-grow: 1;
-        cursor: pointer;
-        border: solid 1px #ccc;
-        border-radius: 6px;
-        max-width: 3em;
-      }
     }
 
     input {
       flex-grow: 2;
+      color: #ccc !important;
+      background-color: rgba(0, 0, 0, 0.1) !important;
       border: none !important;
-      border-radius: 0 !important;
+      border-radius: 2px !important;
       border-bottom: 2px solid #ccc !important;
       max-width: 65%;
-      padding: 0 1em !important;
+      padding: 0.5em 1em !important;
 
       &::placeholder {
         color: #aaa;

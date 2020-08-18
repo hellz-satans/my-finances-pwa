@@ -23,7 +23,7 @@
     "vue": "^2.5.17",
     "vue-paginatron": "^0.2.4",
     "vue-router": "^3.0.1",
-    "vue-swatches": "^1.0.2",
+    "vue-swatches": "^2.1.0",
     "vue2-datepicker": "^3.6.1",
     "vuex": "^3.0.1"
   },
