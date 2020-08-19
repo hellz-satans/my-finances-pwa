@@ -8,10 +8,6 @@ const requiredFields = [
 const PreferencesStore = {
 	state: {
 		preferences: {},
-		modals: {
-			// TODO: remove this -- if not hard-coded, reactiveness doesn't trigger
-			goal: false,
-		},
 	},
 
 	mutations: {
@@ -20,9 +16,7 @@ const PreferencesStore = {
 				.toArray()
 				.then(arr => {
           for (let el of arr) {
-            for (let k in el) {
-              state.preferences[k] = el
-            }
+            state.preferences[el.key] = el.value
           }
         })
 				.catch((err) => {
@@ -31,54 +25,37 @@ const PreferencesStore = {
 				})
 		},
 
-		createPreference(state, data) {
-			db.preferences.add(data)
-			state.modals[data.key] = !state.modals[data.key]
-		},
-
-		updatePreference(state, data) {
-			db.preferences.update(data.key, data)
-			state.modals[data.key] = !state.modals[data.key]
-		},
-
-		toggleModal(state, key) {
-			state.modals[key] = !state.modals[key]
-		},
+    setPreference(state, data) {
+      state.preferences[data.key] = data.value;
+    },
 	},
 
 	actions: {
-		createPreference({ commit, state }, data) {
+    submitPreference({ commit, dispatch, state }, data) {
+      let prom = null;
+
 			for (const k of requiredFields) {
-				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
-					console.error('preferences/createPreference: missing', k, data)
-					return false
+				if (!data[k]
+            || data[k] === ''
+            || data[k].trim && data[k].trim() === ''
+        ) {
+					console.error('preferences/updatePreference: missing', k, data);
+					return false;
 				}
 			}
 
       // preference already exists
       if (state.preferences[data.key]) {
-        commit('updatePreference', data)
+        prom = db.preferences.update(data.key, data);
       } else {
-        commit('createPreference', data)
+        prom = db.preferences.add(data);
       }
-			commit('getPreferences')
-		},
 
-		updatePreference({ commit }, data) {
-			for (const k of requiredFields) {
-				if (!data[k] || data[k] === '' || data[k].trim && data[k].trim() === '') {
-					console.error('preferences/updatePreference: missing', k, data)
-					return false
-				}
-			}
-
-			commit('updatePreference', data)
-			commit('getPreferences')
-		},
-
-		toggleModal({ commit }, key) {
-			commit('toggleModal', key)
-		},
+      return prom.then((n) => {
+          commit('setPreference', data);
+          return n
+        });
+    },
 
 		importPreferences({ dispatch }, newData) {
 			db.preferences
@@ -106,15 +83,6 @@ const PreferencesStore = {
 	},
 
 	getters: {
-		goal(state) {
-			const goalPreference = state.preferences['goal']
-
-			if (goalPreference) {
-				return goalPreference.value
-			}
-
-			return 0
-		},
 	},
 }
 

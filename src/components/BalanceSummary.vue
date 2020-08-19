@@ -1,41 +1,65 @@
 <template>
 	<section class="balance-summary">
-		<h2 class="balance-summary__goal">
+		<h2 :class="cssClasses">
       Savings Goal: {{ goal | currency }}
     </h2>
+
 		<h3 class="balance-summary__total">
       Total in accounts: {{ totalBalance | currency }}
     </h3>
+
 		<span class="semi-bold">Expenses last 7 days:</span> &nbsp;
 		<span class="bold">{{ expensesPastWeek | currency }}</span>
 		<br>
 		<span class="semi-bold">Expenses last month:</span> &nbsp;
 		<span class="bold">{{ expensesPastMonth | currency }}</span>
 
-		<preference-modal preference-key="goal" />
+    <br />
+    <router-link
+      is="sui-button"
+      to="/preference/goal"
+      size="mini"
+      icon="pencil"
+    >
+      Edit goal
+    </router-link>
 	</section>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import PreferenceModal from '@/components/PreferenceModal.vue'
 
 export default {
-	name: 'BalanceSummary',
-	components: {
-		PreferenceModal,
-	},
-	computed: {
-		... mapGetters([ 'balanceSummary' ]),
-		... mapGetters('accounts', [ 'totalBalance' ]),
-		... mapGetters('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
-		... mapGetters('preferences', [ 'goal' ]),
-		cssClasses() {
-			return {
-				orange: this.balanceSummary < 0
-			};
-		},
-	},
+  name: 'BalanceSummary',
+
+  computed: {
+    ... mapGetters([ 'balanceSummary' ]),
+    ... mapGetters('accounts', [ 'totalBalance' ]),
+    ... mapGetters('expenses', [ 'expensesPastWeek', 'expensesPastMonth' ]),
+    ... mapState('preferences', [ 'preferences', ]),
+
+    cssClasses() {
+      let color = 'black';
+
+      if (this.goal > 0) {
+        if (this.balanceSummary > (this.goal * 0.80))
+          color = 'green';
+        else if (this.balanceSummary > (this.goal * 0.50))
+          color = 'orange';
+        else
+          color = 'red';
+      }
+
+      return {
+        [color]: true,
+        'balance-summary__goal': true,
+      };
+    },
+
+    goal() {
+      return this.preferences.goal || 0;
+    },
+  },
 }
 </script>
 

@@ -6,6 +6,7 @@ import ImportExport from '@/components/ImportExport.vue'
 import AccountForm from '@/components/accounts/AccountForm'
 import ExpenseForm from '@/components/expenses/ExpenseForm'
 import CategoryForm from '@/components/categories/CategoryForm'
+import PreferenceForm from '@/components/PreferenceForm'
 
 Vue.use(Router)
 
@@ -39,6 +40,13 @@ export default new Router({
       name: 'categories',
       icon: 'database',
       component: CategoryForm,
+    },
+
+    {
+      path: '/preference/:key',
+      name: 'preference',
+      hide: true,
+      component: PreferenceForm,
     },
 
     {

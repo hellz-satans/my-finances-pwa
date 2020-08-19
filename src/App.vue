@@ -68,6 +68,7 @@ export default {
 <style scoped lang="scss">
 .my-finances {
   .pusher {
+    min-height: 80vh;
     padding: 0 1em;
   }
 }
