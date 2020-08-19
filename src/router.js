@@ -29,24 +29,29 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      icon: 'home',
       exact: true,
       component: Home
     },
 
     {
-      path: '/category/:category_id',
+      path: '/categories',
       name: 'categories',
+      icon: 'database',
       component: CategoryForm,
     },
+
     {
       path: '/import-export',
       name: 'data',
+      icon: 'open folder outline',
       component: ImportExport
     },
 
     {
       path: '/about',
       name: 'about',
+      icon: 'info',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.

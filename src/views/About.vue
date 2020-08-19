@@ -1,6 +1,6 @@
 <template>
 	<article class="about">
-		<h2>Finances Baking (subject to change)</h2>
+		<h2>My Finances</h2>
 
 		<p>Expenses record keeper without a back-end (<i>yet</i>, more on that later)
 		&mdash; <strong>easy to use, easy to erase</strong>.</p>

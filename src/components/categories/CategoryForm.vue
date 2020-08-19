@@ -73,7 +73,8 @@
       <ul>
         <li class="strike">Add color swatch modal</li>
         <li class="strike">Add (sub)icon modal</li>
-        <li>Use custom swatch colors</li>
+        <li class="strike">Use custom swatch colors</li>
+        <li>Edit <code>CategoriesStore</code> to create/update categories</li>
         <li>Add <code>"Delete (sub)category"</code> button</li>
       </ul>
     </section>
@@ -225,20 +226,27 @@ export default {
 
     .icon-picker {
       grid-area: icon;
-      width: 80%;
-      margin: 10% 0 0 10%;
-      height: 70%;
+      width: 90%;
+      height: 90%;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      align-content: center;
+      justify-content: center;
 
       .toggler {
         border-width: 2px;
-        height: 100%;
-        padding-top: 30%;
+        height: 3.5em;
         font-size: 2em;
+        padding-top: 1em;
       }
     }
 
-    .cat, .subcat {
-      margin: 0.5em 0.25em;
+    .cat {
+      padding-bottom: 0.25em;
+    }
+    .subcat {
+      padding-top: 0.25em;
     }
 
     input {
