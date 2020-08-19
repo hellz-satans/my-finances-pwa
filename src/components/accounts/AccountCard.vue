@@ -8,11 +8,14 @@
           name="trash"
           @click="deleteAccountProxy(account)"
         />
-        <sui-icon class="right floated"
-          size="small"
-          name="pencil"
-          @click="editAccount(account.id)"
-        />
+        <router-link
+          :to="'/account/' + account.key"
+        >
+          <sui-icon class="right floated"
+            size="small"
+            name="pencil"
+          />
+        </router-link>
       </span>
     </header>
 
@@ -85,6 +88,8 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+
+    a .icon { color: #eee; }
   }
 
   &__name {

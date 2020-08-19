@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import About from '@/views/About'
 import Home from './views/Home.vue'
 import ImportExport from '@/components/ImportExport.vue'
+import AccountForm from '@/components/accounts/AccountForm'
 import ExpenseForm from '@/components/expenses/ExpenseForm'
 
 Vue.use(Router)
@@ -16,17 +17,27 @@ export default new Router({
       component: ExpenseForm,
       hide: true,
     },
+
+    {
+      path: '/account/:account_key',
+      name: 'account-form',
+      component: AccountForm,
+      hide: true,
+    },
+
     {
       path: '/',
       name: 'home',
       exact: true,
       component: Home
     },
+
     {
       path: '/import-export',
       name: 'data',
       component: ImportExport
     },
+
     {
       path: '/about',
       name: 'about',

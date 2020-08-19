@@ -22,7 +22,7 @@ export default {
   },
 
   props: {
-    value: { type: Number, required: false, default: 0, },
+    value: { type: Number, required: true, default: 0, },
   },
 
   data() {
@@ -56,8 +56,9 @@ export default {
   },
 
   created() {
+    //console.debug('MoneyInput: created', this.value, Math.abs(this.value));
     this.money = Math.abs(this.value);
-    this.sign = (this.value > 0) ? 1 : -1;
+    this.sign  = (this.value > 0) ? 1 : -1;
   }
 }
 </script>

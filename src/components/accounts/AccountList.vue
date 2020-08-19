@@ -2,23 +2,29 @@
   <section class="account-list">
     <account-card
       v-for="acc in accounts"
-      :key="acc.id"
+      :key="acc.key"
       :account="acc"
     />
 
-    <account-form />
+    <div class="account-link">
+      <router-link to="/account/new">
+        <sui-icon
+          class="right floated"
+          name="plus"
+        />
+        Add account
+      </router-link>
+    </div>
   </section>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import AccountCard from '@/components/accounts/AccountCard.vue'
-import AccountForm from '@/components/accounts/AccountForm.vue'
 
 export default {
 	components: {
     AccountCard,
-		AccountForm,
 	},
 	methods: {
 		... mapActions('accounts', [ 'editAccount', 'deleteAccount' ]),
@@ -43,8 +49,9 @@ export default {
     margin: 0.5em;
   }
 
-  .account-form {
-    padding: 1rem 0;
+  .account-link {
+    margin: auto 0;
+    padding: 0 3em;
   }
 }
 

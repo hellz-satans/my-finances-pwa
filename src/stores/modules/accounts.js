@@ -10,22 +10,12 @@ const DEFAULT_ACCOUNT = {
 
 const AccountsStore = {
 	state: {
-		currentAccount: {
-			name: null,
-			balance: 0,
-			color: '#1fbc9c',
-		},
-		openModal: false,
     transferModal: false,
 		accounts: [],
     cache: {},
 	},
 
 	mutations: {
-		createAccount(state, account) {
-			db.accounts.add(account);
-		},
-
     addAccount(state, account) {
       state.accounts.push(account)
     },
@@ -44,28 +34,6 @@ const AccountsStore = {
 				});
 		},
 
-		setCurrentAccount(state, id) {
-			db.accounts.get(id)
-				.then((account) => {
-					state.currentAccount = account;
-					return id;
-				})
-				.catch((err) => {
-					console.warn('account not found:', id);
-					throw err;
-				});
-		},
-
-		unsetCurrentAccount(state) {
-			if (state.currentAccount.id) {
-				state.currentAccount = {};
-			}
-		},
-
-		updateCurrentAccountName(state, name) { state.currentAccount.name = name; },
-		updateCurrentAccountBalance(state, balance) { state.currentAccount.balance = Number(balance); },
-		updateCurrentAccountColor(state, color) { state.currentAccount.color = color; },
-		toggleModal(state) { state.openModal = !state.openModal; },
     toggleTransferModal(state) { state.transferModal = !state.transferModal },
 
     toggleIncludeAccount(state, id) {
@@ -83,26 +51,25 @@ const AccountsStore = {
 	},
 
 	actions: {
-		toggleModal({ commit }, unsetAccount = false) {
-			if (unsetAccount) {
-				commit('unsetCurrentAccount');
-			}
-			commit('toggleModal');
-		},
 
 		toggleTransferModal({ commit }) { commit('toggleTransferModal') },
 
-		createAccount({ commit }, account) {
+    createAccount({ commit }, account) {
       if (!account.key && account.name) {
+        // TODO: add filter for account name
         account.key = account.name.toLowerCase()
       }
-			commit('createAccount', account)
-		},
-
-		editAccount({ commit }, id) {
-			commit('setCurrentAccount', id);
-			commit('toggleModal');
-		},
+      return db.accounts.add(account)
+        .then((id) => {
+          account.id = id;
+          commit('addAccount', account);
+          return id;
+        })
+        .catch((err) => {
+          console.error('[ACTION] createAccount:', err);
+          throw err
+        });
+    },
 
     toggleIncludeAccount({ commit }, id) {
       commit('toggleIncludeAccount', id);
@@ -111,22 +78,39 @@ const AccountsStore = {
     },
 
 		submitAccount({ commit, dispatch, state }, data) {
-			const actionName = (state.currentAccount.id)
+			const actionName = (data.key)
 				? 'updateAccount'
 				: 'createAccount';
 
+      console.debug('[ACTION] submitAccount:', actionName, data);
 			return dispatch(actionName, data)
 				.then((id) => {
-					commit('getAccounts');
-					commit('unsetCurrentAccount');
-					commit('toggleModal');
 					return id;
 				});
 		},
 
-		updateAccount({ commit, state }, data) {
-			return db.accounts.update(state.currentAccount.id, data);
-		},
+    updateAccount({ commit, state }, data) {
+      return db.accounts.get({ key: data.key })
+        .then((acc) => {
+          data.id = acc.id;
+          return db.accounts.update(data.id, data);
+        })
+        .then((n) => {
+          if (n > 0) {
+            // update cached record
+            state.accounts
+              .map((el) => {
+                if (el.id === data.id) {
+                  for (let k in data) {
+                    el[k] = data[k];
+                  }
+                }
+              });
+          }
+
+          return n;
+        });
+    },
 
     /**
      * Add (or deduct, if given a negative amount) credits from account.

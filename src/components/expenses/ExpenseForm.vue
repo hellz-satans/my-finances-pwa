@@ -7,7 +7,7 @@
     <sui-grid>
       <sui-grid-row>
         <sui-grid-column :width="8">
-          <sui-form-field>
+          <sui-form-field v-if="loaded">
             <label for="price">Price</label>
             <money-input v-model.lazy="price" :value="price">
             </money-input>
@@ -121,6 +121,7 @@ export default {
       category: 'other',
       subcategory: 'other_other',
       account: 'cash',
+      loaded: false,
     }
   },
 
@@ -205,12 +206,14 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     let id = this.$route.params.expense_id
 
     if (id && id != 'new') {
       this.loadForm(id)
     }
+
+    this.loaded = true;
   },
 }
 </script>
