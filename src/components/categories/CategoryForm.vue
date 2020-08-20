@@ -5,7 +5,7 @@
     @submit.stop.prevent="submitForm"
   >
     <section class="category-options">
-      <sui-form-field>
+      <sui-form-field :class="{ deletable: categoryDeletable }">
         <label>Category</label>
         <sui-dropdown
           placeholder="Pick or create one"
@@ -13,9 +13,17 @@
           v-model="selectedCategory"
           :options="categoryOptions"
         />
+        <transition name="sweep-left">
+          <delete-category-button
+            class="right"
+            v-if="categoryDeletable"
+            :category="category"
+            @deleted="selectedCategory = null"
+          />
+        </transition>
       </sui-form-field>
 
-      <sui-form-field>
+      <sui-form-field :class="{ deletable: subcategoryDeletable }">
         <label>Subcategory</label>
         <sui-dropdown
           placeholder="Edit category or Add/Edit subcategory"
@@ -23,6 +31,14 @@
           v-model="selectedSubcategory"
           :options="subcategoryOptions"
         />
+        <transition name="sweep-left">
+          <delete-category-button
+            class="right"
+            v-if="subcategoryDeletable"
+            :category="category"
+            @deleted="selectedSubcategory = null"
+          />
+        </transition>
       </sui-form-field>
     </section>
 
@@ -67,22 +83,8 @@
       <sui-button
         type="submit"
         positive
-      >{{ action }}</sui-button>
+      >Submit</sui-button>
     </footer>
-
-    <section>
-      <h2>TODO</h2>
-      <ul>
-        <li class="strike">Add color swatch modal</li>
-        <li class="strike">Add (sub)icon modal</li>
-        <li class="strike">Use custom swatch colors</li>
-        <li class="strike">Crete/Update categories</li>
-        <li class="strike">FIX: category icon is being changed whenever we
-          edit subcategory icon
-        </li>
-        <li>Add <code>"Delete (sub)category"</code> button</li>
-      </ul>
-    </section>
   </sui-form>
 </template>
 
@@ -90,6 +92,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import ColorPickerModal from '@/components/ColorPickerModal.vue'
 import IconPickerModal from '@/components/IconPickerModal.vue'
+import DeleteCategoryButton from '@/components/categories/DeleteCategoryButton.vue'
 
 const OPTION_NEW= {
   key: '__new__',
@@ -103,6 +106,7 @@ export default {
   components: {
     ColorPickerModal,
     IconPickerModal,
+    DeleteCategoryButton,
   },
 
   data() {
@@ -129,10 +133,13 @@ export default {
       rootSubcategoryOptions: 'subcategoryOptions',
     }),
 
-    action() {
-      return (this.selectedCategory == OPTION_NEW.key || this.selectedSubcategory == OPTION_NEW.key)
-        ? 'Create'
-        : 'Update';
+    categoryDeletable() {
+      return this.selectedCategory && this.selectedCategory != OPTION_NEW.key;
+    },
+
+    subcategoryDeletable() {
+      return this.selectedSubcategory
+        && this.selectedSubcategory != OPTION_NEW.key;
     },
 
     categoryOptions() {
@@ -275,6 +282,13 @@ export default {
       &::placeholder {
         color: #fff;
       }
+    }
+  }
+
+  // OVERRIDES
+  .deletable.field {
+    > .dropdown {
+      width: 80% !important;
     }
   }
 }

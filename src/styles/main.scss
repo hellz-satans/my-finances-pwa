@@ -22,12 +22,17 @@ body {
 .text-larger  { font-size: larger; }
 .title { font-size: 1.3rem; font-weight: 600; }
 
+/***** positioning *****/
+.left  { float: left; }
+.right { float: right; }
+
 .space-between {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
+/***** transitions *****/
 // Vue router transition
 .slide-fade-enter-active {
   transition: all .3s ease;
@@ -41,15 +46,15 @@ body {
   opacity: 0;
 }
 
-.sweep-fade-enter-active {
-  transition: all .3s ease;
-  transition-delay: .3s;
+.sweep-left-enter-active {
+  transition: all 3s ease;
+  transition-delay: 3s;
 }
-.sweep-fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+.sweep-left-leave-active {
+  transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.sweep-fade-enter, .sweep-fade-leave-to {
-  transform: translatex(-100px);
+.sweep-left-enter, .sweep-left-leave-to {
+  transform: translatex(100px);
   opacity: 0;
 }
 

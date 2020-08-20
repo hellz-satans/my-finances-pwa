@@ -71,6 +71,22 @@ const CategoriesService = {
       });
   },
 
+  async deleteCategory(category) {
+    let count = 0;
+
+    if (!category.isSubcategory) {
+      count = await db.categories
+        .where("key")
+        .startsWith(category.key)
+        .modify({ deleted: true });
+    } else {
+      await db.categories.get(category.key).modify({ deleted: true });
+      count = 1;
+    }
+
+    return count;
+  },
+
   generateKey: stringKeyFilter,
 };
 

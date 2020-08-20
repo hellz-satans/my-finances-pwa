@@ -20,6 +20,7 @@ const CategoriesStore = {
 		getCategories(state) {
 			db.categories
 				.toArray()
+				.then(arr => arr.filter(el => !el.deleted))
 				.then(arr => arr.filter(el => !el.isSubcategory))
 				.then(arr => state.categories = arr)
 				.catch((err) => {
@@ -31,6 +32,7 @@ const CategoriesStore = {
 		getSubcategories(state) {
 			db.categories
 				.toArray()
+				.then(arr => arr.filter(el => !el.deleted))
 				.then(arr => arr.filter(el => el.isSubcategory))
 				.then(arr => state.subcategories = arr)
 				.catch((err) => {
@@ -51,6 +53,7 @@ const CategoriesStore = {
         name: input.category,
         isSubcategory: false,
       }
+      // do NOT update category icon when we edit a subcategory
       if (!input.isSubcategory) data.icon = input.icon;
       category = await CategoriesService.upsert(input.categoryKey, data);
 
@@ -69,12 +72,28 @@ const CategoriesStore = {
         subcategory = await CategoriesService.upsert(data.key, data);
       }
 
+      // expensive, but I'm lazy
       commit('getCategories');
       commit('getSubcategories');
 
       return input.isSubcategory
         ? subcategory
         : category;
+    },
+
+    async deleteCategory({ commit, state }, input) {
+      let category = {
+        key: input.subcategoryKey || input.categoryKey,
+        isSubcategory: input.isSubcategory,
+      }
+      const count = await CategoriesService.deleteCategory(category);
+      console.info(`Deleted ${count} categories`);
+
+      // expensive, but I'm lazy
+      commit('getCategories');
+      commit('getSubcategories');
+
+      return count;
     },
 
 		seedData({ commit }) {
