@@ -29,8 +29,8 @@ function stringKeyFilter (value) {
     i = 0;
 
   value = value.toLowerCase();
-  for (i = 0; i < str.length; ++i) {
-    c = str.charAt(i);
+  for (i = 0; i < value.length; ++i) {
+    c = value.charAt(i);
     if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
       str += c;
     }
@@ -44,5 +44,15 @@ export default {
 	utcToLocal: utcToLocal,
 	localToUTC: localToUTC,
 	format: format,
-	currency: currency
+	currency: currency,
+  stringKeyFilter: stringKeyFilter,
+}
+
+export {
+	ago,
+	utcToLocal,
+	localToUTC,
+	format,
+	currency,
+  stringKeyFilter,
 }

@@ -1,4 +1,5 @@
 import db from '@/db';
+import { CategoriesService } from '@/services/categories';
 import { categories as seeds } from '@/db/seeds';
 
 const CategoriesStore = {
@@ -8,6 +9,14 @@ const CategoriesStore = {
 	},
 
 	mutations: {
+    addCategory(state, category) {
+      state.categories.push(category);
+    },
+
+    addSubcategory(state, subcategory) {
+      state.subcategories.push(subcategory);
+    },
+
 		getCategories(state) {
 			db.categories
 				.toArray()
@@ -18,6 +27,7 @@ const CategoriesStore = {
 					throw err;
 				});
 		},
+
 		getSubcategories(state) {
 			db.categories
 				.toArray()
@@ -31,6 +41,41 @@ const CategoriesStore = {
 	},
 
 	actions: {
+    async submitCategory({ dispatch, commit, state }, input) {
+      let category = null,
+        data = null,
+        subcategory = null;
+
+      category = await CategoriesService.upsert(input.categoryKey, {
+        key:  input.categoryKey,
+        name: input.category,
+        icon: input.icon,
+        isSubcategory: false,
+      });
+
+      if (input.isSubcategory) {
+        data = {
+          key:  input.subcategoryKey,
+          name: input.subcategory,
+          icon: input.icon,
+          isSubcategory: true,
+        };
+        if (!data.key) {
+          data.key = CategoriesService.generateKey(data.name);
+          data.key = `${category.key}_${data.key}`;
+        }
+
+        subcategory = await CategoriesService.upsert(data.key, data);
+      }
+
+      commit('getCategories');
+      commit('getSubcategories');
+
+      return input.isSubcategory
+        ? subcategory
+        : category;
+    },
+
 		seedData({ commit }) {
 			db.categories
 				.toArray()

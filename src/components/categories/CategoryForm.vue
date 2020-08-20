@@ -2,7 +2,7 @@
   <sui-form
     name="category"
     class="category-form"
-    @submit.stop.prevent="submitCategory"
+    @submit.stop.prevent="submitForm"
   >
     <section class="category-options">
       <sui-form-field>
@@ -47,7 +47,7 @@
 
         <div class="cat">
           <input
-            v-model="category.name"
+            v-model="category.category"
             placeholder="Category"
           />
         </div>
@@ -74,7 +74,10 @@
         <li class="strike">Add color swatch modal</li>
         <li class="strike">Add (sub)icon modal</li>
         <li class="strike">Use custom swatch colors</li>
-        <li>Edit <code>CategoriesStore</code> to create/update categories</li>
+        <li class="strike">Crete/Update categories</li>
+        <li>FIX: category icon is being changed whenever we edit subcategory
+          icon
+        </li>
         <li>Add <code>"Delete (sub)category"</code> button</li>
       </ul>
     </section>
@@ -82,7 +85,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import ColorPickerModal from '@/components/ColorPickerModal.vue'
 import IconPickerModal from '@/components/IconPickerModal.vue'
 
@@ -105,9 +108,10 @@ export default {
       category: {
         color: '#455A64',
         icon: 'dollar',
-        key: null,
-        name: null,
+        category: null,
+        categoryKey: null,
         subcategory: null,
+        subcategoryKey: null,
       },
       iconModal: false,
       colorModal: false,
@@ -141,10 +145,6 @@ export default {
         .concat([ OPTION_NEW, ])
     },
 
-    isValid() {
-      return this.newCategoryName != '' || this.category.key != null;
-    },
-
     previewStyle() {
       if (!this.category.color)
         return null;
@@ -159,11 +159,24 @@ export default {
   },
 
   methods: {
-    submitCategory() {
-      if (!this.isValid) {
-        return false;
-      }
-      console.debug('TODO: redirect to subcategory form');
+    ... mapActions('categories', [ 'submitCategory', ]),
+
+    submitForm() {
+      const data = {
+        category: this.category.category,
+        categoryKey: this.category.categoryKey,
+        subcategory: this.category.subcategory,
+        subcategoryKey: this.category.subcategoryKey,
+        icon: this.category.icon,
+        isSubcategory: !!this.category.subcategory,
+      };
+
+      this.submitCategory(data)
+        .then((record) => {
+          if (record) {
+            this.$router.push('/');
+          }
+        });
     },
   },
 
@@ -175,9 +188,10 @@ export default {
         if (c.color) {
           this.category.color = c.color;
         }
-        this.category.name = c.name;
+        this.category.category = c.name;
         this.category.icon = c.icon;
-        this.category.key = c.key;
+        this.category.categoryKey = c.key;
+        this.category.isSubcategory = false;
       }
       this.selectedSubcategory = null;
     },
@@ -191,7 +205,8 @@ export default {
         }
         this.category.subcategory = s.name;
         this.category.icon = s.icon;
-        this.category.key = s.key;
+        this.category.subcategoryKey = s.key;
+        this.category.isSubcategory = true;
       }
     }
   },

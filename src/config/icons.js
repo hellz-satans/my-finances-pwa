@@ -19,6 +19,7 @@ const icons = [
   // BEVERAGE & FOOD
   'beer',
   'coffee',
+  'utensils',
 ];
 
 module.exports = icons
