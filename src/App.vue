@@ -1,8 +1,10 @@
 <template>
   <section class="my-finances">
-    <header class="text-right">
+    <header class="space-between m-1">
+      <span class="title">My Finances</span>
+
       <sui-icon
-        class="m-1 pointer"
+        class="pointer"
         @click="sidebarVisible = !sidebarVisible"
         :name="sidebarVisible ? 'close' : 'bars'"
       />
@@ -35,16 +37,14 @@
         <transition name="slide-fade">
           <router-view/>
         </transition>
+
+        <footer class="text-center mt-1 mb-1">
+          <p>
+            {{ NAME }} <strong>v{{ VERSION }}</strong>
+          </p>
+        </footer>
       </sui-sidebar-pusher>
     </sui-sidebar-pushable>
-
-    <hr>
-
-    <footer class="text-center mt-1 mb-1">
-      <p>
-        {{ NAME }} <strong>v{{ VERSION }}</strong>
-      </p>
-    </footer>
   </section>
 </template>
 

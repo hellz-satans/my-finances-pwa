@@ -46,12 +46,13 @@ const CategoriesStore = {
         data = null,
         subcategory = null;
 
-      category = await CategoriesService.upsert(input.categoryKey, {
+      data = {
         key:  input.categoryKey,
         name: input.category,
-        icon: input.icon,
         isSubcategory: false,
-      });
+      }
+      if (!input.isSubcategory) data.icon = input.icon;
+      category = await CategoriesService.upsert(input.categoryKey, data);
 
       if (input.isSubcategory) {
         data = {

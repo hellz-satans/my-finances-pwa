@@ -17,9 +17,16 @@ body {
 .text-right { text-align: right; }
 
 .text-smaller { font-size: smaller; }
-.text-small { font-size: small; }
-.text-large { font-size: large; }
-.text-larger { font-size: larger; }
+.text-small   { font-size: small; }
+.text-large   { font-size: large; }
+.text-larger  { font-size: larger; }
+.title { font-size: 1.3rem; font-weight: 600; }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
 
 // Vue router transition
 .slide-fade-enter-active {

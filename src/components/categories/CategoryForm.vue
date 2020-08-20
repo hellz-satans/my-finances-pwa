@@ -38,25 +38,27 @@
 
       <div class="icon-cat-subcat">
         <icon-picker-modal
-          @input="category.icon = $event"
+          v-model="category.icon"
           @open="iconModal = true"
           @close="iconModal = false"
           :icon="category.icon"
           :is-open="iconModal"
         />
 
-        <div class="cat">
-          <input
-            v-model="category.category"
-            placeholder="Category"
-          />
-        </div>
+        <div class="cat-subcat">
+          <div class="cat">
+            <input
+              v-model="category.category"
+              placeholder="Category"
+            />
+          </div>
 
-        <div class="subcat">
-          <input
-            v-model="category.subcategory"
-            placeholder="Subcategory"
-          />
+          <div class="subcat">
+            <input
+              v-model="category.subcategory"
+              placeholder="Subcategory"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -75,8 +77,8 @@
         <li class="strike">Add (sub)icon modal</li>
         <li class="strike">Use custom swatch colors</li>
         <li class="strike">Crete/Update categories</li>
-        <li>FIX: category icon is being changed whenever we edit subcategory
-          icon
+        <li class="strike">FIX: category icon is being changed whenever we
+          edit subcategory icon
         </li>
         <li>Add <code>"Delete (sub)category"</code> button</li>
       </ul>
@@ -223,26 +225,31 @@ export default {
     padding-top: 1em;
     padding-bottom: 2em;
 
+    // both color picker & icon picker
     .toggler {
       color: #eee;
     }
 
-    .icon-cat-subcat {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      grid-template-rows: 1fr 1fr;
-      grid-template-areas:
-        "icon category"
-        "icon subcategory";
+    header {
+      padding-bottom: 0.5em;
     }
 
-    .cat         { grid-area: category; }
-    .subcat      { grid-area: subcategory; }
+    .icon-cat-subcat {
+      display: flex;
+      flex: row nowrap;
+    }
+
+    .cat-subcat {
+      flex: 2 1 60%;
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 0.5em;
+    }
+    .cat    { padding-bottom: 0.75em; }
+    .subcat { padding-top: 0.75em; }
 
     .icon-picker {
-      grid-area: icon;
-      width: 90%;
-      height: 90%;
+      flex: 1 2 30%;
       margin: 0;
       display: flex;
       flex-flow: column nowrap;
@@ -257,15 +264,7 @@ export default {
       }
     }
 
-    .cat {
-      padding-bottom: 0.25em;
-    }
-    .subcat {
-      padding-top: 0.25em;
-    }
-
     input {
-      flex-grow: 2;
       color: #ccc !important;
       background-color: rgba(0, 0, 0, 0.1) !important;
       border: none !important;
