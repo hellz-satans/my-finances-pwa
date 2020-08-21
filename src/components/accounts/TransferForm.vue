@@ -68,7 +68,7 @@ export default {
 
     doTransfer() {
       this.transfer({
-        amount: this.amount,
+        amount: Math.abs(this.amount),
         from: this.from,
         to: this.to,
       })
@@ -79,3 +79,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.transfer-form {
+  .sign {
+    display: none;
+  }
+}
+</style>
