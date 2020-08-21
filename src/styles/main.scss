@@ -1,5 +1,6 @@
 @import 'packages',
   '_colors',
+  '_components',
   '_card';
 
 body {
@@ -20,7 +21,7 @@ body {
 .text-small   { font-size: small; }
 .text-large   { font-size: large; }
 .text-larger  { font-size: larger; }
-.title { font-size: 1.3rem; font-weight: 600; }
+.title { color: #111 !important; font-size: 1.3rem; font-weight: 600; }
 
 /***** positioning *****/
 .left  { float: left; }

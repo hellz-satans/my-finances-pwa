@@ -10,7 +10,6 @@ const DEFAULT_ACCOUNT = {
 
 const AccountsStore = {
 	state: {
-    transferModal: false,
 		accounts: [],
     cache: {},
 	},
@@ -34,8 +33,6 @@ const AccountsStore = {
 				});
 		},
 
-    toggleTransferModal(state) { state.transferModal = !state.transferModal },
-
     toggleIncludeAccount(state, id) {
       db.accounts.get(id)
         .then((acc) => {
@@ -51,8 +48,6 @@ const AccountsStore = {
 	},
 
 	actions: {
-
-		toggleTransferModal({ commit }) { commit('toggleTransferModal') },
 
     createAccount({ commit }, account) {
       if (!account.key && account.name) {
@@ -150,21 +145,21 @@ const AccountsStore = {
      * @param {Object} data
      */
     transfer({ commit, dispatch, state }, data) {
-      if (state.cache[data.from] && state.cache[data.to]) {
-        let amount = Number(data.amount)
+      if (!state.cache[data.from] || !state.cache[data.to])
+        throw "Invalid accounts";
+      let amount = Number(data.amount)
 
-        dispatch('add', {
-          amount: (amount * -1),
-          key: state.cache[data.from].key,
-        }).then((fromId) => {
-          return dispatch('add', {
-            amount: amount,
-            key: state.cache[data.to].key,
-          })
-        }).then((toId) => {
-					commit('toggleTransferModal');
+      dispatch('add', {
+        amount: (amount * -1),
+        key: state.cache[data.from].key,
+      }).then((fromId) => {
+        return dispatch('add', {
+          amount: amount,
+          key: state.cache[data.to].key,
         })
-      }
+      }).then((toId) => {
+        return true;
+      })
     },
 
 		deleteAccount({ commit, dispatch }, account) {

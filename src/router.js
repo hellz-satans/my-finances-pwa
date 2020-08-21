@@ -7,6 +7,7 @@ import AccountForm from '@/components/accounts/AccountForm'
 import ExpenseForm from '@/components/expenses/ExpenseForm'
 import CategoryForm from '@/components/categories/CategoryForm'
 import PreferenceForm from '@/components/PreferenceForm'
+import TransferForm from '@/components/accounts/TransferForm'
 
 Vue.use(Router)
 
@@ -33,6 +34,13 @@ export default new Router({
       icon: 'home',
       exact: true,
       component: Home
+    },
+
+    {
+      path: '/transfer',
+      name: 'transfer',
+      icon: 'exchange',
+      component: TransferForm,
     },
 
     {

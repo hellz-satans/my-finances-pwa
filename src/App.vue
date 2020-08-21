@@ -1,7 +1,7 @@
 <template>
   <section class="my-finances">
     <header class="space-between m-1">
-      <span class="title">My Finances</span>
+      <router-link to="/" class="title">My Finances</router-link>
 
       <sui-icon
         class="pointer"
@@ -9,6 +9,30 @@
         :name="sidebarVisible ? 'close' : 'bars'"
       />
     </header>
+
+    <nav v-if="currentRoute == 'home'">
+      <router-link
+        class="expense-form-button"
+        to="/expense/new"
+      >
+        <sui-button
+          circular
+          icon="plus"
+          positive
+        />
+      </router-link>
+
+      <router-link
+        class="transfer-form-button"
+        to="/transfer"
+      >
+        <sui-button
+          circular
+          icon="exchange"
+          color="blue"
+        />
+      </router-link>
+    </nav>
 
     <sui-sidebar-pushable>
       <sui-menu
@@ -61,6 +85,12 @@ export default {
       VERSION: VERSION,
       sidebarVisible: false,
     }
+  },
+
+  computed: {
+    currentRoute() {
+      return this.$route.name;
+    },
   },
 }
 </script>

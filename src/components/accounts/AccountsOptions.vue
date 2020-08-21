@@ -1,7 +1,15 @@
 <style lang="scss">
   .accounts-options {
+    display: flex;
+    overflow-x: scroll;
+    flex-flow: row nowrap;
+    max-width: 95%;
+    height: 4em;
     margin: 0.5rem 0 0.85rem;
-    text-align: center;
+
+    button {
+      height: 3em;
+    }
   }
 </style>
 

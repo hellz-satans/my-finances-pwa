@@ -1,0 +1,10 @@
+.expense-form, .transfer-form {
+  &-button {
+    position: fixed;
+    right: 1rem;
+    z-index: 999;
+  }
+}
+
+.expense-form-button  { bottom: 1rem; }
+.transfer-form-button { bottom: 5rem; }
