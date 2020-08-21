@@ -4,7 +4,7 @@
       {{ date | ago }}
     </span>
     <span v-else>
-      {{ date | format('MMM D, YYYY') }}
+      {{ date | format('HH:mm MMM D, YYYY') }}
     </span>
   </span>
 </template>

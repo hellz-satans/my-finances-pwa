@@ -127,7 +127,7 @@ export default {
   },
 
   computed: {
-    ... mapState('categories', [ 'categories', 'subcategories' ]),
+    ... mapState('categories', [ 'cache', ]),
     ... mapGetters('categories', {
       rootCategoryOptions: 'categoryOptions',
       rootSubcategoryOptions: 'subcategoryOptions',
@@ -191,7 +191,7 @@ export default {
 
   watch: {
     selectedCategory(newVal, oldVal) {
-      let c = this.categories.find(el => el.key == newVal);
+      let c = this.cache[newVal];
 
       if (c) {
         if (c.color) {
@@ -206,7 +206,7 @@ export default {
     },
 
     selectedSubcategory(newVal, oldVal) {
-      let s = this.subcategories.find(el => el.key == newVal);
+      let s = this.cache[newVal];
 
       if (s) {
         if (s.color) {

@@ -3,10 +3,15 @@ import { CategoriesService } from '@/services/categories';
 import { categories as seeds } from '@/db/seeds';
 
 const CategoriesStore = {
-	state: {
-		categories: [],
-		subcategories: [],
-	},
+  state: {
+    categories: [],
+    subcategories: [],
+
+    /**
+     * Key-based cache for categories & subcategories
+     */
+    cache: {},
+  },
 
 	mutations: {
     addCategory(state, category) {
@@ -17,30 +22,36 @@ const CategoriesStore = {
       state.subcategories.push(subcategory);
     },
 
-		getCategories(state) {
-			db.categories
-				.toArray()
-				.then(arr => arr.filter(el => !el.deleted))
-				.then(arr => arr.filter(el => !el.isSubcategory))
-				.then(arr => state.categories = arr)
-				.catch((err) => {
-					console.error('getCategories:', err);
-					throw err;
-				});
-		},
+    getCategories(state) {
+      db.categories
+        .toArray()
+        // set cache entries -- we can get away with only doin' it here
+        .then((arr) => {
+          for (let el of arr)
+            state.cache[el.key] = el;
+          return arr;
+        })
+        .then(arr => arr.filter(el => !el.deleted))
+        .then(arr => arr.filter(el => !el.isSubcategory))
+        .then(arr => state.categories = arr)
+        .catch((err) => {
+          console.error('getCategories:', err);
+          throw err;
+        });
+    },
 
-		getSubcategories(state) {
-			db.categories
-				.toArray()
-				.then(arr => arr.filter(el => !el.deleted))
-				.then(arr => arr.filter(el => el.isSubcategory))
-				.then(arr => state.subcategories = arr)
-				.catch((err) => {
-					console.error('getSubcategories:', err);
-					throw err;
-				});
-		},
-	},
+    getSubcategories(state) {
+      db.categories
+        .toArray()
+        .then(arr => arr.filter(el => !el.deleted))
+        .then(arr => arr.filter(el => el.isSubcategory))
+        .then(arr => state.subcategories = arr)
+        .catch((err) => {
+          console.error('getSubcategories:', err);
+          throw err;
+        });
+    },
+  },
 
 	actions: {
     async submitCategory({ dispatch, commit, state }, input) {

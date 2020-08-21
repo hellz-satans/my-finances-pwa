@@ -8,10 +8,7 @@
 
     <div class="account-link">
       <router-link to="/account/new">
-        <sui-icon
-          class="right floated"
-          name="plus"
-        />
+        <sui-icon name="plus" />
         Add account
       </router-link>
     </div>
@@ -50,8 +47,8 @@ export default {
   }
 
   .account-link {
-    margin: auto 0;
-    padding: 0 3em;
+    margin: auto 1em;
+    min-width: 8em;
   }
 }
 

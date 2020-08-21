@@ -13,6 +13,10 @@ function localToUTC (date, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(date).utc().format(format)
 }
 
+/**
+ * MomentJS display format reference:
+ * https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/
+ */
 function format (date, format = 'YYYY-MM-DD HH:mm:ss') {
 	return moment(date).format(format)
 }

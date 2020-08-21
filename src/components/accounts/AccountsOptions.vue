@@ -6,6 +6,7 @@
     max-width: 95%;
     height: 4em;
     margin: 0.5rem 0 0.85rem;
+    padding-top: 0.5em;
 
     button {
       height: 3em;

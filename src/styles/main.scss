@@ -33,10 +33,19 @@ textarea {
 .text-left { text-align: right; }
 .text-right { text-align: right; }
 
-.text-smaller { font-size: smaller; }
-.text-small   { font-size: small; }
-.text-large   { font-size: large; }
+.text-xxsmall  { font-size: xx-small; }
+.text-xsmall   { font-size: x-small; }
+.text-small    { font-size: small; }
+.text-medium   { font-size: medium; }
+.text-large    { font-size: large; }
+.text-xlarge   { font-size: x-large; }
+.text-xxlarge  { font-size: xx-large; }
+.text-xxxlarge { font-size: xxx-large; }
+
+/* these sizes are RELATIVE to parent's font size */
 .text-larger  { font-size: larger; }
+.text-smaller { font-size: smaller; }
+
 .title { color: #111 !important; font-size: 1.3rem; font-weight: 600; }
 
 /***** positioning *****/

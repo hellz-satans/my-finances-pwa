@@ -4,8 +4,8 @@
     <span class="text-small">
       {{ getName(category.subcategory, true) }},
     </span>
-    <br>
-    <span class="text-smaller">
+
+    <span class="text-xsmall">
       {{ getName(category.category) }}
     </span>
   </span>
@@ -19,53 +19,39 @@ export default {
     category: { required: true, type: Object },
   },
   computed: {
-    ... mapState('categories', [ 'categories', 'subcategories' ]),
+    ... mapState('categories', [ 'cache', ]),
   },
   methods: {
     /**
      * Return category name for given key.
      *
      * @param key String Category key as found in DB
-     * @param isSubcategory Boolean Flag to indicate if it is a subcategory
      * @return String
      */
-    getName(key = '', isSubcategory = false) {
-      let cat = null
+    getName(key = '') {
+      let cat = this.cache[key];
 
-      if (isSubcategory) {
-        cat = this.subcategories.find(el => el.key === key)
-      } else {
-        cat = this.categories.find(el => el.key === key)
-      }
-
-      if (!cat) {
-        return key.replace(/^\w/, key.charAt(0).toUpperCase())
-      }
-
-      return cat.name
+      if (!cat)
+        return key
+          .replace(/^\w/, key.charAt(0).toUpperCase())
+          .replace(/_/g, ' ');
+      else
+        return cat.name;
     },
 
     /**
      * Return category icon for given key.
      *
      * @param key String Category key as found in DB
-     * @param isSubcategory Boolean Flag to indicate if it is a subcategory
      * @return String
      */
-    getIcon(key = '', isSubcategory = false) {
-      let cat = null
+    getIcon(key = '') {
+      let cat = this.cache[key];
 
-      if (isSubcategory) {
-        cat = this.subcategories.find(el => el.key === key)
-      } else {
-        cat = this.categories.find(el => el.key === key)
-      }
-
-      if (!cat) {
-        return key
-      }
-
-      return cat.icon
+      if (!cat)
+        return key;
+      else
+        return cat.icon;
     },
   },
 }
