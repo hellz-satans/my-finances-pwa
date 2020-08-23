@@ -5,7 +5,7 @@
 
 body {
     overflow-y: scroll;
-    font-size: 16px;
+    font: normal 16px/20px sans-serif, monospace, serif;
 }
 
 input,
@@ -47,6 +47,8 @@ textarea {
 .text-smaller { font-size: smaller; }
 
 .title { color: #111 !important; font-size: 1.3rem; font-weight: 600; }
+
+.hidden { display: none; }
 
 /***** positioning *****/
 .left  { float: left; }
@@ -102,18 +104,18 @@ $text-colors: blue, green, orange, pink, purple, red, teal, yellow, black, grey,
  *   + https://sass-lang.com/documentation/file.SASS_REFERENCE.html#for
  *   + https://sass-lang.com/documentation/Sass/Script/Functions.html#str_slice-instance_method
  */
-$spacers: (margin, padding);
-$sides: (top, right, bottom, left);
-
-@each $spacer in $spacers {
-  @for $space from 0 through 5 {
-    @each $side in $sides {
-      .#{str-slice($spacer, 0, 1)}#{str-slice($side, 0, 1)}-#{$space} {
-        #{$spacer}-#{$side}: #{$space}rem !important;
-      }
-    }
-    .#{str-slice($spacer, 0, 1)}-#{$space} {
-      #{$spacer}: #{$space}rem !important;
-    }
-  }
-}
+//$spacers: (margin, padding);
+//$sides: (top, right, bottom, left);
+//
+//@each $spacer in $spacers {
+//  @for $space from 0 through 5 {
+//    @each $side in $sides {
+//      .#{str-slice($spacer, 0, 1)}#{str-slice($side, 0, 1)}-#{$space} {
+//        #{$spacer}-#{$side}: #{$space}rem !important;
+//      }
+//    }
+//    .#{str-slice($spacer, 0, 1)}-#{$space} {
+//      #{$spacer}: #{$space}rem !important;
+//    }
+//  }
+//}

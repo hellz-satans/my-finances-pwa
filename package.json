@@ -15,8 +15,7 @@
     "dexie": "^2.0.4",
     "moment": "^2.22.2",
     "register-service-worker": "^1.6.2",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-vue": "^0.7.0",
+    "tailwindcss": "^1.7.3",
     "tar": "^6.0.2",
     "v-money": "^0.8.1",
     "validate.js": "^0.12.0",
@@ -43,7 +42,8 @@
   },
   "postcss": {
     "plugins": {
-      "autoprefixer": {}
+      "autoprefixer": {},
+      "tailwindcss": {}
     }
   },
   "browserslist": [
