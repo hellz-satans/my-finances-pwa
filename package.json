@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
-    "@fortawesome/vue-fontawesome": "^0.1.2",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
     "core-js": "^3.6.5",
     "dexie": "^2.0.4",
     "moment": "^2.22.2",

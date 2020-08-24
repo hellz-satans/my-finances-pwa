@@ -3,8 +3,15 @@
     position: fixed;
     right: 1rem;
     z-index: 999;
+    cursor: pointer;
+    border-radius: 1em;
+    width:  2em;
+    height: 2em;
+    line-height: 1em;
+    padding-top: 0.5em;
+    text-align: center;
   }
 }
 
 .expense-form-button  { bottom: 1rem; }
-.transfer-form-button { bottom: 5rem; }
+.transfer-form-button { bottom: 4rem; }
