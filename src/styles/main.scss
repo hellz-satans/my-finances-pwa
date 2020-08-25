@@ -1,11 +1,12 @@
 @import 'packages',
   '_colors',
   '_components',
+  'fonts/fira',
   '_card';
 
 body {
     overflow-y: scroll;
-    font: normal 16px/20px sans-serif, monospace, serif;
+    font: normal 16px/20px 'Fira Sans', 'Fira Mono', sans-serif;
 }
 
 input,

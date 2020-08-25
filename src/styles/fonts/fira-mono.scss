@@ -1,0 +1,24 @@
+// Fira Mono
+
+@font-face{
+    font-family: 'Fira Mono';
+    src: url("fonts/eot/FiraMono-Regular.eot");
+    src: local("Fira Mono"),
+         url("fonts/eot/FiraMono-Regular.eot") format("embedded-opentype"),
+         url("fonts/woff/FiraMono-Regular.woff") format("woff"),
+         url("fonts/ttf/FiraMono-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'Fira Mono';
+    src: url("fonts/eot/FiraMono-Bold.eot");
+    src: local("Fira Mono Bold"),
+         url("fonts/eot/FiraMono-Bold.eot") format("embedded-opentype"),
+         url("fonts/woff/FiraMono-Bold.woff") format("woff"),
+         url("fonts/ttf/FiraMono-Bold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+
