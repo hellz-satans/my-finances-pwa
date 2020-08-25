@@ -15,3 +15,15 @@
 
 .expense-form-button  { bottom: 1rem; }
 .transfer-form-button { bottom: 4rem; }
+
+.btn {
+  @apply border rounded py-2 px-5;
+}
+
+.btn-submit, button[type=submit] {
+  @apply btn bg-green-500 border-green-600 text-white;
+}
+
+.btn-cancel, .btn-red {
+  @apply btn bg-red-500 border-red-600 text-white;
+}

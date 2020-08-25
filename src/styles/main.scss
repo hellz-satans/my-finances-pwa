@@ -1,4 +1,5 @@
 @import 'packages',
+  '_variables',
   '_colors',
   '_components',
   'fonts/fira',
@@ -9,6 +10,7 @@ body {
     font: normal 16px/20px 'Fira Sans', 'Fira Mono', sans-serif;
 }
 
+/* set font size so safari does NOT zoom */
 input,
 input[type="tel"],
 input[type="url"],
@@ -24,12 +26,30 @@ textarea {
   font-size: 16px !important;
 }
 
-h1 { font-size: 1.30rem; }
-h2 { font-size: 1.25rem; }
-h3 { font-size: 1.20rem; }
-h4 { font-size: 1.15rem; }
-h5 { font-size: 1.10rem; }
-h6 { font-size: 1.05rem; }
+input:not([type="file"]) {
+  display: block;
+  width: 100%;
+  background-color: var(--input-bg, #eaeaea);
+  padding: 0.15rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid var(--border-color, #ababab);
+  border-radius: 2px;
+}
+
+h1 { font-size: 1.30rem; font-weight: 600; }
+h2 { font-size: 1.25rem; font-weight: 600; }
+h3 { font-size: 1.20rem; font-weight: 500; }
+h4 { font-size: 1.15rem; font-weight: 500; }
+h5 { font-size: 1.10rem; font-weight: 500; }
+h6 { font-size: 1.05rem; font-weight: 500; }
+
+a, a:visited { white-space: nowrap; color: $link-color; }
+p { @apply mb-3; }
+ul { list-style: disc; margin-left: 1rem; }
+details { margin: 0.75rem auto; }
+
+/******* forms *******/
+label { @apply block mb-2 font-medium; }
 
 .pointer { cursor: pointer; }
 .strike-through, .strike { text-decoration: line-through; }

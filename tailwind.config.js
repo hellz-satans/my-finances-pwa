@@ -1,5 +1,6 @@
 module.exports = {
   purge: [],
+  important: true,
   theme: {
     extend: {
       minWidth: {

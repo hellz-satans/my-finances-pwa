@@ -1,27 +1,41 @@
-.card-item {
-  padding: 0.25em 0.75em;
-  margin: 0.4em 0;
-  border-radius: 6px;
+$border_radius: 6px;
+
+.card {
+  margin: 1em auto;
   display: flex;
   flex-flow: column nowrap;
+  border: 1px solid #aaa;
+  border-radius: $border_radius;
+  box-shadow: 0 0 0.5em 0 #888;
 
-  &__header {
+  &-header, > header {
+    padding: 0.25em 0.75em;
+    margin: 0.4em 0;
     flex-grow: 1;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+
     a .icon { color: #eee; }
   }
 
-  &__body {
+  &-body, > section {
+    padding: 0.25em 0.75em;
+    margin: 0.4em 0;
     flex-grow: 2;
   }
 
-  &__footer {
+  &-footer, > footer {
     flex-grow: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5em 0.75em;
+    border-radius: 0 0 $border_radius $border_radius;
   }
 
-  &__actions {
+  &-actions, > aside {
     .icon:not(:last-child) {
       margin-right: 0.75em;
     }
