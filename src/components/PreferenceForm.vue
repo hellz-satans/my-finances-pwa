@@ -1,24 +1,33 @@
 <template>
-  <sui-form
+  <form
     @submit.prevent.stop="submitForm"
-    class="preference-form"
+    class="preference-form rounded shadow-md p-5"
     name="preference"
     method="POST"
   >
-    <sui-form-field v-if="loaded">
-      <label for="preferenceKey">{{ key }}</label>
-      <sui-input
+    <div class="mb-4" v-if="loaded">
+      <label
+        for="preferenceKey"
+        class="block font-bold mb-2"
+      >
+        {{ key }}
+      </label>
+      <input
         id="preferenceKey"
         name="preferenceKey"
+        class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         required
         v-model="value"
       />
-    </sui-form-field>
+    </div>
 
     <footer class="actions text-right">
-      <sui-button type="submit" positive>Save</sui-button>
+      <button
+        type="submit"
+        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
+      >Save</button>
     </footer>
-  </sui-form>
+  </form>
 </template>
 
 <script>

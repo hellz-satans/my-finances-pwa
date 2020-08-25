@@ -1,41 +1,53 @@
 <template>
   <div class="color-picker">
-    <span class="toggler" @click.stop.prevent="$emit('open')">
-      <sui-icon name="eye dropper" />
-    </span>
+    <div class="toggler" @click.stop.prevent="isOpen = true">
+      <fa :icon="[ 'fas', 'eye-dropper' ]" />
+    </div>
 
-    <sui-modal v-model="isOpen">
-      <sui-modal-header>Pick a color</sui-modal-header>
-
-      <sui-modal-content scrolling>
+    <v-modal
+      v-if="isOpen"
+      title="Pick a color"
+      @close="isOpen = false"
+    >
+      <div>
         <v-swatches
-          @input="$emit('input', $event) ; $emit('close')"
+          @input="$emit('input', $event) ; isOpen = false"
           inline
           shapes="circles"
           :swatches="colorList"
         />
-      </sui-modal-content>
+      </div>
 
-      <sui-modal-actions class="text-right">
-        <sui-button @click.native.prevent.stop="$emit('close')">
+      <hr>
+
+      <div class="actions text-right">
+        <button
+          type="button"
+          class="text-gray-700 py-2 px-4 hover:underline"
+          @click.prevent.stop="isOpen = false"
+        >
           Close
-        </sui-button>
-      </sui-modal-actions>
-    </sui-modal>
+        </button>
+      </div>
+    </v-modal>
   </div>
 </template>
 
 <script>
+import VModal from '@/components/VModal.vue';
 import VSwatches from 'vue-swatches';
 import COLORS    from '@/config/colors';
 
 export default {
   components: {
+    VModal,
     VSwatches,
   },
 
-  props: {
-    isOpen: { type: Boolean, required: true, },
+  data() {
+    return {
+      isOpen: false,
+    };
   },
 
   computed: {

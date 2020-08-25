@@ -1,97 +1,76 @@
+<style lang="scss">
+.expenses-list {
+  .expense-entry {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+
+    margin: 0.5em 0.25em;
+    padding: 1em 0.4em 0.5em;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 0.4em;
+    box-shadow: 0 0 0.3em 0.05em var(--shadow-color, #bbb);
+  }
+}
+</style>
+
 <template>
-<section class="expenses-list">
-  <paginatron
-    @change="updateItems"
-    :items-per-page="perPage"
-    :items="expenses"
-    v-if="expenses.length > 0"
-    @next="advanced"
-    @previous="decreased"
-    @setPage="setCurrentPage"
-  >
-    <article slot-scope="{ setPage, nextPage, prevPage, page, pages, hasNextPage, hasPrevPage, nextButtonEvents, prevButtonEvents, nextButtonAttrs, prevButtonAttrs }">
-      <h3 class="text-right">
-        Sum of listed expenses: <strong>{{ expensesSum | currency }}</strong>
-      </h3>
+  <section class="expenses-list">
+    <article
+      v-for="e in expenses"
+      :key="e.id"
+      class="expense-entry"
+      :style="entryStyles(e)"
+    >
+      <div class="flex flex-row justify-between align-start w-full">
+        <category-label
+          :category="{ category: e.category, subcategory: e.subcategory }"
+        />
 
-      <table class="ui table" v-if="entries.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">Amount</th>
-            <th scope="col">Account</th>
-            <th scope="col">Description</th>
-            <th scope="col">Category</th>
-            <th scope="col">Date &darr;</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="e in entries" :key="e.id">
-            <td>
-              <b>{{ e.price | currency }}</b>
-            </td>
-            <td>
-              <account-label v-if="e.account" :account-key="e.account" />
-            </td>
-            <td>{{ e.description }}</td>
-            <td>
-              <category-label
-                :category="{ category: e.category, subcategory: e.subcategory }"
-              />
-            </td>
-            <td><date-label :date="e.date" /></td>
-            <td>
-              <sui-button
-                class="delete-expense-button"
-                size="mini"
-                @click="deleteExpense(e.id)"
-              >
-                &nbsp;
-                <sui-icon name="trash" />
-              </sui-button>
+        <div class="flex flex-col justify-between text-center">
+          <div class="text-large">
+            {{ e.price | currency }}
+          </div>
+          <div>
+            <account-label
+              class="inline-block text-small"
+              :account-key="e.account"
+            />
+          </div>
+        </div>
+      </div>
 
-              <router-link :to="'/expense/' + e.id">
-                <sui-button
-                  class="edit-expense-button"
-                  size="mini"
-                >
-                  &nbsp;
-                  <sui-icon name="pencil" />
-                </sui-button>
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-        </tfoot>
-      </table>
+      <div class="w-full flex flex-row items-center justify-between mt-2">
+        <div class="text-xsmall min-w-1/5">
+          <date-label :date="e.date" />
+        </div>
 
-      <footer
-        class="ui center aligned pagination menu"
-        v-if="pages > 1"
-      >
-        <span
-          class="item pointer"
-          v-on="prevButtonEvents"
-          v-bind="prevButtonAttrs"
-        >Prev</span>
-        <span
-          v-for="(page, index) in pages"
-          :key="index"
-          @click="setPage(index)"
-          :class="pagesClasses(page, index)"
-        >
-          {{ page }}
-        </span>
-        <span class="item pointer" v-on="nextButtonEvents">Next</span>
-      </footer>
+        <p class="px-2 text-small">{{ e.description }}</p>
+
+        <div class="actions text-center min-w-1/5">
+          <router-link
+            class="text-xsmall text-blue-700"
+            :to="'/expense/' + e.id"
+          >
+            Edit
+            <fa :icon="[ 'fas', 'pen' ]" />
+          </router-link>
+
+          <span
+            class="text-xsmall text-red-500 pointer"
+            @click="deleteProxy(e.id)"
+          >
+            Delete
+            <fa :icon="[ 'fas', 'trash' ]" />
+          </span>
+        </div>
+      </div>
     </article>
-  </paginatron>
 
-  <h2 class="text-center" v-else>
-    Move along, nothing to show here. Try changing the filters!
-  </h2>
-</section>
+    <h2 class="text-center" v-if="expenses.length === 0">
+      Move along, nothing to show here. Try changing the filters!
+    </h2>
+  </section>
 </template>
 
 <script>
@@ -125,43 +104,33 @@ export default {
   methods: {
     ... mapActions('expenses', [ 'editExpense', 'deleteExpense' ]),
 
-    pagesClasses(newPage, index) {
-      return {
-        active: this.currentPage === (newPage - 1),
-        item: true,
-        pointer: true,
-      }
+    entryStyles(exp) {
+      let styles = {},
+        cat = this.categoriesCache[exp.subcategory];
+      let str = '';
+
+      if (!cat) cat = this.categoriesCache[this.category];
+      if (cat) styles['border-left'] = `5px solid ${cat.color}`;
+
+      for (const k in styles)
+        str += `${k}: ${styles[k]};`
+
+      return str;
     },
 
-    decreased({ prev, current }) {
-      this.currentPage = current
-    },
-
-    advanced({ entries, prev, current }) {
-      this.currentPage = current
-    },
-
-    setCurrentPage(current) {
-      this.currentPage = current
-    },
-
-    updateItems(entries) {
-      this.entries = entries
+    deleteProxy(id) {
+      if (window.confirm('Are you sure?'))
+        this.deleteExpense(id);
     },
   },
 
   computed: {
     ... mapState('expenses', [ 'expenses' ]),
+    ... mapState('categories', { categoriesCache: 'cache', }),
     ... mapGetters('expenses', [ 'totalExpenses' ]),
 
     expensesSum() {
       return expensesSum(this.expenses)
-    },
-
-    perPage() {
-      if (this.expenses.length < 20)
-        return this.expenses.length
-      return 20
     },
   },
 

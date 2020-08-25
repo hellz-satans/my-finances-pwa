@@ -8,24 +8,27 @@
     margin: 0.5rem 0 0.85rem;
     padding-top: 0.5em;
 
-    button {
-      height: 3em;
+    .account-option {
+      height: 2em;
+      min-width: 5em;
+      border-radius: 6px;
+      margin: 0 0.5em;
     }
   }
 </style>
 
 <template>
   <div class="accounts-options">
-    <sui-button
-      size="tiny"
+    <button
       type="button"
+      class="account-option"
       v-for="acc in filteredAccounts"
       :key="acc.id"
       @click="$emit('input', acc.key)"
       :style="accountButtonStyles(acc)"
     >
       {{ acc.name }}
-    </sui-button>
+    </button>
   </div>
 </template>
 
@@ -49,7 +52,6 @@ export default {
 
       if (this.account === acc.key) {
         styles['transform'] = 'scale(1.1)'
-        styles['margin-left'] = styles['margin-right'] = '0.75rem'
         styles['box-shadow'] = `0 0 0.5rem ${acc.color}`
       }
 

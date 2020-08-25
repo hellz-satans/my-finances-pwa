@@ -1,89 +1,48 @@
 <template>
   <section class="my-finances">
-    <header class="space-between m-1">
+    <header
+      class="flex justify-between items-baseline py-1 px-3 border-b-2 border-grey-900"
+    >
       <router-link to="/" class="title">My Finances</router-link>
 
-      <sui-icon
-        class="pointer"
-        @click="sidebarVisible = !sidebarVisible"
-        :name="sidebarVisible ? 'close' : 'bars'"
-      />
+      <sidebar />
     </header>
 
     <nav v-if="currentRoute == 'home'">
       <router-link
-        class="expense-form-button"
+        class="expense-form-button text-white bg-green-500"
         to="/expense/new"
       >
-        <sui-button
-          circular
-          icon="plus"
-          positive
-        />
+        <fa icon="plus" />
       </router-link>
 
       <router-link
-        class="transfer-form-button"
+        class="transfer-form-button text-white bg-blue-500"
         to="/transfer"
       >
-        <sui-button
-          circular
-          icon="exchange"
-          color="blue"
-        />
+        <fa icon="exchange-alt" />
       </router-link>
     </nav>
 
-    <sui-sidebar-pushable>
-      <sui-menu
-        is="sui-sidebar"
-        :visible="sidebarVisible"
-        animation="overlay"
-        inverted
-        vertical
-      >
-        <router-link
-          v-for="route in routes"
-          v-if="! route.hide"
-          is="sui-menu-item"
-          :key="route.name"
-          :to="route.path"
-          :exact="route.exact"
-          :icon="route.icon"
-          style="text-transform: uppercase"
-          @click.native="sidebarVisible = false"
-        >
-          {{ route.name }}
-        </router-link>
-      </sui-menu>
-
-      <sui-sidebar-pusher :dimmed="sidebarVisible">
-        <transition name="slide-fade">
-          <router-view/>
-        </transition>
-
-        <footer class="text-center mt-1 mb-1">
-          <p>
-            {{ NAME }} <strong>v{{ VERSION }}</strong>
-          </p>
-        </footer>
-      </sui-sidebar-pusher>
-    </sui-sidebar-pushable>
+    <transition name="slide-fade">
+      <router-view/>
+    </transition>
   </section>
 </template>
 
 <script>
-import { NAME, VERSION } from '@/config/application_properties'
+import Sidebar from '@/components/Sidebar'
 
 export default {
   name: "MyFinances",
 
+  components: {
+    Sidebar,
+  },
+
   data() {
     return {
       routes: this.$router.options.routes,
-      NAME: NAME,
-      VERSION: VERSION,
-      sidebarVisible: false,
     }
   },
 
@@ -97,9 +56,5 @@ export default {
 
 <style scoped lang="scss">
 .my-finances {
-  .pusher {
-    min-height: 80vh;
-    padding: 0 1em;
-  }
 }
 </style>

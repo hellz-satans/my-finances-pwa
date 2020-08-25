@@ -1,68 +1,64 @@
 <template>
-  <sui-form
+  <form
     name="category"
-    class="category-form"
+    class="category-form p-3"
     @submit.stop.prevent="submitForm"
   >
     <section class="category-options">
-      <sui-form-field :class="{ deletable: categoryDeletable }">
-        <label>Category</label>
-        <sui-dropdown
-          placeholder="Pick or create one"
-          selection
-          v-model="selectedCategory"
-          :options="categoryOptions"
-        />
-        <transition name="sweep-left">
-          <delete-category-button
-            class="right"
-            v-if="categoryDeletable"
-            :category="category"
-            @deleted="selectedCategory = null"
+      <div class="w-full mb-4">
+        <label class="block font-semibold mb-2">Category</label>
+        <div class="flex flex-row">
+          <dropdown
+            placeholder="Pick or create one"
+            v-model="selectedCategory"
+            :data-deletable="categoryDeletable"
+            :options="categoryOptions"
           />
-        </transition>
-      </sui-form-field>
+          <transition name="sweep-left">
+            <delete-category-button
+              class="ml-2"
+              v-if="categoryDeletable"
+              :category="category"
+              @deleted="selectedCategory = null"
+            />
+          </transition>
+        </div>
+      </div>
 
-      <sui-form-field :class="{ deletable: subcategoryDeletable }">
-        <label>Subcategory</label>
-        <sui-dropdown
-          placeholder="Edit category or Add/Edit subcategory"
-          selection
-          v-model="selectedSubcategory"
-          :options="subcategoryOptions"
-        />
-        <transition name="sweep-left">
-          <delete-category-button
-            class="right"
-            v-if="subcategoryDeletable"
-            :category="category"
-            @deleted="selectedSubcategory = null"
+      <div class="w-full mb-4">
+        <label class="block font-semibold mb-2">Subcategory</label>
+        <div class="flex flex-row">
+          <dropdown
+            placeholder="Edit category or Add/Edit subcategory"
+            v-model="selectedSubcategory"
+            :data-deletable="subcategoryDeletable"
+            :options="subcategoryOptions"
           />
-        </transition>
-      </sui-form-field>
+          <transition name="sweep-left">
+            <delete-category-button
+              class="ml-2"
+              v-if="subcategoryDeletable"
+              :category="category"
+              @deleted="selectedSubcategory = null"
+            />
+          </transition>
+        </div>
+      </div>
     </section>
 
     <section :style="previewStyle" class="category-preview card-item">
       <header class="text-right">
-        <color-picker-modal
-          @open="colorModal = true"
-          @close="colorModal = false"
-          v-model="category.color"
-          :is-open="colorModal"
-        />
+        <color-picker-modal class="inline-block" v-model="category.color" />
       </header>
 
       <div class="icon-cat-subcat">
         <icon-picker-modal
           v-model="category.icon"
-          @open="iconModal = true"
-          @close="iconModal = false"
           :icon="category.icon"
-          :is-open="iconModal"
         />
 
         <div class="cat-subcat">
-          <div class="cat">
+          <div class="cat mb-4">
             <input
               v-model="category.category"
               placeholder="Category"
@@ -80,12 +76,12 @@
     </section>
 
     <footer class="actions text-right">
-      <sui-button
+      <button
         type="submit"
-        positive
-      >Submit</sui-button>
+        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
+      >Submit</button>
     </footer>
-  </sui-form>
+  </form>
 </template>
 
 <script>
@@ -93,8 +89,9 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 import ColorPickerModal from '@/components/ColorPickerModal.vue'
 import IconPickerModal from '@/components/IconPickerModal.vue'
 import DeleteCategoryButton from '@/components/categories/DeleteCategoryButton.vue'
+import Dropdown from '@/components/Dropdown.vue'
 
-const OPTION_NEW= {
+const OPTION_NEW = {
   key: '__new__',
   text: 'Add new one',
   value: '__new__',
@@ -102,18 +99,20 @@ const OPTION_NEW= {
 };
 
 export default {
+  name: 'CategoryForm',
 
   components: {
     ColorPickerModal,
     IconPickerModal,
     DeleteCategoryButton,
+    Dropdown,
   },
 
   data() {
     return {
       category: {
         color: '#455A64',
-        icon: 'dollar',
+        icon: 'dollar-sign',
         category: null,
         categoryKey: null,
         subcategory: null,
@@ -143,15 +142,15 @@ export default {
     },
 
     categoryOptions() {
-      return this.rootCategoryOptions.concat([ OPTION_NEW, ])
+      return [ OPTION_NEW, ].concat(this.rootCategoryOptions);
     },
 
     subcategoryOptions() {
       if (!this.selectedCategory)
         return [];
 
-      return this.rootSubcategoryOptions(this.selectedCategory)
-        .concat([ OPTION_NEW, ])
+      return [ OPTION_NEW, ]
+        .concat(this.rootSubcategoryOptions(this.selectedCategory));
     },
 
     previewStyle() {
@@ -176,6 +175,7 @@ export default {
         categoryKey: this.category.categoryKey,
         subcategory: this.category.subcategory,
         subcategoryKey: this.category.subcategoryKey,
+        color: this.category.color,
         icon: this.category.icon,
         isSubcategory: !!this.category.subcategory,
       };
@@ -243,53 +243,57 @@ export default {
 
     .icon-cat-subcat {
       display: flex;
-      flex: row nowrap;
+      flex-flow: row nowrap;
+      justify-content: space-between;
     }
-
-    .cat-subcat {
-      flex: 2 1 60%;
-      display: flex;
-      flex-flow: column nowrap;
-      padding: 0.5em;
-    }
-    .cat    { padding-bottom: 0.75em; }
-    .subcat { padding-top: 0.75em; }
 
     .icon-picker {
-      flex: 1 2 30%;
       margin: 0;
       display: flex;
       flex-flow: column nowrap;
-      align-content: center;
+      align-items: center;
       justify-content: center;
 
       .toggler {
         border-width: 2px;
-        height: 3.5em;
+        height:    3em;
+        min-width: 3em;
         font-size: 2em;
         padding-top: 1em;
       }
     }
 
-    input {
-      color: #ccc !important;
-      background-color: rgba(0, 0, 0, 0.1) !important;
-      border: none !important;
-      border-radius: 2px !important;
-      border-bottom: 2px solid #ccc !important;
-      padding: 0.5em 1em !important;
+    .cat-subcat {
+      display: flex;
+      flex-flow: column nowrap;
+      margin-left: 0.5em;
+    }
 
-      &::placeholder {
-        color: #fff;
+    .cat, .subcat {
+      input {
+        max-width: 100%;
+        color: #ccc !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        border: none !important;
+        border-radius: 2px !important;
+        border-bottom: 2px solid #ccc !important;
+        padding: 0.5em 1em !important;
+
+        &::placeholder {
+          color: #fff;
+        }
       }
     }
   }
 
   // OVERRIDES
-  .deletable.field {
-    > .dropdown {
-      width: 80% !important;
-    }
+  .dropdown {
+    transition: all 0.5s ease-in-out;
+    transition-delay: 0.5s;
+    width: 100%;
+  }
+  .dropdown[data-deletable=true] {
+    min-width: 85%;
   }
 }
 </style>

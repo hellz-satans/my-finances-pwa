@@ -62,6 +62,7 @@ const CategoriesStore = {
       data = {
         key:  input.categoryKey,
         name: input.category,
+        color: input.color,
         isSubcategory: false,
       }
       // do NOT update category icon when we edit a subcategory
@@ -72,6 +73,7 @@ const CategoriesStore = {
         data = {
           key:  input.subcategoryKey,
           name: input.subcategory,
+          color: input.color,
           icon: input.icon,
           isSubcategory: true,
         };

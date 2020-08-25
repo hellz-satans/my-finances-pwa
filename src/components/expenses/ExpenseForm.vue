@@ -1,101 +1,89 @@
 <template>
-  <sui-form
+  <form
     name="expense"
-    class="expense-form"
+    class="expense-form w-full max-w-lg p-2"
     @submit.stop.prevent="submitExpense"
   >
-    <sui-grid>
-      <sui-grid-row>
-        <sui-grid-column :width="8">
-          <sui-form-field v-if="loaded">
-            <label for="price">Price</label>
-            <money-input v-model.lazy="price" :value="price">
-            </money-input>
-            <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
+    <div class="flex flex-row flex-no-wrap">
+      <div class="w-1/2 mb-4">
+        <label
+          class="block font-semibold mb-1"
+          for="price"
+        >Price</label>
+        <money-input
+          v-model.lazy="price"
+          :value="price"
+          class="pr-2"
+        ></money-input>
+        <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
+          {{ err }}
+        </p>
+      </div>
 
-        <sui-grid-column :width="8">
-          <sui-form-field>
-            <label for="date">Date</label>
-            <date-picker v-model="date" type="datetime" />
-            <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
-      </sui-grid-row>
+      <div class="w-1/2 mb-4">
+        <label class="block font-semibold mb-1" for="date">Date</label>
+        <date-picker v-model="date" type="datetime" />
+        <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
+          {{ err }}
+        </p>
+      </div>
+    </div>
 
-      <sui-grid-row>
-        <sui-grid-column :width="8">
-          <sui-form-field>
-            <label for="category">Category</label>
-            <sui-dropdown
-              placeholder="Category"
-              fluid
-              selection
-              :options="categoryOptions"
-              v-model="category"
-            />
-            <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
+    <div class="flex flex-row flex-no-wrap mb-4">
+      <div class="w-1/2 pr-1">
+        <label class="block font-semibold mb-1" for="category">Category</label>
+        <dropdown
+          placeholder="Category"
+          :options="categoryOptions"
+          v-model="category"
+        />
+        <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
+          {{ err }}
+        </p>
+      </div>
 
-        <sui-grid-column :width="8">
-          <sui-form-field>
-            <label for="subcategory">Subcategory</label>
-            <sui-dropdown
-              placeholder="Subcategory"
-              fluid
-              selection
-              :options="expenseSubcategories"
-              v-model="subcategory"
-            />
-            <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
-      </sui-grid-row>
+      <div class="w-1/2 pl-1">
+        <label class="block font-semibold mb-1" for="subcategory">
+          Subcategory
+        </label>
+        <dropdown
+          placeholder="Subcategory"
+          :options="expenseSubcategories"
+          v-model="subcategory"
+        />
+        <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
+          {{ err }}
+        </p>
+      </div>
+    </div>
 
-      <sui-grid-row>
-        <sui-grid-column :width="16">
-          <sui-form-field>
-            <label for="account">Account</label>
-            <accounts-options :account="account" @input="account = $event" />
-            <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
+    <div class="w-full">
+      <label class="block font-semibold" for="account">Account</label>
+      <accounts-options :account="account" @input="account = $event" />
+      <p v-for="(err, i) in expenseErrors.account" :key="i" class="red text">
+        {{ err }}
+      </p>
+    </div>
 
-        <sui-grid-column :width="16">
-          <sui-form-field>
-            <label for="description">Description</label>
-            <sui-input
-              name="description"
-              v-model="description"
-            />
-            <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
-              {{ err }}
-            </p>
-          </sui-form-field>
-        </sui-grid-column>
-      </sui-grid-row>
-    </sui-grid>
+    <div class="w-full">
+      <label class="block font-semibold mb-1" for="description">Description</label>
+      <input
+        class="block w-full bg-gray-100 border border-gray-500 rounded p-2 focus:outline-none focus:bg-white focus:border-gray-600"
+        name="description"
+        v-model="description"
+      />
+      <p v-for="(err, i) in expenseErrors.description" :key="i" class="red text">
+        {{ err }}
+      </p>
+    </div>
 
-    <footer class="text-right mt-1">
-      <sui-button
+    <footer class="text-right w-full mt-4">
+      <button
         type="submit"
-        class="expense-form-submit"
-        positive
-      >{{ action }}</sui-button>
+        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
+      >{{ action }}</button>
     </footer>
-  </sui-form>
+  </form>
 </template>
 
 <script>
@@ -103,6 +91,7 @@ import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
 import DatePicker from 'vue2-datepicker'
 import MoneyInput from '@/components/MoneyInput'
+import Dropdown from '@/components/Dropdown'
 
 export default {
   name: 'ExpenseForm',
@@ -110,6 +99,7 @@ export default {
   components: {
     AccountsOptions,
     DatePicker,
+    Dropdown,
     MoneyInput,
   },
 

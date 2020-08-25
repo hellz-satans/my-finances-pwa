@@ -23,12 +23,12 @@ textarea {
   font-size: 16px !important;
 }
 
-h1 { font-size: 1.6rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.4rem; }
-h4 { font-size: 1.3rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1.1rem; }
+h1 { font-size: 1.30rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.20rem; }
+h4 { font-size: 1.15rem; }
+h5 { font-size: 1.10rem; }
+h6 { font-size: 1.05rem; }
 
 .pointer { cursor: pointer; }
 .strike-through, .strike { text-decoration: line-through; }
@@ -82,11 +82,10 @@ h6 { font-size: 1.1rem; }
 }
 
 .sweep-left-enter-active {
-  transition: all 3s ease;
-  transition-delay: 3s;
+  transition: all 0.3s ease;
 }
 .sweep-left-leave-active {
-  transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .sweep-left-enter, .sweep-left-leave-to {
   transform: translatex(100px);

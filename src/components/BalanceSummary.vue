@@ -1,27 +1,28 @@
 <template>
-	<section class="balance-summary">
-		<h2 :class="cssClasses">
-      Savings Goal: {{ goal | currency }}
-    </h2>
+	<section class="balance-summary text-right m-3">
+		<p :class="cssClasses">
+      <span class="inline-block mb-1 hidden">Balance:</span>
+      <span class="text-xxlarge">{{ totalBalance | currency }}</span>
+    </p>
 
-		<h3 class="balance-summary__total">
-      Total in accounts: {{ totalBalance | currency }}
-    </h3>
+		<p class="balance-summary__goal">
+      Goal:
+      <span class="text-large">{{ goal | currency }}</span>
+    </p>
 
-		<span class="semi-bold">Expenses last 7 days:</span> &nbsp;
-		<span class="bold">{{ expensesPastWeek | currency }}</span>
+		<span>Week:</span>
+		<span class="font-bold">{{ expensesPastWeek | currency }}</span>
 		<br>
-		<span class="semi-bold">Expenses last month:</span> &nbsp;
-		<span class="bold">{{ expensesPastMonth | currency }}</span>
+		<span>Month:</span>
+		<span class="font-bold">{{ expensesPastMonth | currency }}</span>
 
     <br />
     <router-link
-      is="sui-button"
+      class="text-small rounded inline-block text-gray-700 bg-gray-400 py-1 px-3 m-2"
       to="/preference/goal"
-      size="mini"
-      icon="pencil"
     >
       Edit goal
+      <fa class="text-small" :icon="[ 'fas', 'pen' ]" />
     </router-link>
 	</section>
 </template>
@@ -52,7 +53,7 @@ export default {
 
       return {
         [color]: true,
-        'balance-summary__goal': true,
+        'balance-summary__total': true,
       };
     },
 
@@ -65,14 +66,8 @@ export default {
 
 <style lang="scss">
 .balance-summary {
-	text-align: right;
-
   &__goal, &__total {
     margin: 0.5rem 0;
-  }
-
-  .preference-modal {
-    margin: 0.75rem 0;
   }
 }
 </style>

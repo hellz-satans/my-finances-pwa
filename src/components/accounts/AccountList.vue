@@ -8,7 +8,7 @@
 
     <div class="account-link">
       <router-link to="/account/new">
-        <sui-icon name="plus" />
+        <fa icon="plus" />
         Add account
       </router-link>
     </div>

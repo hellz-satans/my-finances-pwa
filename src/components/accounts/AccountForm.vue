@@ -1,12 +1,13 @@
 <template>
-  <sui-form
+  <form
     name="account"
-    class="account-form"
+    class="account-form px-2 py-4"
     @submit.stop.prevent="submitAccount"
   >
-    <sui-form-field>
-      <label for="account_name">Name</label>
-      <sui-input
+    <div class="w-full mb-4">
+      <label class="block font-semibold mb-3" for="account_name">Name</label>
+      <input
+        class="block appearance-none w-full bg-gray-100 border border-gray-500 p-2 rounded focus:outline-none focus:bg-white focus:border-gray-600"
         id="account_name"
         name="account_name"
         v-model="name"
@@ -15,10 +16,10 @@
         pattern=".+"
         required
       />
-    </sui-form-field>
+    </div>
 
-    <sui-form-field v-if="loaded">
-      <label for="account_balance">Balance</label>
+    <div v-if="loaded" class="w-full mb-4">
+      <label class="block font-semibold mb-3" for="account_balance">Balance</label>
       <money-input
         id="account_balance"
         name="account_balance"
@@ -27,26 +28,28 @@
         required
         :value="balance"
       ></money-input>
-    </sui-form-field>
+    </div>
 
-    <sui-form-field>
-      <label for="account_color">Color</label>
-      <v-swatches v-model="color" inline />
-    </sui-form-field>
+    <div class="w-full">
+      <label class="block font-semibold" for="account_color">Color</label>
+      <div class="mt-2">
+        <v-swatches v-model="color" inline :swatches="colorList" />
+      </div>
+    </div>
 
     <footer class="actions text-right">
-      <sui-button
+      <button
         type="submit"
-        positive
-      >Save</sui-button>
+      >Save</button>
     </footer>
-  </sui-form>
+  </form>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import MoneyInput from '@/components/MoneyInput'
 import VSwatches from 'vue-swatches'
+import COLORS    from '@/config/colors';
 
 export default {
   components: {
@@ -108,6 +111,8 @@ export default {
     action() {
       return this.key ? 'Update' : 'Add';
     },
+
+    colorList() { return COLORS; },
   },
 
   created() {

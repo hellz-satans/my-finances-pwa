@@ -1,12 +1,13 @@
 <template>
   <div class="money-input">
     <span
-      :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
+      :class="{ 'sign w-1/5': true, positive: sign > 0, negative: sign < 0 }"
       @click="emitSign"
     >{{ (sign > 0) ? '+' : '-' }}</span>
 
     <money
       v-bind="moneyConf"
+      class="block w-4/5 bg-gray-100 border border-gray-500 rounded focus:outline-none focus:bg-white focus:border-gray-600"
       @input="emitValue($event)"
       :value="money"
     ></money>
@@ -68,15 +69,21 @@ export default {
   display: inline-flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
 
   .sign {
-    margin-right: 0.25em;
     cursor: pointer;
     font-size: 2rem;
     font-weight: 600;
 
     &.positive { color: green; }
     &.negative { color: red; left: 1.75rem; }
+  }
+
+  // hard-code 34px 'cuz that's  vue2-datepicker's height
+  .v-money {
+    height: 34px;
+    padding: 2px 4px;
   }
 }
 </style>

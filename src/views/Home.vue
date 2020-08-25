@@ -1,13 +1,20 @@
 <template>
-  <section class="home-view">
+  <section class="home">
     <balance-summary />
     <account-list />
-    <expense-filters />
+    <!--<expense-filters />-->
     <expense-list />
+
+    <footer class="text-center py-2 border-t-2 border-grey-900">
+      <p>
+        {{ NAME }} <strong>v{{ VERSION }}</strong>
+      </p>
+    </footer>
   </section>
 </template>
 
 <script>
+import { NAME, VERSION } from '@/config/application_properties'
 // @ is an alias to /src
 import AccountList from '@/components/accounts/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
@@ -22,6 +29,11 @@ export default {
     BalanceSummary,
     ExpenseList,
     ExpenseFilters,
+  },
+
+  computed: {
+    NAME() { return NAME; },
+    VERSION() { return VERSION; },
   },
 }
 </script>

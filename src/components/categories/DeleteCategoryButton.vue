@@ -1,11 +1,11 @@
 <template>
-  <sui-button
-    class="delete-category-button"
+  <button
+    class="delete-category-button rounded text-white bg-red-500 border-red-500 py-2 px-3"
     type="button"
-    negative
-    icon="trash"
     @click="confirmDelete"
-  />
+  >
+    <fa :icon="[ 'fas', 'trash' ]" />
+  </button>
 </template>
 
 <script>

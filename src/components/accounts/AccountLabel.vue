@@ -1,6 +1,6 @@
 <template>
   <span class="account-label" :style="accountStyle" v-if="innerAccount">
-    {{ innerAccount.name }}
+    {{ accountName }}
   </span>
 </template>
 
@@ -18,8 +18,16 @@ export default {
       innerAccount: null,
     }
   },
+
   computed: {
     ... mapState('accounts', [ 'cache' ]),
+
+    accountName() {
+      return (this.innerAccount != null)
+        ? this.innerAccount.name
+        : this.accountKey;
+    },
+
     accountStyle() {
       const color = this.innerAccount ? this.innerAccount.color : 'transparent'
       const styles = {
@@ -35,6 +43,7 @@ export default {
       return str
     },
   },
+
   mounted() {
     if (this.account) {
       this.innerAccount = this.account

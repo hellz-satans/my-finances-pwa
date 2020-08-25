@@ -2,18 +2,18 @@
   <article class="account-card card-item" :style="accountStyle">
     <header class="card-item__header">
       <span class="card-item__name">{{ account.name }}</span>
+
       <span class="card-item__actions">
-        <sui-icon class="right floated"
-          size="small"
-          name="trash"
+        <fa class="right floated text-small mr-1"
+          :icon="[ 'fas', 'trash' ]"
           @click="deleteAccountProxy(account)"
         />
+
         <router-link
           :to="'/account/' + account.key"
         >
-          <sui-icon class="right floated"
-            size="small"
-            name="pencil"
+          <fa class="right floated text-small mr-3"
+            :icon="[ 'fas', 'edit' ]"
           />
         </router-link>
       </span>
@@ -25,12 +25,11 @@
 
     <footer class="card-item__footer text-smaller text-right">
       <span class="pointer" @click="toggleIncludeAccount(account.id)">
-        <sui-icon
-          class="right floated"
-          size="small"
-          :name="(account.includeInSummary ? 'check' : '') + ' square outline'"
+        <fa
+          class="right floated mt-1 ml-1 text-small"
+          :icon="[ 'far', `${(account.includeInSummary ? 'check-' : '')}square` ]"
         />
-        Include in summary?
+        Include in balance?
       </span>
     </footer>
   </article>
