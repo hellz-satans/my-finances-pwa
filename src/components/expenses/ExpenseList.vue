@@ -49,7 +49,7 @@
 
         <div class="actions text-center min-w-1/5">
           <router-link
-            class="text-xsmall text-blue-700"
+            class="text-xsmall"
             :to="'/expense/' + e.id"
           >
             Edit
@@ -57,7 +57,7 @@
           </router-link>
 
           <span
-            class="text-xsmall text-red-500 pointer"
+            class="text-xsmall text-red-500 pointer whitespace-no-wrap"
             @click="deleteProxy(e.id)"
           >
             Delete

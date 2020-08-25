@@ -1,15 +1,15 @@
 <template>
-  <article class="category-card card-item" :style="categoryStyle">
-    <header class="card-item__header">
-      <span class="card-item__actions">
+  <article class="category-card card" :style="categoryStyle">
+    <header class="card-header">
+      <span class="card-actions">
       </span>
     </header>
 
-    <div class="card-item__body">
+    <div class="card-body">
       {{ category.name }}
     </div>
 
-    <footer class="card-item__footer">
+    <footer class="card-footer">
     </footer>
   </article>
 </template>

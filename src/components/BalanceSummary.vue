@@ -1,22 +1,23 @@
 <template>
-	<section class="balance-summary text-right m-3">
-		<p :class="cssClasses">
+  <section class="balance-summary text-right m-3">
+    <p :class="cssClasses">
       <span class="inline-block mb-1 hidden">Balance:</span>
       <span class="text-xxlarge">{{ totalBalance | currency }}</span>
     </p>
 
-		<p class="balance-summary__goal">
+    <p class="balance-summary__goal">
       Goal:
       <span class="text-large">{{ goal | currency }}</span>
     </p>
 
-		<span>Week:</span>
-		<span class="font-bold">{{ expensesPastWeek | currency }}</span>
-		<br>
-		<span>Month:</span>
-		<span class="font-bold">{{ expensesPastMonth | currency }}</span>
+    <span>Week:</span>
+    <span class="font-medium">{{ expensesPastWeek | currency }}</span>
+    <br>
+    <span>Month:</span>
+    <span class="font-medium">{{ expensesPastMonth | currency }}</span>
 
     <br />
+
     <router-link
       class="text-small rounded inline-block text-gray-700 bg-gray-400 py-1 px-3 m-2"
       to="/preference/goal"
@@ -24,7 +25,7 @@
       Edit goal
       <fa class="text-small" :icon="[ 'fas', 'pen' ]" />
     </router-link>
-	</section>
+  </section>
 </template>
 
 <script>

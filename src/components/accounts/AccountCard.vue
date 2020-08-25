@@ -1,10 +1,10 @@
 <template>
-  <article class="account-card card-item" :style="accountStyle">
-    <header class="card-item__header">
-      <span class="card-item__name">{{ account.name }}</span>
+  <article class="account-card card" :style="accountStyle">
+    <header class="m-0">
+      <span class="card-name">{{ account.name }}</span>
 
-      <span class="card-item__actions">
-        <fa class="right floated text-small mr-1"
+      <span class="card-actions">
+        <fa class="right floated text-small mr-1 text-white"
           :icon="[ 'fas', 'trash' ]"
           @click="deleteAccountProxy(account)"
         />
@@ -12,18 +12,18 @@
         <router-link
           :to="'/account/' + account.key"
         >
-          <fa class="right floated text-small mr-3"
+          <fa class="right floated text-small mr-3 text-white"
             :icon="[ 'fas', 'edit' ]"
           />
         </router-link>
       </span>
     </header>
 
-    <section class="card-item__body">
+    <section class="m-0 p-0">
       <h3 class="balance">{{ account.balance | currency }}</h3>
     </section>
 
-    <footer class="card-item__footer text-smaller text-right">
+    <footer class="m-0 text-smaller text-right">
       <span class="pointer" @click="toggleIncludeAccount(account.id)">
         <fa
           class="right floated mt-1 ml-1 text-small"
@@ -82,10 +82,10 @@ export default {
   font-size: 18px;
   line-height: 22px;
 
-  .card-item {
-    &__name {
+  .card {
+    &-name {
       font-size: 1.1em;
-      font-weight: 600;
+      font-weight: 500;
     }
   }
 

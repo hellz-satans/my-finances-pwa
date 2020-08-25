@@ -1,1 +1,16 @@
+$default-color: hsl(211, 25%, 84%);
+$default-color-dark: hsl(214, 20%, 69%);
+$default-color-light: hsl(212, 30%, 50%);
+
 $link-color: #1e70bf;
+
+$border-color: $default-color;
+$border-color-light: $default-color-light;
+
+$shadow-color: $default-color-light;
+
+:root {
+  --border-color: #{$border-color};
+  --border-color-light: #{$border-color-light};
+  --shadow-color: #{$shadow-color};
+}

@@ -24,7 +24,7 @@
     <footer class="actions text-right">
       <button
         type="submit"
-        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
+        class="btn-submit"
       >Save</button>
     </footer>
   </form>

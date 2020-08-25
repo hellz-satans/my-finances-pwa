@@ -46,12 +46,12 @@
       </div>
     </section>
 
-    <section :style="previewStyle" class="category-preview card-item">
-      <header class="text-right">
+    <article :style="previewStyle" class="category-preview card pb-6">
+      <header class="justify-end m-0 mt-2 mr-4 p-0">
         <color-picker-modal class="inline-block" v-model="category.color" />
       </header>
 
-      <div class="icon-cat-subcat">
+      <section class="icon-cat-subcat">
         <icon-picker-modal
           v-model="category.icon"
           :icon="category.icon"
@@ -72,13 +72,12 @@
             />
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </article>
 
     <footer class="actions text-right">
       <button
         type="submit"
-        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
       >Submit</button>
     </footer>
   </form>
@@ -97,6 +96,8 @@ const OPTION_NEW = {
   value: '__new__',
   icon: 'plus',
 };
+const DEFAULT_COLOR = '#455A64';
+const DEFAULT_ICON  = 'dollar-sign';
 
 export default {
   name: 'CategoryForm',
@@ -111,8 +112,8 @@ export default {
   data() {
     return {
       category: {
-        color: '#455A64',
-        icon: 'dollar-sign',
+        color: DEFAULT_COLOR,
+        icon: DEFAULT_ICON,
         category: null,
         categoryKey: null,
         subcategory: null,
@@ -187,6 +188,14 @@ export default {
           }
         });
     },
+
+    resetCategory() {
+      this.category.category = this.category.subcategory = null;
+      this.category.categoryKey = this.category.subcategoryKey = null;
+      this.category.isSubcategory = false;
+      this.category.color = DEFAULT_COLOR;
+      this.category.icon  = DEFAULT_ICON;
+    },
   },
 
   watch: {
@@ -201,6 +210,8 @@ export default {
         this.category.icon = c.icon;
         this.category.categoryKey = c.key;
         this.category.isSubcategory = false;
+      } else {
+        this.resetCategory();
       }
       this.selectedSubcategory = null;
     },
@@ -216,6 +227,8 @@ export default {
         this.category.icon = s.icon;
         this.category.subcategoryKey = s.key;
         this.category.isSubcategory = true;
+      } else {
+        this.resetCategory();
       }
     }
   },

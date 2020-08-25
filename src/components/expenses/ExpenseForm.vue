@@ -80,7 +80,7 @@
     <footer class="text-right w-full mt-4">
       <button
         type="submit"
-        class="bg-green-500 border border-green-600 rounded text-white py-2 px-5"
+        class="btn-submit"
       >{{ action }}</button>
     </footer>
   </form>

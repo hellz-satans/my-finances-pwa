@@ -1,45 +1,45 @@
 <template>
-  <sui-form
+  <form
     name="transfer"
     @submit.stop.prevent="doTransfer"
-    class="transfer-form"
+    class="transfer-form my-4 mx-2"
   >
     <h2>Transfer</h2>
 
-    <sui-form-field>
-      <label for="price">Amount</label>
+    <div class="w-full my-3">
+      <label class="block" for="price">Amount</label>
       <money-input
         name="amount"
         v-model.lazy="amount"
         :value="amount"
       ></money-input>
-    </sui-form-field>
+    </div>
 
-    <sui-form-field>
-      <label for="from">From</label>
+    <div class="w-full">
+      <label class="block" for="from">From</label>
       <accounts-options
         :account="from"
         :exclude="[ to ]"
         @input="from = $event"
       />
-    </sui-form-field>
+    </div>
 
-    <sui-form-field>
+    <div class="w-full">
       <label for="to">To</label>
       <accounts-options
         :account="to"
         :exclude="[ from ]"
         @input="to = $event"
       />
-    </sui-form-field>
+    </div>
 
     <footer class="actions text-right">
-      <sui-button
+      <button
         positive
         type="submit"
-      >Submit</sui-button>
+      >Submit</button>
     </footer>
-	</sui-form>
+	</form>
 </template>
 
 <script>

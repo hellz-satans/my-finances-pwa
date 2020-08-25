@@ -7,7 +7,6 @@
 
     <money
       v-bind="moneyConf"
-      class="block w-4/5 bg-gray-100 border border-gray-500 rounded focus:outline-none focus:bg-white focus:border-gray-600"
       @input="emitValue($event)"
       :value="money"
     ></money>

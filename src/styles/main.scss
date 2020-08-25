@@ -46,7 +46,8 @@ h6 { font-size: 1.05rem; font-weight: 500; }
 a, a:visited { white-space: nowrap; color: $link-color; }
 p { @apply mb-3; }
 ul { list-style: disc; margin-left: 1rem; }
-details { margin: 0.75rem auto; }
+details { margin: 0.75rem 0.5rem; }
+details summary { cursor: pointer; }
 
 /******* forms *******/
 label { @apply block mb-2 font-medium; }

@@ -1,89 +1,93 @@
 <template>
-  <sui-accordion exclusive class="expense-filters">
-    <sui-accordion-title>
-      <sui-icon name="dropdown" />
+  <details class="expense-filters">
+    <summary>
       <strong>Filters</strong>: {{ filtersSummary }}
-    </sui-accordion-title>
-    <sui-accordion-content class="ui form expense-filters-form">
-      <sui-grid>
-        <sui-grid-row>
-          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-            <sui-form-field>
-              <label class="hidden" hidden for="startDate">Start date</label>
-              <input type="date" v-model="startDate" placeholder="Start date" />
-            </sui-form-field>
-          </sui-grid-column>
+    </summary>
 
-          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-            <sui-form-field>
-              <label for="date">End date</label>
-              <input type="date" v-model="endDate" placeholder="End date" />
-            </sui-form-field>
-          </sui-grid-column>
+    <form
+      @submit.stop.prevent="filterExpenses"
+      class="expense-filters-form w-full mt-4"
+    >
+      <div class="flex flex-row flex-no-wrap">
+        <div class="w-1/2 pr-2">
+          <label for="startDate">Start date</label>
+          <input
+            type="date"
+            id="startDate"
+            v-model="startDate"
+            placeholder="Start date"
+          />
+        </div>
 
-          <sui-grid-column :mobile="8" :tablet="6" :computer="6">
-            <fieldset>
-              <legend>Price</legend>
-              <label for="comparator">
-                <span hidden>Price Comparator</span>
-                <sui-dropdown
-                  v-model="comparator"
-                  :options="comparatorOptions"
-                  placeholder="Price Comparator"
-                />
-              </label>
-
-              <label for="price">
-                <span hidden>Price</span>
-                <money-input
-                  id="price"
-                  name="price"
-                  v-model.lazy="price"
-                  :value="price"
-                />
-              </label>
-            </fieldset>
-          </sui-grid-column>
-
-          <sui-grid-column :mobile="8" :tablet="3" :computer="3">
-            <sui-form-field>
-              <label for="category">Category</label>
-              <sui-dropdown
-                placeholder="Category"
-                fluid
-                selection
-                :options="categoryOptions"
-                v-model="category"
-              />
-            </sui-form-field>
-          </sui-grid-column>
-        </sui-grid-row>
-
-        <sui-grid-row>
-          <sui-grid-column></sui-grid-column>
-          <sui-grid-column align="right" floated="right" :mobile="12">
-            <sui-form-field>
-              <label hidden for="actions">Actions</label>
-              <sui-button @click="resetFilters" icon="undo" content="Reset" />
-              <sui-button @click="filter" icon="filter" content="Filter" />
-            </sui-form-field>
-          </sui-grid-column>
-        </sui-grid-row>
-      </sui-grid>
+        <div class="w-1/2 pl-2">
+          <label for="date">End date</label>
+          <input
+            type="date"
+            v-model="endDate"
+            placeholder="End date"
+          />
+        </div>
       </div>
-    </sui-accordion-content>
-  </sui-accordion>
+
+      <fieldset>
+        <legend>Price</legend>
+        <label for="comparator">
+          <span hidden>Price Comparator</span>
+          <dropdown
+            v-model="comparator"
+            :options="comparatorOptions"
+            placeholder="Price Comparator"
+          />
+        </label>
+
+        <label for="price">
+          <span hidden>Price</span>
+          <money-input
+            id="price"
+            name="price"
+            v-model.lazy="price"
+            :value="price"
+          />
+        </label>
+      </fieldset>
+
+      <div class="w-full">
+        <label for="category">Category</label>
+        <dropdown
+          placeholder="Category"
+          fluid
+          selection
+          :options="categoryOptions"
+          v-model="category"
+        />
+      </div>
+
+      <footer class="actions text-right mt-4">
+        <button
+          type="reset"
+          @click="resetFilters"
+          class="btn"
+        >Reset</button>
+        <button
+          type="submit"
+          class="btn"
+        >Filter</button>
+      </footer>
+    </form>
+  </details>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
 import moment from 'moment'
+import Dropdown from '@/components/Dropdown'
 import MoneyInput from '@/components/MoneyInput'
 
 export default {
   name: 'ExpenseFilters',
 
   components: {
+    Dropdown,
     MoneyInput,
   },
 
@@ -98,14 +102,14 @@ export default {
       comparator: '>=',
       price: 0,
       comparatorOptions: [
-        { text: 'Up to', value: '<=' },
-        { text: 'At least', value: '>=' },
+        { text: 'Up to (<=)', value: '<=' },
+        { text: 'At least (>=)', value: '>=' },
       ]
     };
   },
 
   methods: {
-    filter() {
+    filterExpenses() {
       const filters = [];
 
       if (this.startDate) {

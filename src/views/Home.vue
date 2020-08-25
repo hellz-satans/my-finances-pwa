@@ -2,7 +2,7 @@
   <section class="home">
     <balance-summary />
     <account-list />
-    <!--<expense-filters />-->
+    <expense-filters />
     <expense-list />
 
     <footer class="text-center py-2 border-t-2 border-grey-900">
