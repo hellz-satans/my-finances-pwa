@@ -46,7 +46,7 @@
       </div>
     </section>
 
-    <article :style="previewStyle" class="category-preview card pb-6">
+    <article :style="previewStyle" class="category-preview card pt-0 pb-6">
       <header class="justify-end m-0 mt-2 mr-4 p-0">
         <color-picker-modal class="inline-block" v-model="category.color" />
       </header>

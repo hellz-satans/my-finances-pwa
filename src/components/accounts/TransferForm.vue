@@ -9,6 +9,7 @@
     <div class="w-full my-3">
       <label class="block" for="price">Amount</label>
       <money-input
+        class="w-full"
         name="amount"
         v-model.lazy="amount"
         :value="amount"
@@ -84,6 +85,9 @@ export default {
 .transfer-form {
   .sign {
     display: none;
+  }
+  .v-money {
+    width: 100%;
   }
 }
 </style>

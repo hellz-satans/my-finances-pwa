@@ -1,7 +1,7 @@
 <template>
-  <div class="money-input">
+  <div class="money-input w-full">
     <span
-      :class="{ 'sign w-1/5': true, positive: sign > 0, negative: sign < 0 }"
+      :class="{ 'sign': true, positive: sign > 0, negative: sign < 0 }"
       @click="emitSign"
     >{{ (sign > 0) ? '+' : '-' }}</span>
 
@@ -72,8 +72,10 @@ export default {
 
   .sign {
     cursor: pointer;
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 2em;
+    font-weight: 500;
+    margin: 0 2.5%;
+    width: 10%;
 
     &.positive { color: green; }
     &.negative { color: red; left: 1.75rem; }
@@ -81,8 +83,8 @@ export default {
 
   // hard-code 34px 'cuz that's  vue2-datepicker's height
   .v-money {
-    height: 34px;
     padding: 2px 4px;
+    width: 85%;
   }
 }
 </style>

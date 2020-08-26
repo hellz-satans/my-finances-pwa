@@ -1,7 +1,13 @@
 module.exports = {
   purge: [],
   important: true,
+
   theme: {
+    fontFamily: {
+      display: [ 'Fira Sans', 'sans-serif' ],
+      body: [ 'Fira Sans', 'sans-serif', 'Fira Mono' ],
+    },
+
     extend: {
       minWidth: {
         '0':    '0',

@@ -4,29 +4,26 @@
     class="expense-form w-full max-w-lg p-2"
     @submit.stop.prevent="submitExpense"
   >
-    <div class="flex flex-row flex-no-wrap">
-      <div class="w-1/2 mb-4">
-        <label
-          class="block font-semibold mb-1"
-          for="price"
-        >Price</label>
-        <money-input
-          v-model.lazy="price"
-          :value="price"
-          class="pr-2"
-        ></money-input>
-        <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
-          {{ err }}
-        </p>
-      </div>
+    <div class="w-full">
+      <label hidden class="hidden" for="amount">Amount</label>
+      <money-input
+        v-model.lazy="price"
+        :value="price"
+      ></money-input>
+      <p v-for="(err, i) in expenseErrors.price" :key="i" class="red text">
+        {{ err }}
+      </p>
+    </div>
 
-      <div class="w-1/2 mb-4">
-        <label class="block font-semibold mb-1" for="date">Date</label>
-        <date-picker v-model="date" type="datetime" />
-        <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
-          {{ err }}
-        </p>
-      </div>
+    <div class="w-full">
+      <label class="block font-semibold mb-1" for="date">Date</label>
+      <date-picker class="w-full" v-model="date" type="datetime" />
+      <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
+        {{ err }}
+      </p>
+    </div>
+
+    <div class="flex flex-row flex-no-wrap mb-4">
     </div>
 
     <div class="flex flex-row flex-no-wrap mb-4">
@@ -68,7 +65,6 @@
     <div class="w-full">
       <label class="block font-semibold mb-1" for="description">Description</label>
       <input
-        class="block w-full bg-gray-100 border border-gray-500 rounded p-2 focus:outline-none focus:bg-white focus:border-gray-600"
         name="description"
         v-model="description"
       />
@@ -211,6 +207,18 @@ export default {
 <style lang="scss">
 .expense-form {
   // overrides
+  .money-input {
+    font-size: 2em;
+
+    .v-money {
+      font-size: 2em !important;
+      min-height: 2em;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+
   .mx-datepicker {
     max-width: 100%;
   }

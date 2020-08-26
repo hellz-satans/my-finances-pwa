@@ -35,6 +35,14 @@ $ docker run --rm -v $PWD:/app juankman94/myfinances ./deploy
 
 * [Heroku: How to make a Progressive Web Application](https://blog.heroku.com/how-to-make-progressive-web-app)
 
+## Production
+
+| File | Semantic UI | Tailwind |
+| :--: | :---------: | :------: |
+| index.html | 1.61 KB |  |
+| chunk.vendors.js | 1.36 MB |  |
+| app.js | 71.64 KB |  |
+
 ## TODO:
 
 - [x] Add webpack configuration and stop using CDNs

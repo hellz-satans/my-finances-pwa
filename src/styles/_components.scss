@@ -17,6 +17,8 @@
 .transfer-form-button { bottom: 4rem; }
 
 .btn {
+  border: 1px solid var(--border-color);
+  background-color: $default-color;
   @apply border rounded py-2 px-5;
 }
 
