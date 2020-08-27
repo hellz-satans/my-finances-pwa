@@ -28,10 +28,11 @@
           class="icon-container"
           v-for="(arr, i) in iconList"
           :key="i"
+          v-if="searchRegEx.test(arr[1])"
           @click="$emit('input', arr[1]) ; isOpen = false"
         >
           <fa :icon="arr" />
-          <span class="icon-name text-xsmall">{{ arr[1] }}</span>
+          <span class="icon-name text-xsmall">{{ arr[1].replace(/-/g, ' ') }}</span>
         </div>
       </div>
 
@@ -74,14 +75,15 @@ export default {
 
       for (let k in fas) {
         // avoid long names as they ruin the spacing
-        if (fas[k].iconName
-            && fas[k].iconName.length < 12
-            && fas[k].iconName.startsWith(this.search)
-        )
+        if (fas[k].iconName && fas[k].iconName.length < 12)
           list.push([ 'fas', fas[k].iconName ]);
       }
 
       return list;
+    },
+
+    searchRegEx() {
+      return new RegExp(`.*${this.search.toLowerCase()}.*`);
     },
   },
 }
