@@ -1,7 +1,7 @@
 <template>
   <form
     name="expense"
-    class="expense-form w-full max-w-lg p-2"
+    class="expense-form w-full p-2"
     @submit.stop.prevent="submitExpense"
   >
     <div class="w-full">

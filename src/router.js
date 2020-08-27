@@ -39,7 +39,7 @@ export default new Router({
     {
       path: '/transfer',
       name: 'transfer',
-      icon: 'exchange',
+      icon: 'exchange-alt',
       component: TransferForm,
     },
 
@@ -60,7 +60,7 @@ export default new Router({
     {
       path: '/import-export',
       name: 'data',
-      icon: 'open folder outline',
+      icon: 'folder-open',
       component: ImportExport
     },
 
