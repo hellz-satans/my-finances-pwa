@@ -6,40 +6,41 @@
   >
     <section class="category-options">
       <div class="w-full mb-4">
-        <label class="block font-semibold mb-2">Category</label>
+        <label class="block font-medium">Category</label>
         <div class="flex flex-row">
-          <dropdown
-            placeholder="Pick or create one"
-            v-model="selectedCategory"
-            :data-deletable="categoryDeletable"
-            :options="categoryOptions"
+          <category-picker
+            class="w-full"
+            v-model="category"
+            :options="categories"
+            :category="category"
           />
           <transition name="sweep-left">
             <delete-category-button
-              class="ml-2"
+              class="ml-2 w-1/5"
               v-if="categoryDeletable"
               :category="category"
-              @deleted="selectedCategory = null"
+              @deleted="resetCategory"
             />
           </transition>
         </div>
       </div>
 
       <div class="w-full mb-4">
-        <label class="block font-semibold mb-2">Subcategory</label>
+        <label class="block font-medium">Subcategory</label>
         <div class="flex flex-row">
-          <dropdown
-            placeholder="Edit category or Add/Edit subcategory"
-            v-model="selectedSubcategory"
-            :data-deletable="subcategoryDeletable"
+          <category-picker
+            class="w-full"
+            v-model="subcategory"
+            :disabled="! category.key"
             :options="subcategoryOptions"
+            :category="subcategory"
           />
           <transition name="sweep-left">
             <delete-category-button
-              class="ml-2"
+              class="ml-2 w-1/5"
               v-if="subcategoryDeletable"
-              :category="category"
-              @deleted="selectedSubcategory = null"
+              :category="subcategory"
+              @deleted="resetSubcategory"
             />
           </transition>
         </div>
@@ -48,7 +49,10 @@
 
     <article :style="previewStyle" class="category-preview card pt-0 pb-6">
       <header class="justify-end m-0 mt-2 mr-4 p-0">
-        <color-picker-modal class="inline-block" v-model="category.color" />
+        <color-picker-modal
+          class="inline-block"
+          @input="setColor($event)"
+        />
       </header>
 
       <section class="icon-cat-subcat">
@@ -60,14 +64,14 @@
         <div class="cat-subcat">
           <div class="cat mb-4">
             <input
-              v-model="category.category"
+              v-model="category.name"
               placeholder="Category"
             />
           </div>
 
           <div class="subcat">
             <input
-              v-model="category.subcategory"
+              v-model="subcategory.name"
               placeholder="Subcategory"
             />
           </div>
@@ -88,21 +92,24 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 import ColorPickerModal from '@/components/ColorPickerModal.vue'
 import IconPickerModal from '@/components/IconPickerModal.vue'
 import DeleteCategoryButton from '@/components/categories/DeleteCategoryButton.vue'
+import CategoryPicker from '@/components/categories/CategoryPicker.vue'
 import Dropdown from '@/components/Dropdown.vue'
 
 const OPTION_NEW = {
   key: '__new__',
-  text: 'Add new one',
-  value: '__new__',
+  name: 'Add new one',
   icon: 'plus',
 };
-const DEFAULT_COLOR = '#455A64';
-const DEFAULT_ICON  = 'dollar-sign';
+const DEFAULT_VALUES = {
+  color: '#455A64',
+  icon:  'dollar-sign',
+};
 
 export default {
   name: 'CategoryForm',
 
   components: {
+    CategoryPicker,
     ColorPickerModal,
     IconPickerModal,
     DeleteCategoryButton,
@@ -112,55 +119,43 @@ export default {
   data() {
     return {
       category: {
-        color: DEFAULT_COLOR,
-        icon: DEFAULT_ICON,
-        category: null,
-        categoryKey: null,
-        subcategory: null,
-        subcategoryKey: null,
+        color: DEFAULT_VALUES.color,
+        icon:  DEFAULT_VALUES.icon,
+        name:  null,
+        key:   null,
       },
-      iconModal: false,
-      colorModal: false,
-      selectedCategory: null,
-      selectedSubcategory: null,
-    }
+      subcategory: {
+        color: DEFAULT_VALUES.color,
+        icon:  DEFAULT_VALUES.icon,
+        name:  null,
+        key:   null,
+      },
+    };
   },
 
   computed: {
-    ... mapState('categories', [ 'cache', ]),
-    ... mapGetters('categories', {
-      rootCategoryOptions: 'categoryOptions',
-      rootSubcategoryOptions: 'subcategoryOptions',
-    }),
+    ... mapState('categories', [ 'cache', 'categories', 'subcategories', ]),
+    ... mapGetters('categories', [ 'categorySubcategories', ]),
 
     categoryDeletable() {
-      return this.selectedCategory && this.selectedCategory != OPTION_NEW.key;
+      return this.category.key && this.category.key != OPTION_NEW.key;
     },
 
     subcategoryDeletable() {
-      return this.selectedSubcategory
-        && this.selectedSubcategory != OPTION_NEW.key;
-    },
-
-    categoryOptions() {
-      return [ OPTION_NEW, ].concat(this.rootCategoryOptions);
+      return this.subcategory.key && this.subcategory.key != OPTION_NEW.key;
     },
 
     subcategoryOptions() {
-      if (!this.selectedCategory)
-        return [];
-
       return [ OPTION_NEW, ]
-        .concat(this.rootSubcategoryOptions(this.selectedCategory));
+        .concat(this.categorySubcategories(this.category.key));
     },
 
     previewStyle() {
-      if (!this.category.color)
-        return null;
+      let color = this.category.color || DEFAULT_VALUES.color;
 
       const styles = {
-        'background-color': this.category.color,
-        'box-shadow': `0 0.5em 1em 6px ${this.category.color}`,
+        'background-color': color,
+        'box-shadow': `0 0.5em 1em 6px ${color}`,
       }
 
       return styles
@@ -172,13 +167,13 @@ export default {
 
     submitForm() {
       const data = {
-        category: this.category.category,
-        categoryKey: this.category.categoryKey,
-        subcategory: this.category.subcategory,
-        subcategoryKey: this.category.subcategoryKey,
+        category: this.category.name,
+        categoryKey: this.category.key,
+        subcategory: this.subcategory.name,
+        subcategoryKey: this.subcategory.key,
         color: this.category.color,
         icon: this.category.icon,
-        isSubcategory: !!this.category.subcategory,
+        isSubcategory: !!this.subcategory.name,
       };
 
       this.submitCategory(data)
@@ -189,46 +184,41 @@ export default {
         });
     },
 
+    setColor(color) { this.category.color = this.subcategory.color = color; },
+
     resetCategory() {
-      this.category.category = this.category.subcategory = null;
-      this.category.categoryKey = this.category.subcategoryKey = null;
-      this.category.isSubcategory = false;
-      this.category.color = DEFAULT_COLOR;
-      this.category.icon  = DEFAULT_ICON;
+      this.category.name  = this.category.key = null;
+      this.category.icon  = DEFAULT_VALUES.icon;
+      this.category.color = DEFAULT_VALUES.color;
+    },
+
+    resetSubcategory() {
+      this.subcategory.name  = this.subcategory.key = null;
+      this.subcategory.icon  = DEFAULT_VALUES.icon;
+      this.subcategory.color = DEFAULT_VALUES.color;
     },
   },
 
   watch: {
-    selectedCategory(newVal, oldVal) {
-      let c = this.cache[newVal];
-
-      if (c) {
-        if (c.color) {
-          this.category.color = c.color;
+    category(newVal, oldVal) {
+      for (let k in DEFAULT_VALUES) {
+        if (newVal[k]) {
+          this.category[k]    = newVal[k];
+          this.subcategory[k] = newVal[k];
+        } else {
+          this.category[k]    = DEFAULT_VALUES[k];
+          this.subcategory[k] = DEFAULT_VALUES[k];
         }
-        this.category.category = c.name;
-        this.category.icon = c.icon;
-        this.category.categoryKey = c.key;
-        this.category.isSubcategory = false;
-      } else {
-        this.resetCategory();
       }
-      this.selectedSubcategory = null;
     },
 
-    selectedSubcategory(newVal, oldVal) {
-      let s = this.cache[newVal];
-
-      if (s) {
-        if (s.color) {
-          this.category.color = s.color;
+    subcategory(newVal, oldVal) {
+      for (let k in DEFAULT_VALUES) {
+        if (newVal[k]) {
+          this.subcategory[k] = newVal[k];
+        } else {
+          this.subcategory[k] = DEFAULT_VALUES[k];
         }
-        this.category.subcategory = s.name;
-        this.category.icon = s.icon;
-        this.category.subcategoryKey = s.key;
-        this.category.isSubcategory = true;
-      } else {
-        this.resetCategory();
       }
     }
   },

@@ -2,7 +2,7 @@
   <button
     class="delete-category-button rounded text-white bg-red-500 border-red-500 py-2 px-3"
     type="button"
-    @click="confirmDelete"
+    @click.stop.prevent="confirmDelete"
   >
     <fa :icon="[ 'fas', 'trash' ]" />
   </button>

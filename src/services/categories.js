@@ -80,7 +80,14 @@ const CategoriesService = {
         .startsWith(category.key)
         .modify({ deleted: true });
     } else {
-      await db.categories.get(category.key).modify({ deleted: true });
+      await db.categories
+        .get(category.key)
+        .then((sub) => {
+          if (sub) {
+            sub.deleted = true;
+            return db.categories.update(sub.key, sub);
+          }
+        })
       count = 1;
     }
 

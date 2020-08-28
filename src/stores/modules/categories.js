@@ -71,10 +71,10 @@ const CategoriesStore = {
 
       if (input.isSubcategory) {
         data = {
-          key:  input.subcategoryKey,
-          name: input.subcategory,
+          key:   input.subcategoryKey,
+          name:  input.subcategory,
           color: input.color,
-          icon: input.icon,
+          icon:  input.icon,
           isSubcategory: true,
         };
         if (!data.key) {
@@ -84,6 +84,12 @@ const CategoriesStore = {
 
         subcategory = await CategoriesService.upsert(data.key, data);
       }
+
+      // update category & subcategories color
+      db.categories
+        .where("key")
+        .startsWith(input.categoryKey)
+        .modify({ color: input.color });
 
       // expensive, but I'm lazy
       commit('getCategories');
@@ -95,11 +101,7 @@ const CategoriesStore = {
     },
 
     async deleteCategory({ commit, state }, input) {
-      let category = {
-        key: input.subcategoryKey || input.categoryKey,
-        isSubcategory: input.isSubcategory,
-      }
-      const count = await CategoriesService.deleteCategory(category);
+      const count = await CategoriesService.deleteCategory(input);
       console.info(`Deleted ${count} categories`);
 
       // expensive, but I'm lazy
@@ -189,6 +191,7 @@ const CategoriesStore = {
      * 	{ key: '', text: '', value: '' }
      * ```
      *
+     * @param [String] category Category's key
      * @return [Object]
      */
     subcategoryOptions: (state) => (category) => {
@@ -198,8 +201,29 @@ const CategoriesStore = {
 
       for (i in state.subcategories) {
         c = state.subcategories[i];
-        if (c.key.startsWith(category)) {
+        if (c.isSubcategory && c.key.startsWith(category)) {
           list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon });
+        }
+      }
+
+      return list;
+    },
+
+    /**
+     * List of category's subcategories.
+     *
+     * @param [String] category Category's key
+     * @return [Array<Object>]
+     */
+    categorySubcategories: (state) => (category) => {
+      const list = [];
+      let c = null,
+        i = 0;
+
+      for (i in state.subcategories) {
+        c = state.subcategories[i];
+        if (c.isSubcategory && c.key && c.key.startsWith(category)) {
+          list.push(c);
         }
       }
 
