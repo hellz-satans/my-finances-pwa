@@ -8,7 +8,7 @@
 				{
 					"key": "groceries",
 					"name": "Groceries",
-					"icon": "shopping basket"
+					"icon": "shopping-basket"
 				},
 				{
 					"key": "restaurant",
@@ -33,12 +33,12 @@
 				{
 					"key": "petfood",
 					"name": "Pet Food",
-					"icon": "firefox"
+					"icon": "dog"
 				},
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "cart"
+					"icon": "shopping-cart"
 				}
 			]
 		},
@@ -55,7 +55,7 @@
 				{
 					"key": "clothes",
 					"name": "Clothes",
-					"icon": "cart"
+					"icon": "shopping-cart"
 				},
 				{
 					"key": "books",
@@ -82,7 +82,7 @@
 				{
 					"key": "dentist",
 					"name": "Dentist",
-					"icon": "user md"
+					"icon": "user-md"
 				},
 				{
 					"key": "medicines",
@@ -92,7 +92,7 @@
 				{
 					"key": "gym",
 					"name": "Gym",
-					"icon": "balance scale"
+					"icon": "balance-scale"
 				},
 				{
 					"key": "haircut",
@@ -104,7 +104,7 @@
 		{
 			"key": "hobbies",
 			"name": "Hobbies",
-			"icon": "firefox",
+			"icon": "hiking",
 			"subcategories": [
 				{
 					"key": "movies",
@@ -124,7 +124,7 @@
 				{
 					"key": "vacations",
 					"name": "Vacations",
-					"icon": "map outline"
+					"icon": "map"
 				},
 				{
 					"key": "concerts",
@@ -134,7 +134,7 @@
 				{
 					"key": "sports",
 					"name": "Sports",
-					"icon": "futbol outline"
+					"icon": "futbol"
 				}
 			]
 		},
@@ -156,7 +156,7 @@
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "street view"
+					"icon": "street-view"
 				}
 			]
 		},
@@ -183,7 +183,7 @@
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "dollar"
+					"icon": "dollar-sign"
 				}
 			]
 		},
@@ -281,22 +281,22 @@
 		{
 			"key": "income",
 			"name": "Income",
-			"icon": "dollar",
+			"icon": "dollar-sign",
 			"subcategories": [
 				{
 					"key": "income",
 					"name": "Wage, Invoices",
-					"icon": "dollar"
+					"icon": "dollar-sign"
 				},
 				{
 					"key": "investments",
 					"name": "Interests, Dividends",
-					"icon": "chart line"
+					"icon": "chart-line"
 				},
 				{
 					"key": "presents",
 					"name": "Gifts",
-					"icon": "birthday cake"
+					"icon": "birthday-cake"
 				},
 				{
 					"key": "rental",
@@ -306,19 +306,19 @@
 				{
 					"key": "sales",
 					"name": "Sales",
-					"icon": "handshake outline"
+					"icon": "handshake"
 				}
 			]
 		},
 		{
 			"key": "other",
 			"name": "Other",
-			"icon": "dollar",
+			"icon": "dollar-sign",
 			"subcategories": [
 				{
 					"key": "other",
 					"name": "Other",
-					"icon": "dollar"
+					"icon": "dollar-sign"
 				}
 			]
 		}

@@ -75,7 +75,7 @@ export default {
 
       for (let k in fas) {
         // avoid long names as they ruin the spacing
-        if (fas[k].iconName && fas[k].iconName.length < 12)
+        if (fas[k].iconName)
           list.push([ 'fas', fas[k].iconName ]);
       }
 

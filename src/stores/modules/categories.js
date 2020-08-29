@@ -1,6 +1,7 @@
 import db from '@/db';
 import { CategoriesService } from '@/services/categories';
 import { categories as seeds } from '@/db/seeds';
+import COLORS from '@/config/colors';
 
 const CategoriesStore = {
   state: {
@@ -53,7 +54,7 @@ const CategoriesStore = {
     },
   },
 
-	actions: {
+  actions: {
     async submitCategory({ dispatch, commit, state }, input) {
       let category = null,
         data = null,
@@ -111,49 +112,56 @@ const CategoriesStore = {
       return count;
     },
 
-		seedData({ commit }) {
-			db.categories
-				.toArray()
-				.then((arr) => {
-					let i = 0,
-						j = 0,
-						cat = null,
-						subCat = null,
-						subCatKey = null;
+    seedData({ commit }) {
+      db.categories
+        .toArray()
+        .then((arr) => {
+          let i = 0,
+          j = 0,
+          cat = null,
+          color = null,
+          subCat = null,
+          subCatKey = null;
 
-					for (i = 0; i < seeds.categories.length; ++i) {
-						cat = seeds.categories[i];
+          for (i = 0; i < seeds.categories.length; ++i) {
+            cat = seeds.categories[i];
+            color = COLORS.shift();
 
-						// insert categories
-						if (!arr.some(el => el.key == cat.key)) {
-							db.categories.add({
-								key: cat.key,
-								name: cat.name,
-								icon: cat.icon,
-								isSubcategory: false
-							})
-						}
+            // insert categories
+            if (!arr.some(el => el.key == cat.key)) {
+              db.categories.add({
+                key: cat.key,
+                name: cat.name,
+                icon: cat.icon,
+                isSubcategory: false,
+                color: color,
+              })
+            }
 
-						// insert subcategories
-						for (j = 0; j < cat.subcategories.length; ++j) {
-							subCat = cat.subcategories[j];
-							subCatKey = `${cat.key}_${subCat.key}`;
+            // insert subcategories
+            for (j = 0; j < cat.subcategories.length; ++j) {
+              subCat = cat.subcategories[j];
+              subCatKey = `${cat.key}_${subCat.key}`;
 
-							if (!arr.some(el => el.key == subCatKey)) {
-								db.categories.add({
-									key: subCatKey,
-									name: subCat.name,
-									icon: subCat.icon,
-									isSubcategory: true
-								});
-							}
-						}
-					}
-				})
-				.then(() => commit('getCategories'))
-				.then(() => commit('getSubcategories'));
-		},
-	},
+              if (!arr.some(el => el.key == subCatKey)) {
+                db.categories.add({
+                  key: subCatKey,
+                  name: subCat.name,
+                  icon: subCat.icon,
+                  isSubcategory: true,
+                  color: color,
+                });
+              }
+            }
+
+            // so we never run out of colors
+            COLORS.push(color);
+          }
+        })
+        .then(() => commit('getCategories'))
+        .then(() => commit('getSubcategories'));
+    },
+  },
 
 	getters: {
 
