@@ -1,6 +1,6 @@
-$default-color: hsl(211, 25%, 84%);
-$default-color-dark: hsl(214, 20%, 69%);
-$default-color-light: hsl(212, 10%, 95%);
+$default-color: hsl(211, 15%, 70%);
+$default-color-dark: hsl(211, 15%, 60%);
+$default-color-light: hsl(212, 10%, 80%);
 
 $link-color: #1e70bf;
 
@@ -12,6 +12,9 @@ $border-color-light: $default-color;
 $shadow-color: $default-color-light;
 
 :root {
+  --default-color: #{$default-color};
+  --default-color-dark: #{$default-color-dark};
+  --default-color-light: #{$default-color-light};
   --input-bg: #{$input-bg};
   --border-color: #{$border-color};
   --border-color-light: #{$border-color-light};

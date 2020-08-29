@@ -20,6 +20,11 @@
   border: 1px solid var(--border-color);
   background-color: $default-color;
   @apply border rounded py-2 px-5;
+
+  &:disabled, &[disabled] {
+    background-color: $default-color-dark;
+    cursor: not-allowed;
+  }
 }
 
 .btn-submit, button[type=submit] {

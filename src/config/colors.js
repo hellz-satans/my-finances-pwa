@@ -1,4 +1,23 @@
-const colors = [
+/**
+ * Generate list of HSL colors.
+ *
+ * @param  [Number] step Increase step going from 0 to 360 exclusive
+ * @param  [String] saturation Saturation percentage
+ * @param  [String] lightness Lightness percentage
+ * @return [Array] List of string representation of HSL colors
+ */
+function hslColors(step = 20, saturation = "100%", lightness = "50%") {
+  const colors = [];
+  let i = 0;
+
+  for (i = 0; i < 360; i += step) {
+    colors.push(`hsl(${i}, ${saturation}, ${lightness})`);
+  }
+
+  return colors;
+}
+
+const darkMaterialColors = [
   '#D32F2F',
   '#C2185B',
   '#7B1FA2',
@@ -20,4 +39,6 @@ const colors = [
   '#455A64',
 ];
 
-module.exports = colors
+const colors = hslColors(20, "100%", "35%");
+
+module.exports = colors;

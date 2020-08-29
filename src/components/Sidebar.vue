@@ -1,11 +1,12 @@
 <template>
   <aside class="sidebar">
-    <fa
-      class="pointer"
-      @click="visible = !visible"
-      :name="visible ? 'close' : 'bars'"
-      icon="bars"
-    />
+    <a
+      href="#"
+      class="pointer burger text-large mr-1"
+      @click.stop.prevent="visible = !visible"
+    >
+      <fa :icon="visible ? 'times' : 'bars'" />
+    </a>
 
     <transition name="grow-235">
       <nav v-if="visible">
@@ -54,6 +55,10 @@ $final-width: 70%;
 
 .sidebar {
   display: inline-block;
+
+  .burger, .burger:visited {
+    color: #000;
+  }
 
   nav {
     position: absolute;
