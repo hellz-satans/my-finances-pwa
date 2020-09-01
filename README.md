@@ -34,6 +34,9 @@ $ docker run --rm -v $PWD:/app juankman94/myfinances ./deploy
 ## References
 
 * [Heroku: How to make a Progressive Web Application](https://blog.heroku.com/how-to-make-progressive-web-app)
+* [Color Theory], by [tallys]
+* [Tailwind CSS](https://tailwindcss.com/)
+* [Audi's UI guidelines]
 
 ## Production
 
@@ -52,3 +55,7 @@ is added ([crypto-js](https://github.com/brix/crypto-js))
 - [x] [A2HS](https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive/Add_to_home_screen#How_do_you_make_an_app_A2HS-ready),
 [using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers).
 Vue-CLI template took care of this
+
+[tallys]: https://github.com/tallys/
+[Color Theory]: https://tallys.github.io/color-theory/
+[Audi's UI guidelines]: https://www.audi.com/ci/en/guides/user-interface/components/buttons.html

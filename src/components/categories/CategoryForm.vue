@@ -11,7 +11,7 @@
           <category-picker
             class="w-full"
             v-model="category"
-            :options="categories"
+            :options="categoryOptions"
             :category="category"
           />
           <transition name="sweep-left">
@@ -31,7 +31,7 @@
           <category-picker
             class="w-full"
             v-model="subcategory"
-            :disabled="! category.key"
+            :disabled="! category.name"
             :options="subcategoryOptions"
             :category="subcategory"
           />
@@ -64,6 +64,7 @@
         <div class="cat-subcat">
           <div class="cat mb-4">
             <input
+              ref="categoryInput"
               v-model="category.name"
               placeholder="Category"
             />
@@ -71,6 +72,7 @@
 
           <div class="subcat">
             <input
+              ref="subcategoryInput"
               v-model="subcategory.name"
               placeholder="Subcategory"
             />
@@ -95,14 +97,15 @@ import DeleteCategoryButton from '@/components/categories/DeleteCategoryButton.v
 import CategoryPicker from '@/components/categories/CategoryPicker.vue'
 import Dropdown from '@/components/Dropdown.vue'
 
-const OPTION_NEW = {
-  key: '__new__',
-  name: 'Add new one',
-  icon: 'plus',
-};
 const DEFAULT_VALUES = {
   color: '#455A64',
   icon:  'dollar-sign',
+};
+const OPTION_NEW = {
+  key: null,
+  name: 'New category',
+  icon: 'plus',
+  color: DEFAULT_VALUES.color,
 };
 
 export default {
@@ -145,8 +148,13 @@ export default {
       return this.subcategory.key && this.subcategory.key != OPTION_NEW.key;
     },
 
+    categoryOptions() {
+      return [ Object.assign({}, OPTION_NEW), ]
+        .concat(this.categories);
+    },
+
     subcategoryOptions() {
-      return [ OPTION_NEW, ]
+      return [ Object.assign({}, OPTION_NEW), ]
         .concat(this.categorySubcategories(this.category.key));
     },
 
@@ -184,7 +192,10 @@ export default {
         });
     },
 
-    setColor(color) { this.category.color = this.subcategory.color = color; },
+    setColor(color) {
+      this.category.color = color;
+      this.subcategory.color = color;
+    },
 
     resetCategory() {
       this.category.name  = this.category.key = null;
@@ -210,6 +221,11 @@ export default {
           this.subcategory[k] = DEFAULT_VALUES[k];
         }
       }
+
+      if (newVal.key === OPTION_NEW.key)
+        this.$refs.categoryInput.focus();
+
+      this.resetSubcategory();
     },
 
     subcategory(newVal, oldVal) {

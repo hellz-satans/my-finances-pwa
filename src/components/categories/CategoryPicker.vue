@@ -3,12 +3,13 @@
     <button
       type="button"
       class="w-full btn rounded text-white flex flex-col flex-no-wrap justify-center items-center p-2"
-      :style="'background:'+(category.color)"
+      :style="buttonStyles"
       :disabled="disabled"
       @click="open = !open"
     >
       <div><fa :icon="[ 'fas', category.icon ]" /></div>
-      <div>{{ (category.name || '______________') }}</div>
+      <div v-if="category.name">{{ category.name }}</div>
+      <div class="min-w-1/3 border-b-2" v-else>&nbsp;</div>
     </button>
 
     <div
@@ -34,7 +35,7 @@ export default {
   name: "CategoryPicker",
 
   props: {
-    options: { type: Array, required: true, },
+    options:  { type: Array, required: true, },
     category: { type: Object, required: true, },
     disabled: { type: Boolean, required: false, default: false, },
   },
@@ -43,6 +44,14 @@ export default {
     return {
       open: false,
     };
+  },
+
+  computed: {
+    buttonStyles() {
+      return {
+        'background-color': this.category.color,
+      };
+    },
   },
 }
 </script>

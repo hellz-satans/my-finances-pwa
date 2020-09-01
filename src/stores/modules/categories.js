@@ -68,7 +68,10 @@ const CategoriesStore = {
       }
       // do NOT update category icon when we edit a subcategory
       if (!input.isSubcategory) data.icon = input.icon;
-      category = await CategoriesService.upsert(input.categoryKey, data);
+
+      if (!data.key)
+        data.key = CategoriesService.generateKey(data.name);
+      category = await CategoriesService.upsert(data.key, data);
 
       if (input.isSubcategory) {
         data = {
@@ -89,7 +92,7 @@ const CategoriesStore = {
       // update category & subcategories color
       db.categories
         .where("key")
-        .startsWith(input.categoryKey)
+        .startsWith(category.key)
         .modify({ color: input.color });
 
       // expensive, but I'm lazy
