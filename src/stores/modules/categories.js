@@ -3,6 +3,17 @@ import { CategoriesService } from '@/services/categories';
 import { categories as seeds } from '@/db/seeds';
 import COLORS from '@/config/colors';
 
+const DEFAULT_VALUES = {
+  color: '#455A64',
+  icon:  'dollar-sign',
+};
+const OTHER_CATEGORY = {
+  color: DEFAULT_VALUES.color,
+  icon:  DEFAULT_VALUES.icon,
+  key:   'other',
+  name:  'Other',
+};
+
 const CategoriesStore = {
   state: {
     categories: [],
@@ -244,7 +255,20 @@ const CategoriesStore = {
     categoriesKeys(state) {
       return state.categories.flatMap(cat => cat.key)
     },
-	},
+
+    otherCategory() {
+      let subcategory = Object.assign({}, OTHER_CATEGORY);
+      subcategory.key = `${OTHER_CATEGORY.key}_${OTHER_CATEGORY.key}`;
+
+      return {
+        category:    Object.assign({}, OTHER_CATEGORY),
+        subcategory: subcategory,
+      };
+    },
+  },
 };
 
-export { CategoriesStore };
+export {
+  CategoriesStore,
+  DEFAULT_VALUES,
+};

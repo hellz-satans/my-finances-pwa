@@ -29,10 +29,11 @@
     <div class="flex flex-row flex-no-wrap mb-4">
       <div class="w-1/2 pr-1">
         <label class="block font-semibold mb-1" for="category">Category</label>
-        <dropdown
-          placeholder="Category"
-          :options="categoryOptions"
+        <category-picker
+          class="w-full"
           v-model="category"
+          :options="categories"
+          :category="category"
         />
         <p v-for="(err, i) in expenseErrors.category" :key="i" class="red text">
           {{ err }}
@@ -43,10 +44,12 @@
         <label class="block font-semibold mb-1" for="subcategory">
           Subcategory
         </label>
-        <dropdown
-          placeholder="Subcategory"
-          :options="expenseSubcategories"
+        <category-picker
+          class="w-full"
           v-model="subcategory"
+          :disabled="! category.key"
+          :options="subcategoryOptions"
+          :category="subcategory"
         />
         <p v-for="(err, i) in expenseErrors.subcategory" :key="i" class="red text">
           {{ err }}
@@ -85,17 +88,17 @@
 <script>
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
+import CategoryPicker from '@/components/categories/CategoryPicker.vue'
 import DatePicker from 'vue2-datepicker'
 import MoneyInput from '@/components/MoneyInput'
-import Dropdown from '@/components/Dropdown'
 
 export default {
   name: 'ExpenseForm',
 
   components: {
     AccountsOptions,
+    CategoryPicker,
     DatePicker,
-    Dropdown,
     MoneyInput,
   },
 
@@ -104,15 +107,15 @@ export default {
       description: null,
       price: 0,
       date: new Date(),
-      category: 'other',
-      subcategory: 'other_other',
+      category: {},
+      subcategory: {},
       account: 'cash',
       loaded: false,
     }
   },
 
   computed: {
-    ... mapGetters('categories', [ 'categoryOptions' ]),
+    ... mapGetters('categories', [ 'categorySubcategories', 'otherCategory' ]),
     ... mapState('categories', [ 'categories', 'subcategories' ]),
     ... mapState('expenses', [ 'expenses', 'expenseErrors', ]),
 
@@ -130,22 +133,8 @@ export default {
       return id
     },
 
-    expenseSubcategories() {
-      const list = []
-      let c = null
-
-      for (const i in this.subcategories) {
-        c = this.subcategories[i]
-        if (c.key.startsWith(this.category)) {
-          list.push({ key: c.key, text: c.name, value: c.key, icon: c.icon })
-        }
-      }
-
-      if (list.length > 0 && this.subcategory == 'other_other') {
-        this.subcategory = list[0].value
-      }
-
-      return list
+    subcategoryOptions() {
+      return this.categorySubcategories(this.category.key);
     },
 
     action() {
@@ -160,8 +149,8 @@ export default {
         description: this.description,
         price: this.price,
         date: this.date,
-        category: this.category,
-        subcategory: this.subcategory,
+        category: this.category.key,
+        subcategory: this.subcategory.key,
         account: this.account,
       }
 
@@ -185,9 +174,10 @@ export default {
         this.description = exp.description;
         this.price = exp.price;
         this.date = exp.date;
-        this.category = exp.category;
-        this.subcategory = exp.subcategory;
         this.account = exp.account;
+        this.category = this.categories.find(el => el.key == exp.category);
+        this.subcategory = this.subcategories
+          .find(el => el.key == exp.subcategory);
       }
     },
   },
@@ -197,6 +187,10 @@ export default {
 
     if (id && id != 'new') {
       this.loadForm(id)
+    } else {
+      // load category & subcategory
+      this.category    = this.otherCategory.category;
+      this.subcategory = this.otherCategory.subcategory;
     }
 
     this.loaded = true;

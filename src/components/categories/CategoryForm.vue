@@ -95,12 +95,8 @@ import ColorPickerModal from '@/components/ColorPickerModal.vue'
 import IconPickerModal from '@/components/IconPickerModal.vue'
 import DeleteCategoryButton from '@/components/categories/DeleteCategoryButton.vue'
 import CategoryPicker from '@/components/categories/CategoryPicker.vue'
-import Dropdown from '@/components/Dropdown.vue'
+import { DEFAULT_VALUES } from '@/stores/modules/categories';
 
-const DEFAULT_VALUES = {
-  color: '#455A64',
-  icon:  'dollar-sign',
-};
 const OPTION_NEW = {
   key: null,
   name: 'New category',
@@ -116,7 +112,6 @@ export default {
     ColorPickerModal,
     IconPickerModal,
     DeleteCategoryButton,
-    Dropdown,
   },
 
   data() {
@@ -303,16 +298,6 @@ export default {
         }
       }
     }
-  }
-
-  // OVERRIDES
-  .dropdown {
-    transition: all 0.5s ease-in-out;
-    transition-delay: 0.5s;
-    width: 100%;
-  }
-  .dropdown[data-deletable=true] {
-    min-width: 85%;
   }
 }
 </style>
