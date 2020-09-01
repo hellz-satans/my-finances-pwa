@@ -18,7 +18,7 @@
 
 .btn {
   border: 1px solid var(--border-color);
-  background-color: $default-color;
+  background-color: var(--default-color);
   @apply border rounded py-2 px-5;
 
   &:disabled, &[disabled] {

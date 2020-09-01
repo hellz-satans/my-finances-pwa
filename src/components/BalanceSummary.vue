@@ -19,10 +19,10 @@
     <br />
 
     <router-link
-      class="text-small rounded inline-block text-gray-700 bg-gray-400 py-1 px-3 m-2"
+      class="text-small rounded inline-block py-1 px-3 m-2"
       to="/preference/goal"
     >
-      Edit goal
+      Edit goal &nbsp;
       <fa class="text-small" :icon="[ 'fas', 'pen' ]" />
     </router-link>
   </section>
