@@ -35,11 +35,4 @@ new Vue({
   store,
   filters,
   render: h => h(App),
-  beforeMount() {
-    this.$store.commit('expenses/getExpenses');
-    this.$store.commit('accounts/getAccounts');
-    this.$store.dispatch('accounts/createCashAccount');
-    this.$store.commit('preferences/getPreferences');
-    this.$store.dispatch('categories/seedData');
-  },
 }).$mount('#app')
