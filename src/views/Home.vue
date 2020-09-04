@@ -2,12 +2,7 @@
   <section class="home">
     <balance-summary />
     <account-list />
-    <xy-chart
-      :cumulative="true"
-      title="Weekly summary"
-      xLabel="Week"
-      yLabel="$ Money"
-    />
+    <chart-container />
     <expense-filters />
     <expense-list />
 
@@ -24,7 +19,7 @@ import { NAME, VERSION } from '@/config/application_properties'
 // @ is an alias to /src
 import AccountList from '@/components/accounts/AccountList.vue';
 import BalanceSummary from '@/components/BalanceSummary.vue'
-import XYChart from '@/components/charts/XYChart.vue';
+import ChartContainer from '@/components/charts/ChartContainer.vue';
 import ExpenseList from '@/components/expenses/ExpenseList.vue';
 import ExpenseFilters from '@/components/expenses/ExpenseFilters.vue';
 
@@ -34,7 +29,7 @@ export default {
   components: {
     AccountList,
     BalanceSummary,
-    'xy-chart': XYChart,
+    ChartContainer,
     ExpenseList,
     ExpenseFilters,
   },
