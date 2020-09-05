@@ -1,4 +1,7 @@
-import moment from 'moment'
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+
+dayjs.extend(isBetween);
 
 /**
  * Filter the expense with the given filters criteria
@@ -59,19 +62,19 @@ const filterExpenses = (expense, filters) => {
  * @option onlyNegative Boolean Only get records with a price less than 0
  *
  * @param n Number
- * @param unit String Any moment.js compatible unit
+ * @param unit String Any dayjs.js compatible unit
  * @param options Object
  * @return Number
  */
 const expensesInRange = (expenses, n = 1, unit = 'week', options = {}) => {
-	const endDate = moment().endOf('day')
-	const startDate = moment().subtract(n, unit).startOf('day')
+	const endDate = dayjs().endOf('day')
+	const startDate = dayjs().subtract(n, unit).startOf('day')
 	const list = []
   // expenses sorted in decreasing order?
   options.decreasing = options.decreasing || true
 
 	for (const exp of expenses) {
-		if (moment(exp.date).isBetween(startDate, endDate)) {
+		if (dayjs(exp.date).isBetween(startDate, endDate)) {
 			list.push(exp)
 		} else if (options.decreasing) {
       break

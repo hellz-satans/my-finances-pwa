@@ -1,14 +1,14 @@
 import db from '@/db'
 import { expensesInRange, filterExpenses } from '@/stores/filters'
 import { expenseConstraints } from '@/stores/constraints'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import validate from 'validate.js'
 
 function newExpense() {
   return {
     description: null,
     price: 0,
-    date: moment().format(),
+    date: dayjs().format(),
     tags: [],
     category: 'other',
     subcategory: 'other_other',
@@ -26,7 +26,7 @@ const ExpensesStore = {
       {
         field: 'date',
         op: '>=',
-        value: moment().startOf('month').toDate(),
+        value: dayjs().startOf('month').toDate(),
         name: 'lapse',
       },
       // { field: 'price', op: '<', value: 0, name: 'onlyNegative', },
@@ -44,9 +44,9 @@ const ExpensesStore = {
 
       db.expenses.toArray()
         .then((arr) => {
-          // convert dates to moment instances
+          // convert dates to dayjs instances
           for (const exp of arr) {
-            exp.date = moment(exp.date)
+            exp.date = dayjs(exp.date)
           }
           return arr
         }).then((arr) => {
@@ -169,17 +169,17 @@ const ExpensesStore = {
       db.expenses
         .toArray()
         .then((arr) => {
-          arr.forEach((el) => el.date = moment(el.date))
+          arr.forEach((el) => el.date = dayjs(el.date))
           return arr
         })
         .then((arr) => {
           let exists = false
 
           for (let exp of newData) {
-            // convert newData's date to moment instance
-            exp.date = moment(exp.date)
+            // convert newData's date to dayjs instance
+            exp.date = dayjs(exp.date)
 
-            // compare price & moment's dates
+            // compare price & dayjs's dates
             exists = arr.some((el) => el.price == exp.price && exp.date.isSame(el.date))
 
             if (!exists) {
@@ -215,7 +215,7 @@ const ExpensesStore = {
               price: Math.floor(Math.random() * (100 - 20) + 20) * -1,
               category: cat.key.split('_')[0],
               subcategory: cat.key,
-              date: new Date(moment().subtract(i, 'd').toISOString()),
+              date: new Date(dayjs().subtract(i, 'd').toISOString()),
             }
             db.expenses.add(expense)
           }

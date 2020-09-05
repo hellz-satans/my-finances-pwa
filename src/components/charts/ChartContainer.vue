@@ -78,7 +78,7 @@ export default {
       for (i = 0; i < this.expenses.length; ++i) {
         exp = this.expenses[i];
         p = Math.abs(exp.price);
-        k = moment(exp.date).endOf(this.periodicity).format("YYYY-MM-DD");
+        k = dayjs(exp.date).endOf(this.periodicity).format("YYYY-MM-DD");
 
         if (periods.indexOf(k) === -1) periods.push(k);
         if (!periodIncome[k])  periodIncome[k]  = 0;

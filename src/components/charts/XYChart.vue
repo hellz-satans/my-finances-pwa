@@ -5,7 +5,7 @@
 
 <script>
 import chartXkcd from "chart.xkcd";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const DEFAULT_OPTIONS = {
   timeFormat: "MMM",

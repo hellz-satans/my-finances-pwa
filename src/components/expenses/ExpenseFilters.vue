@@ -79,7 +79,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import Dropdown from '@/components/Dropdown'
 import MoneyInput from '@/components/MoneyInput'
 
@@ -116,7 +116,7 @@ export default {
         filters.push({
           field: 'date',
           op: '>=',
-          value: moment(this.startDate).startOf('day'),
+          value: dayjs(this.startDate).startOf('day'),
         })
       }
 
@@ -124,7 +124,7 @@ export default {
         filters.push({
           field: 'date',
           op: '<=',
-          value: moment(this.endDate).endOf('day'),
+          value: dayjs(this.endDate).endOf('day'),
         })
       }
 
@@ -166,7 +166,7 @@ export default {
       for (let f of this.filters) {
         str = `${f.field} ${f.op} `
         if (f.field === 'date') {
-          str += moment(f.value).format('MMM D YYYY')
+          str += dayjs(f.value).format('MMM D YYYY')
         } else {
           str += f.value
         }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueX from 'vuex'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import App from './App.vue'
 import router from './router'
 import store from '@/stores'
@@ -18,7 +18,7 @@ import 'vue2-datepicker/index.css'
 // setup libraries
 library.add(far)
 library.add(fas)
-window.moment = moment
+window.dayjs = dayjs
 
 // config Vue
 Vue.use(VueX)

@@ -1,24 +1,27 @@
-import moment from 'moment'
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 // DATE FILTERS
 function ago (date) {
-	return moment(date).fromNow()
+	return dayjs(date).fromNow()
 }
 
 function utcToLocal (date, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment.utc(date).local().format(format)
+    return dayjs.utc(date).local().format(format)
 }
 
 function localToUTC (date, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment(date).utc().format(format)
+    return dayjs(date).utc().format(format)
 }
 
 /**
- * MomentJS display format reference:
- * https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/
+ * dayjsJS display format reference:
+ * https://dayjsjscom.readthedocs.io/en/latest/dayjs/04-displaying/01-format/
  */
 function format (date, format = 'YYYY-MM-DD HH:mm:ss') {
-	return moment(date).format(format)
+	return dayjs(date).format(format)
 }
 
 // NUMBER FILTERS
