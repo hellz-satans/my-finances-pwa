@@ -216,5 +216,12 @@ export default {
   .mx-datepicker {
     max-width: 100%;
   }
+
+  .category-picker {
+    .category-option {
+      font-size: 0.75rem;
+      margin: 1px !important;
+    }
+  }
 }
 </style>

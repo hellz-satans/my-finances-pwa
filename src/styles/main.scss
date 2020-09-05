@@ -42,7 +42,8 @@ details summary { cursor: pointer; }
 /******* forms *******/
 label { @apply block mb-2 font-medium; }
 
-input:not([type="file"]) {
+input:not([type="file"]):not([type="checkbox"])
+{
   display: block;
   width: 100%;
   min-height: 2.5em;

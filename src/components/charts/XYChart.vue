@@ -10,7 +10,7 @@ import moment from "moment";
 const DEFAULT_OPTIONS = {
   timeFormat: "MMM",
   showLine:   true,
-  legendPosition: chartXkcd.config.positionType.downRight,
+  //legendPosition: chartXkcd.config.positionType.downRight,
 };
 
 export default {
@@ -18,7 +18,7 @@ export default {
 
   props: {
     data:        { type: Object, required: true, },
-    options:     { type: Object, default: () => DEFAULT_OPTIONS },
+    options:     { type: Object, default: () => new Object() },
     title:       { type: String, default: "", },
     xLabel:      { type: String, default: "", },
     yLabel:      { type: String, default: "", },
@@ -34,7 +34,7 @@ export default {
     config() {
       return {
         data:    this.data,
-        options: this.options,
+        options: Object.assign(DEFAULT_OPTIONS, this.options),
         title:   this.title,
         xLabel:  this.xLabel,
         yLabel:  this.yLabel,

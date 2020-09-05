@@ -15,14 +15,27 @@
       :data="data"
       :title="`${periodicity}ly summary`"
       :xLabel="periodicity"
+      :options="xkcdOptions"
       yLabel="$ Money"
       v-if="chart === 'xy' && expenses.length > 0"
     />
+
+    <footer class="text-center px-3">
+      <label>
+        Cumulative?
+        <input type="checkbox" v-model="cumulative" />
+      </label>
+    </footer>
   </aside>
 </template>
 
 <script>
 import XYChart from '@/components/charts/XYChart.vue';
+
+const TIME_FORMATS = {
+  week:  "ddd DD MMM, YYYY",
+  month: "MMM",
+}
 
 export default {
   name: "ChartContainer",
@@ -42,6 +55,12 @@ export default {
   computed: {
     expenses() {
       return this.$store.state.expenses.expenses;
+    },
+
+    xkcdOptions() {
+      return {
+        timeFormat: TIME_FORMATS[this.periodicity],
+      };
     },
 
     data() {

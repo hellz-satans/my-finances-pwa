@@ -4,33 +4,33 @@
       <loader v-if="isLoading" />
     </transition>
 
-    <header
-      class="flex justify-between items-baseline py-1 px-3 border-b-2 border-grey-900"
-    >
-      <router-link to="/" class="title">My Finances</router-link>
-
-      <sidebar />
-    </header>
-
-    <nav v-if="currentRoute == 'home'">
-      <router-link
-        class="expense-form-button text-white bg-green-500"
-        to="/expense/new"
+    <section v-if="!isLoading">
+      <header
+        class="flex justify-between items-baseline py-1 px-3 border-b-2 border-grey-900"
       >
-        <fa icon="plus" />
-      </router-link>
+        <router-link to="/" class="title">My Finances</router-link>
 
-      <router-link
-        class="transfer-form-button text-white bg-blue-500"
-        to="/transfer"
-      >
-        <fa icon="exchange-alt" />
-      </router-link>
-    </nav>
+        <sidebar />
+      </header>
 
-    <transition name="slide-fade">
-      <router-view/>
-    </transition>
+      <nav v-if="currentRoute == 'home'">
+        <router-link
+          class="expense-form-button text-white bg-green-500"
+          to="/expense/new"
+        >
+          <fa icon="plus" />
+        </router-link>
+
+        <router-link
+          class="transfer-form-button text-white bg-blue-500"
+          to="/transfer"
+        >
+          <fa icon="exchange-alt" />
+        </router-link>
+      </nav>
+
+      <router-view />
+    </section>
   </section>
 </template>
 
@@ -69,6 +69,7 @@ export default {
     this.$store.commit('preferences/getPreferences');
     this.$store.commit('expenses/getExpenses');
 
+    // give the browser time to load the state
     window.setTimeout((ev) => this.isLoading = false, INITIAL_LOAD_TIMEOUT);
   },
 }

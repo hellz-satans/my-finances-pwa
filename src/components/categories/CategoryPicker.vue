@@ -21,7 +21,7 @@
         :key="i"
         @click="$emit('input', opt) ; open = false"
         :style="'background:' + (opt.color || 'var(--default-color-dark, #666)')"
-        class="text-white rounded m-1 border border-gray-400 pointer p-2 shadow-2xl"
+        class="category-option text-white rounded m-1 border border-gray-400 pointer p-2 shadow-2xl"
       >
         <fa :icon="[ 'fas', opt.icon ]" />
         {{ opt.name }}

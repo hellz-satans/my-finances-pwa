@@ -16,6 +16,15 @@
 
 <template>
   <section class="expenses-list">
+    <header class="text-right mb-3 mx-4 text-small">
+      <span class="text font-medium green">Income</span>:
+      {{ income | currency }},
+      <span class="text font-medium red">Outcome</span>:
+      {{ outcome | currency }}<br>
+      <span class="text font-medium">Total</span>:
+      {{ expensesSum | currency }}
+    </header>
+
     <article
       v-for="e in expenses"
       :key="e.id"
@@ -131,6 +140,22 @@ export default {
 
     expensesSum() {
       return expensesSum(this.expenses)
+    },
+
+    income() {
+      return this.expenses
+        .filter(e => e.price > 0)
+        .map(e => e.price)
+        .concat([ 0, ]) // to prevent reduce on empty array
+        .reduce((total, curr) => total + curr);
+    },
+
+    outcome() {
+      return this.expenses
+        .filter(e => e.price < 0)
+        .map(e => e.price)
+        .concat([ 0, ]) // to prevent reduce on empty array
+        .reduce((total, curr) => total + curr);
     },
   },
 
