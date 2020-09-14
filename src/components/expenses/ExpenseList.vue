@@ -25,10 +25,15 @@
       {{ expensesSum | currency }}
     </header>
 
+    <h2 class="text-center" v-if="expenses.length === 0">
+      Move along, nothing to show here. Try changing the filters!
+    </h2>
+
     <article
-      v-for="e in expenses"
-      :key="e.id"
       class="expense-entry"
+      v-for="(e, idx) in expenses"
+      :key="e.id"
+      v-if="idx < upTo"
       :style="entryStyles(e)"
     >
       <div class="flex flex-row justify-between align-start w-full">
@@ -110,8 +115,8 @@ export default {
 
   data() {
     return {
-      entries: [],
-      currentPage: 0,
+      // Display up to `upTo` expenses
+      upTo: 20,
     }
   },
 
