@@ -76,16 +76,22 @@
       </div>
     </article>
 
-    <h2 class="text-center" v-if="expenses.length === 0">
-      Move along, nothing to show here. Try changing the filters!
-    </h2>
+    <footer class="text-center my-4">
+      <button
+        type="button"
+        class="btn"
+        @click="upTo += 20"
+        v-if="expenses.length > upTo"
+      >
+        Show more
+      </button>
+    </footer>
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 import { expensesSum } from '@/stores/filters';
-import Paginatron from 'vue-paginatron'
 import AccountLabel from '@/components/accounts/AccountLabel.vue'
 import CategoryLabel from '@/components/categories/CategoryLabel.vue'
 import DateLabel from '@/components/DateLabel'
@@ -100,7 +106,6 @@ export default {
     AccountLabel,
     CategoryLabel,
     DateLabel,
-    Paginatron,
   },
 
   data() {
