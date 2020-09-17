@@ -4,12 +4,11 @@
     @submit.stop.prevent="doTransfer"
     class="transfer-form my-4 mx-2"
   >
-    <h2>Transfer</h2>
+    <h1>Transfer</h1>
 
     <div class="w-full my-3">
-      <label class="block" for="price">Amount</label>
+      <label hidden class="hidden" for="price">Amount</label>
       <money-input
-        class="w-full"
         name="amount"
         v-model.lazy="amount"
         :value="amount"
@@ -83,11 +82,22 @@ export default {
 
 <style lang="scss">
 .transfer-form {
-  .sign {
-    display: none;
-  }
-  .v-money {
-    width: 100%;
+
+  // overrides
+  .money-input {
+    font-size: 2em;
+
+    .sign {
+      display: none;
+    }
+
+    .v-money {
+      font-size: 2em !important;
+      min-height: 2em;
+      background: none;
+      border: none;
+      padding: 0;
+    }
   }
 }
 </style>
