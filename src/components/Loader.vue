@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="scss">
-$animation-count: 2;
+$animation-count: infinite;
 $duration: 1s;
 $loader-bg: #fff;
 
@@ -28,10 +28,12 @@ $loader-bg: #fff;
   overflow: hidden;
   z-index: 10;
   background-color: $loader-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &-bill {
     position: absolute;
-    left: 47%;
     font-size: 2em;
     color: #333;
     opacity: 0;
@@ -49,8 +51,6 @@ $loader-bg: #fff;
     text-align: center;
     animation: mf ($duration * 1.1) $duration $animation-count;
     position: absolute;
-    top: 40%;
-    left: 40%;
     font-size: 6em;
   }
 }
