@@ -42,3 +42,7 @@ const darkMaterialColors = [
 const colors = hslColors(20, "100%", "35%");
 
 module.exports = colors;
+
+module.exports.colors    = colors;
+module.exports.primary   = colors[15];
+module.exports.secondary = colors[5];

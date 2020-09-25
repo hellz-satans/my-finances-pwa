@@ -4,9 +4,36 @@
     class="account-form px-2 py-4"
     @submit.stop.prevent="submitAccount"
   >
+    <div v-if="loaded" class="w-full mb-4">
+      <label
+        :style="accountStyles"
+        class="block font-semibold mb-3"
+        for="account_balance"
+      >
+        Balance
+      </label>
+
+      <money-input
+        id="account_balance"
+        name="account_balance"
+        v-model.lazy="balance"
+        placeholder="Balance"
+        required
+        :value="balance"
+      ></money-input>
+    </div>
+
     <div class="w-full mb-4">
-      <label class="block font-semibold mb-3" for="account_name">Name</label>
+      <label
+        :style="accountStyles"
+        class="block font-semibold mb-3"
+        for="account_name"
+      >
+        Name
+      </label>
+
       <input
+        :style="accountStyles"
         class="block appearance-none w-full bg-gray-100 border border-gray-500 p-2 rounded focus:outline-none focus:bg-white focus:border-gray-600"
         id="account_name"
         name="account_name"
@@ -16,18 +43,6 @@
         pattern=".+"
         required
       />
-    </div>
-
-    <div v-if="loaded" class="w-full mb-4">
-      <label class="block font-semibold mb-3" for="account_balance">Balance</label>
-      <money-input
-        id="account_balance"
-        name="account_balance"
-        v-model.lazy="balance"
-        placeholder="Balance"
-        required
-        :value="balance"
-      ></money-input>
     </div>
 
     <div class="w-full">
@@ -49,9 +64,11 @@
 import { mapActions, mapState } from 'vuex';
 import MoneyInput from '@/components/MoneyInput'
 import VSwatches from 'vue-swatches'
-import COLORS    from '@/config/colors';
+import { colors as COLORS, primary as primaryColor } from '@/config/colors';
 
 export default {
+  name: 'AccountForm',
+
   components: {
     MoneyInput,
     VSwatches,
@@ -60,7 +77,7 @@ export default {
   data() {
     return {
       balance: 0,
-      color:   '#1fbc9c',
+      color:   primaryColor,
       key:     null,
       loaded:  false,
       name:    null,
@@ -113,10 +130,18 @@ export default {
     },
 
     colorList() { return COLORS; },
+
+    accountStyles() {
+      return {
+        'border-bottom-color': `${this.color} !important`,
+        'color': this.color || 'initial',
+      };
+    },
   },
 
   created() {
     let key = this.$route.params.account_key
+
 
     if (key && key != 'new') {
       this.loadForm(key)
@@ -126,3 +151,20 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.account-form {
+  // overrides
+  .money-input {
+    font-size: 2em;
+
+    .v-money {
+      font-size: 2em !important;
+      min-height: 2em;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+}
+</style>
