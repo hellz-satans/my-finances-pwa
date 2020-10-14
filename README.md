@@ -40,11 +40,12 @@ $ docker run --rm -v $PWD:/app juankman94/myfinances ./deploy
 
 ## Production
 
-| File | Semantic UI | Tailwind |
-| :--: | :---------: | :------: |
-| index.html | 1.61 KB |  |
-| chunk.vendors.js | 1.36 MB |  |
-| app.js | 71.64 KB |  |
+| File | Semantic UI | Tailwind | Vue 3 & Tailwind |
+| :--: | :---------: | :------: | :--------------: |
+| index.html | 1.61 KB | 1.61 KB |  |
+| chunk.vendors.js | 1.36 MB | 1.24 MB |  |
+| app.js | 71.64 KB | 77.55 KB |  |
+| total | 1.433 MB | 1.319 MB |  |
 
 ## TODO:
 
