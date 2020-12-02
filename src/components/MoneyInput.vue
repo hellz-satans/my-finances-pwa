@@ -81,7 +81,6 @@ export default {
     &.negative { color: red; left: 1.75rem; }
   }
 
-  // hard-code 34px 'cuz that's  vue2-datepicker's height
   .v-money {
     padding: 2px 4px;
     width: 85%;

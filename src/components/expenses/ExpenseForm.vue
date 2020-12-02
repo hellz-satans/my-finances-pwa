@@ -17,7 +17,7 @@
 
     <div class="w-full">
       <label class="block font-semibold mb-1" for="date">Date</label>
-      <date-picker class="w-full" v-model="date" type="datetime" />
+      <input type="date" v-model="date" class="w-full" />
       <p v-for="(err, i) in expenseErrors.date" :key="i" class="red text">
         {{ err }}
       </p>
@@ -89,7 +89,6 @@
 import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import AccountsOptions from '@/components/accounts/AccountsOptions.vue'
 import CategoryPicker from '@/components/categories/CategoryPicker.vue'
-import DatePicker from 'vue2-datepicker'
 import MoneyInput from '@/components/MoneyInput'
 
 export default {
@@ -98,7 +97,6 @@ export default {
   components: {
     AccountsOptions,
     CategoryPicker,
-    DatePicker,
     MoneyInput,
   },
 
@@ -211,10 +209,6 @@ export default {
       border: none;
       padding: 0;
     }
-  }
-
-  .mx-datepicker {
-    max-width: 100%;
   }
 
   .category-picker {
