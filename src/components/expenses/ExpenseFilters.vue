@@ -31,7 +31,8 @@
 
       <fieldset>
         <legend>Price</legend>
-        <label for="comparator">
+
+        <label for="comparator" class="block w-1/2">
           <span hidden>Price Comparator</span>
           <dropdown
             v-model="comparator"
@@ -40,7 +41,7 @@
           />
         </label>
 
-        <label for="price">
+        <label for="price" class="block w-1/2">
           <span hidden>Price</span>
           <money-input
             id="price"
@@ -68,9 +69,10 @@
           @click="resetFilters"
           class="btn"
         >Reset</button>
+
         <button
           type="submit"
-          class="btn"
+          class="btn ml-4"
         >Filter</button>
       </footer>
     </form>
@@ -197,6 +199,7 @@ export default {
       align-content: space-around;
       border: 1px solid #ccc;
       border-radius: 0.3rem;
+      padding: 0.25rem 0.50rem;
 
       legend {
         padding: 0 0.5rem;
