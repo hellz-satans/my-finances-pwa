@@ -14,11 +14,11 @@ npm run build
 
 # push to newly createg gh-pages branch
 git checkout -b gh-pages
-sed -i "s|${DIST_PATH}|#${DIST_PATH}|" .gitignore
+sed -i bak -e "s|${DIST_PATH}|#${DIST_PATH}|" .gitignore
 git add "${DIST_PATH}"
 git commit -m "Build $BRANCH"
 git subtree push --prefix "${DIST_PATH}" origin gh-pages
 
 # switch back to initial branch
-sed -i "s|#${DIST_PATH}|${DIST_PATH}|" .gitignore
+sed -i bak -e "s|#${DIST_PATH}|${DIST_PATH}|" .gitignore
 git checkout "$BRANCH"

@@ -55,7 +55,7 @@
       </div>
 
       <div class="w-full flex flex-row items-center justify-between mt-2">
-        <div class="text-xsmall min-w-1/5">
+        <div class="text-small min-w-1/5">
           <date-label :date="e.date" />
         </div>
 
@@ -63,7 +63,7 @@
 
         <div class="actions text-center min-w-1/5">
           <router-link
-            class="text-xsmall"
+            class="text-small"
             :to="'/expense/' + e.id"
           >
             Edit
@@ -71,7 +71,7 @@
           </router-link>
 
           <span
-            class="text-xsmall text-red-500 pointer whitespace-no-wrap"
+            class="text-small text-red-500 pointer whitespace-no-wrap"
             @click="deleteProxy(e.id)"
           >
             Delete
